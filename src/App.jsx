@@ -1,10 +1,11 @@
+import Main from "./Pages/LandingPage/Main"
 
 
 function App() {
 
   return (
     <>
-     
+     <Main/>
     </>
   )
 }
