@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "../Nav/nav.css"
 import coinVault from "../../../assets/LandingPage-Pictures/Coin-bg.png";
-import { set } from 'mongoose';
 
 
 
