@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "../Nav/nav.css"
-import coinVault from "../../../assets/LandingPage-Pictures/Coin-bg.png";
+import coinVault from "./NavImage/coin-bg.png";
 
 
 
