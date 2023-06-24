@@ -1,10 +1,13 @@
 import React from 'react'
+import "../Nav/nav.css"
 import coinVault from "../../../assets/LandingPage-Pictures/Coin-bg.png";
+
+
 
 const Nav = () => {
   return (
     <>
-      <nav className="bg-[rgba(3,11,21,1)] h-[90px] border-b-[1px] border-[rgba(255,255,255,0.2)]">
+      <nav className="bg-[rgba(3,11,21,1)] h-[90px] border-b-[1px] border-[rgba(255,255,255,0.2)] select-none">
         <div className='largeDevice:px-[20px]'>
           <div className='flex justify-between'>
             <div className='mt-[-10px]'> 
@@ -29,8 +32,9 @@ const Nav = () => {
 
             <div className='smallDevice:hidden mt-[30px]'>
               <ul className='flex gap-[20px] font-[600] uppercase cursor-pointer'>
-                <li>sign in</li>
-                <li>Get started</li>
+                  <li className='h-[60px] animated-text'>sign in</li>
+                
+                  <li className='header-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[10px] px-[10px] h-[45px] mt-[-10px]'>Get started</li>
               </ul>
             </div>
 
