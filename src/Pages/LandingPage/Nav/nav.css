@@ -1,0 +1,55 @@
+.animated-text {
+    position: relative;
+    display: inline-block;
+}
+
+.animated-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: rgb(0, 180, 224);
+    transition: width 0.5s ease-in-out;
+}
+
+.animated-text:hover::after {
+    width: 100%;
+}
+
+.header-btn {
+    transition: all 0.5s ease-in-out;
+}
+
+.header-btn::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(to left, rgb(0, 180, 224), rgba(3, 11, 21, 1), rgb(0, 180, 224));
+}
+
+.header-btn::after {
+    content: '';
+    position: absolute;
+    top: 63px;
+    right: 40px;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(to left, rgb(0, 180, 224), rgba(3, 11, 21, 1),  rgb(0, 180, 224));
+}
+
+.header-btn:hover::before {
+    display: none;
+}
+
+.header-btn:hover::after {
+    display: none;
+}
+
+.header-btn:hover {
+    color: rgb(0, 180, 224);
+}
