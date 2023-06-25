@@ -21,7 +21,7 @@ const Nav = () => {
 
   return (
     <>
-      <nav className="bg-[rgba(3,11,21,1)] h-[90px] border-b-[1px] border-[rgba(255,255,255,0.2)] select-none relative">
+      <nav className="bg-[rgba(3,11,21,1)] h-[90px] border-b-[1px] border-[rgba(255,255,255,0.2)] select-none relative z-[999]">
         <div className="largeDevice:px-[20px] tablet:px-[10vw]">
           <div className="flex justify-between">
             <div className="mt-[-10px]">
@@ -32,7 +32,7 @@ const Nav = () => {
               />
             </div>
 
-            <div className="smallDevice:hidden mt-[30px]">
+            <div className="generalDevice:hidden mt-[30px]">
               <ul className="flex gap-[30px] font-[600] uppercase cursor-pointer">
                 <li className="h-[60px] animated-text">Home</li>
 
@@ -44,7 +44,7 @@ const Nav = () => {
               </ul>
             </div>
 
-            <div className="smallDevice:hidden mt-[30px]">
+            <div className="generalDevice:hidden mt-[30px]">
               <ul className="flex gap-[20px] font-[600] uppercase cursor-pointer">
                 <li className="h-[60px] animated-text">sign in</li>
 
