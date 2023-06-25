@@ -1,0 +1,41 @@
+.ellipse {
+    animation: leftToRight 5s linear infinite;
+}
+
+.ellipse2 {
+    animation: topTobottom 5s linear infinite;
+}
+
+@keyframes leftToRight {
+    0% {
+        transform: rotateX(0deg) translateX(0);
+    }
+    50% {
+        transform: rotateX(0deg) translateX(50px);
+    }
+    100% {
+        transform: rotateX(0deg) translateX(0);
+    }
+}
+
+@keyframes topTobottom {
+    0% {
+        transform: rotateY(0deg) translateY(0);
+    }
+
+    50% {
+        transform: rotateY(0deg) translateY(50px);
+    }
+
+    100% {
+        transform: rotateY(0deg) translateY(0);
+    }
+}
+
+.sectionOne-Header {
+    color: white;
+    font-family: Poppins, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    
+}

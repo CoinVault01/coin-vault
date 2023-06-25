@@ -53,3 +53,7 @@
 .header-btn:hover {
     color: rgb(0, 180, 224);
 }
+
+nav {
+    user-select: none;
+}
