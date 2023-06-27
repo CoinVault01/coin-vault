@@ -7,7 +7,7 @@ import fire from "./SectionOne-Image/fire.png";
 const SectionOne = () => {
   return (
     <section
-      className="h-[680px] smallerDevice:h-[500px] pt-[90px]"
+      className="h-[680px] smallerDevice:h-[500px]"
       style={{
         backgroundImage: `url(${BackGround})`,
         backgroundSize: "cover",
