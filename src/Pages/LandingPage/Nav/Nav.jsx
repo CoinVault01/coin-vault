@@ -5,6 +5,7 @@ import coinVault from "./NavImage/coin-bg.png";
 const Nav = () => {
   const [closeNav, setCloseNav] = useState(false);
   const closenav2 = useRef(null);
+  const [showNavbar, setShowNavbar] = useState(false);
 
   const handleClickOutside = (event) => {
     if (closenav2.current && !closenav2.current.contains(event.target)) {
@@ -12,16 +13,30 @@ const Nav = () => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+   useEffect(() => {
+     const handleScroll = () => {
+       const isScrolled = window.scrollY < 200;
+       if (!isScrolled) {
+         setShowNavbar(true);
+       } else {
+         setShowNavbar(false);
+       }
+     };
+
+     window.addEventListener("scroll", handleScroll);
+
+     return () => {
+       window.removeEventListener("scroll", handleScroll);
+     };
+   }, []);
 
   return (
     <>
-      <nav className="bg-[rgba(3,11,21,1)] h-[90px] border-b-[1px] border-[rgba(255,255,255,0.2)] select-none relative z-[999]">
+      <nav
+        className={`${
+          showNavbar ? "block top-0" : "relative"
+        } bg-[rgba(3,11,21,1)] h-[90px] border-b-[1px] border-[rgba(255,255,255,0.2)] select-none sticky w-[100%] z-[999]`}
+      >
         <div className="largeDevice:px-[20px] tablet:px-[10vw]">
           <div className="flex justify-between">
             <div className="mt-[-10px]">

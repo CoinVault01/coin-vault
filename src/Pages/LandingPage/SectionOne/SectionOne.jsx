@@ -7,7 +7,7 @@ import fire from "./SectionOne-Image/fire.png";
 const SectionOne = () => {
   return (
     <section
-      className="h-[600px] smallerDevice:h-[500px]"
+      className="h-[680px] smallerDevice:h-[500px] pt-[90px]"
       style={{
         backgroundImage: `url(${BackGround})`,
         backgroundSize: "cover",
@@ -16,7 +16,7 @@ const SectionOne = () => {
         filter: "opacity(0.9)",
       }}
     >
-      <div className="relative transition-all duration-[1s] ease-in-out">
+      <div className="relative transition-all duration-[1s] ease-in-out select-none">
         <img
           src={fire}
           alt=""
