@@ -10,7 +10,7 @@ export default {
         "smallDevice": {"min": "350px", "max": "1000px"},
         "generalDevice": {"max": "1000px"},
         "mediumDevice": {"min": "500px", "max": "1000px"},
-        "tablet": {"min": "767px", "max": "1220px"},
+        "tablet": {"min": "767px", "max": "1000px"},
         "largeDevice": {"min": "1001px"},
       },},
   },
