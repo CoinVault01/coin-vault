@@ -5,7 +5,7 @@ import Logo from "./SectionTwo-Image/coin-bg.png"
 
 const SectionTwo = () => {
   return (
-    <section className="">
+    <section className="relative z-[0]">
       <div className="largeDevice:flex generalDevice:max-w-[750px] mx-auto">
         <div className="generalDevice:w-[100%] generalDevice:max-w-[800px] generalDevice:mx-auto largeDevice:w-[50%]">
           <img
