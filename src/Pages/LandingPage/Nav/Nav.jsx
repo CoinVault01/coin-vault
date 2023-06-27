@@ -13,6 +13,13 @@ const Nav = () => {
     }
   };
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
    useEffect(() => {
      const handleScroll = () => {
        const isScrolled = window.scrollY < 200;
