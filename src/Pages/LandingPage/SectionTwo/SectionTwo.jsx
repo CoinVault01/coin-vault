@@ -15,7 +15,7 @@ const SectionTwo = () => {
           />
         </div>
 
-        <div className="pb-[40px] generalDevice:mt-[-60px] generalDevice:ml-[40px] largeDevice:mt-[95px] largeDevice:w-[50%] max-w-[500px]">
+        <div className="pb-[40px] generalDevice:mt-[-60px] generalDevice:ml-[25px] largeDevice:mt-[95px] largeDevice:w-[50%] max-w-[500px]">
           <div className="relative inline-block ml-[15px] mb-[20px]">
             <h1 className="about-header font-[600]">WHO WE ARE</h1>
           </div>
@@ -26,7 +26,7 @@ const SectionTwo = () => {
             platform
           </p>
 
-          <p className="capitalize font-[600] text-[rgba(255,255,255,0.5)] largeDevice:px-[5px] mb-[40px]">
+          <p className="capitalize font-[600] text-[rgba(255,255,255,0.5)] largeDevice:px-[5px] mb-[40px] max-w-[300px]">
             A platform that provides a simulated environment for trading and
             interacting with cryptocurrencies.
           </p>
