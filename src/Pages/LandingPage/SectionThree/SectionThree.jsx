@@ -75,7 +75,7 @@ const SectionThree = () => {
             clickable: true,
           }}
           autoplay={{
-            delay: 150000,
+            delay: 1500,
             disableOnInteraction: false,
           }}
           modules={[Autoplay, FreeMode]}
