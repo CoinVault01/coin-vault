@@ -7,7 +7,7 @@ import fire from "./SectionOne-Image/fire.png";
 const SectionOne = () => {
   return (
     <section
-      className="h-[680px] smallerDevice:h-[500px]"
+      className="h-[680px] smallerDevice:h-[500px] select-none"
       style={{
         backgroundImage: `url(${BackGround})`,
         backgroundSize: "cover",
@@ -47,6 +47,14 @@ const SectionOne = () => {
           </span>{" "}
           wallet 🔥
         </h1>
+      </div>
+
+      <div className="relative  mt-[20px] top-[40%] smallerDevice:top-[20%] smallDevice:top-[40%] flex justify-center">
+        <div className="relative w-[80%] max-w-[300px]">
+          <button className="hero-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px]  w-[100%] text-[30px]">
+            Get started
+          </button>
+        </div>
       </div>
     </section>
   );
