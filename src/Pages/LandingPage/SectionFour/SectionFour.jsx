@@ -45,7 +45,7 @@ const SectionFour = () => {
 
 
   return (
-    <section className="pb-[40px]">
+    <section className="mb-[80px]">
       <div className="flex justify-center">
         <div className="relative py-[15px] inline-block">
           <h1 className="SectionThree-header uppercase font-[600]">Contact</h1>
