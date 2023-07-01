@@ -3,6 +3,7 @@ import Nav from '../Nav/Nav'
 import SectionOne from '../SectionOne/SectionOne';
 import SectionTwo from '../SectionTwo/SectionTwo';
 import SectionThree from '../SectionThree/SectionThree';
+import SectionFour from '../SectionFour/SectionFour';
 
 const Main = () => {
   return (
@@ -11,6 +12,7 @@ const Main = () => {
       <SectionOne />
       <SectionTwo/>
       <SectionThree/>
+      <SectionFour/>
     </section>
   );
 }

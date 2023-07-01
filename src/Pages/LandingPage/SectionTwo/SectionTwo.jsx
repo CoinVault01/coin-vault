@@ -46,7 +46,7 @@ const SectionTwo = () => {
           </p>
 
           <div className="relative inline-block">
-            <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px]">
+            <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px] capitalize">
               Get started
             </button>
           </div>
@@ -146,7 +146,7 @@ const SectionTwo = () => {
           </Swiper>
 
           <div className="relative inline-block mt-[20px]">
-            <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px]">
+            <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px] capitalize">
               Get started
             </button>
           </div>
