@@ -38,7 +38,7 @@ const SectionThree = () => {
 
 
   return (
-    <section className="">
+    <section className="mb-[40px]">
       <div className="flex justify-center">
         <div className="relative py-[15px] inline-block">
           <h1 className="SectionThree-header uppercase font-[600]">
