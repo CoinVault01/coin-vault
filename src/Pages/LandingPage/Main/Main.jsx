@@ -2,6 +2,7 @@ import React from 'react'
 import Nav from '../Nav/Nav'
 import SectionOne from '../SectionOne/SectionOne';
 import SectionTwo from '../SectionTwo/SectionTwo';
+import SectionThree from '../SectionThree/SectionThree';
 
 const Main = () => {
   return (
@@ -9,6 +10,7 @@ const Main = () => {
       <Nav />
       <SectionOne />
       <SectionTwo/>
+      <SectionThree/>
     </section>
   );
 }

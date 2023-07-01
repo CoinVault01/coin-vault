@@ -19,7 +19,7 @@ import { Autoplay } from "swiper";
 
 const SectionTwo = () => {
   return (
-    <section className="relative z-[0]">
+    <section className="relative z-[0] mb-[40px]">
       <div className="largeDevice:flex justify-center generalDevice:max-w-[750px] mx-auto">
         <div className="generalDevice:w-[100%] generalDevice:max-w-[800px] generalDevice:mx-auto largeDevice:w-[50%]">
           <img

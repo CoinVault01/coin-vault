@@ -1,0 +1,21 @@
+.SectionThree-header::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background: rgb(0, 180, 224);
+}
+
+.SectionThree-header::after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    right: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background: rgb(0, 180, 224);
+}
