@@ -1,13 +1,51 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../Nav/nav.css";
 import coinVault from "./NavImage/coin-bg.png";
-import { Link as LinkScroll } from "react-scroll"; 
+import { Link as LinkScroll } from "react-scroll";
 import { Link } from "react-router-dom";
 
 const Nav = () => {
   const [closeNav, setCloseNav] = useState(false);
   const closenav2 = useRef(null);
   const [showNavbar, setShowNavbar] = useState(false);
+  const [active, setActive] = useState([
+    { id: 1, isOpen: true },
+    { id: 2, isOpen: false },
+    { id: 3, isOpen: false },
+    { id: 4, isOpen: false },
+  ]);
+
+  const handleLinkClick = (id) => {
+    const newShowBorder = [...active];
+    const index = newShowBorder.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      newShowBorder[index].isOpen = true;
+      for (let i = 0; i < newShowBorder.length; i++) {
+        if (i !== index) {
+          newShowBorder[i].isOpen = false;
+        }
+      }
+      setActive(newShowBorder);
+    }
+  };
+
+  const handleHover = (id) => {
+    const newShowBorder = [...active];
+    const index = newShowBorder.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      newShowBorder[index].isOpen = true;
+      setActive(newShowBorder);
+    }
+  };
+
+  const handleMouseLeave = (id) => {
+    const newShowBorder = [...active];
+    const index = newShowBorder.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      newShowBorder[index].isOpen = false;
+      setActive(newShowBorder);
+    }
+  };
 
   const handleClickOutside = (event) => {
     if (closenav2.current && !closenav2.current.contains(event.target)) {
@@ -22,22 +60,22 @@ const Nav = () => {
     };
   }, []);
 
-   useEffect(() => {
-     const handleScroll = () => {
-       const isScrolled = window.scrollY < 200;
-       if (!isScrolled) {
-         setShowNavbar(true);
-       } else {
-         setShowNavbar(false);
-       }
-     };
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY < 200;
+      if (!isScrolled) {
+        setShowNavbar(true);
+      } else {
+        setShowNavbar(false);
+      }
+    };
 
-     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-     return () => {
-       window.removeEventListener("scroll", handleScroll);
-     };
-   }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -63,8 +101,19 @@ const Nav = () => {
                   smooth={true}
                   duration={500}
                   offset={-100}
+                  onClick={() => {
+                    handleLinkClick(active[0].id);
+                  }}
                 >
-                  <li className="h-[60px] animated-text">Home</li>
+                  <li
+                    className={`${
+                      active[0].isOpen
+                        ? "border-b-[3px] border-[rgb(0,180,224)]"
+                        : "animated-text"
+                    } h-[60px]`}
+                  >
+                    Home
+                  </li>
                 </LinkScroll>
 
                 <LinkScroll
@@ -72,8 +121,19 @@ const Nav = () => {
                   smooth={true}
                   duration={500}
                   offset={-50}
+                  onClick={() => {
+                    handleLinkClick(active[1].id);
+                  }}
                 >
-                  <li className="h-[60px] animated-text">About Us</li>
+                  <li
+                    className={`${
+                      active[1].isOpen
+                        ? "border-b-[3px] border-[rgb(0,180,224)]"
+                        : "animated-text"
+                    } h-[60px]`}
+                  >
+                    About Us
+                  </li>
                 </LinkScroll>
 
                 <LinkScroll
@@ -81,8 +141,19 @@ const Nav = () => {
                   smooth={true}
                   duration={500}
                   offset={-50}
+                  onClick={() => {
+                    handleLinkClick(active[2].id);
+                  }}
                 >
-                  <li className="h-[60px] animated-text">Why choose us</li>
+                  <li
+                    className={`${
+                      active[2].isOpen
+                        ? "border-b-[3px] border-[rgb(0,180,224)]"
+                        : "animated-text"
+                    } h-[60px]`}
+                  >
+                    Why choose us
+                  </li>
                 </LinkScroll>
 
                 <LinkScroll
@@ -90,8 +161,19 @@ const Nav = () => {
                   smooth={true}
                   duration={500}
                   offset={-50}
+                  onClick={() => {
+                    handleLinkClick(active[3].id);
+                  }}
                 >
-                  <li className="h-[60px] animated-text">Contact us</li>
+                  <li
+                    className={`${
+                      active[3].isOpen
+                        ? "border-b-[3px] border-[rgb(0,180,224)]"
+                        : "animated-text"
+                    } h-[60px]`}
+                  >
+                    Contact us
+                  </li>
                 </LinkScroll>
               </ul>
             </div>
