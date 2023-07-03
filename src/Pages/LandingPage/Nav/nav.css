@@ -19,7 +19,7 @@
 }
 
 .header-btn {
-    transition: all 0.5s ease-in-out;
+    transition: all 2.5s ease-in-out;
 }
 
 .header-btn::before {
@@ -30,6 +30,7 @@
     width: 80px;
     height: 2px;
     background: linear-gradient(to left, rgb(0, 180, 224), rgba(3, 11, 21, 1), rgb(0, 180, 224));
+    transition: all 2.5s ease-in-out;
 }
 
 .header-btn::after {
@@ -43,14 +44,25 @@
 }
 
 .header-btn:hover::before {
-    display: none;
+    background: transparent;
 }
 
 .header-btn:hover::after {
-    display: none;
+    background: transparent;
 }
 
-.header-btn:hover {
-    color: rgb(0, 180, 224);
+.navAnim {
+    animation: navAnim 0.5s ease-in-out;
 }
 
+@keyframes navAnim {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

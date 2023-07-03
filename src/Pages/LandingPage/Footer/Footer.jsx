@@ -1,12 +1,15 @@
 import React from 'react'
 import coinVault from "./Footer-Image/coin-bg.png";
+import { Link } from "react-scroll";
 
 const Footer = () => {
   return (
-    <footer className="">
+    <footer className="" id="footer">
       <div className="flex justify-center relative border-t-[1px] border-[rgba(255,255,255,0.2)] w-[90%] mx-auto mb-[40px]">
         <div className="rounded-full border-[1px] border-[rgba(255,255,255,0.2)] inline-block px-[20px] py-[15px] hover:bg-[rgb(0,180,224)] transition-all duration-500 ease-in-out cursor-pointer absolute bottom-[-25px] bg-[rgb(3,11,21)]">
-          <i className="fa-solid fa-arrow-up text-[20px]"></i>
+          <Link to="SectionOne" smooth={true} duration={500} offset={-100}>
+            <i className="fa-solid fa-arrow-up text-[20px]"></i>
+          </Link>
         </div>
       </div>
 
@@ -24,19 +27,33 @@ const Footer = () => {
 
           <div className="mt-[20px] ml-[20px] flex gap-[20px]">
             <div className="rounded-full border-[2px] border-[rgb(0,180,224)] inline-block px-[12px] py-[6px] hover:bg-[rgb(0,180,224)] transition-all duration-500 ease-in-out cursor-pointer bg-[rgb(3,11,21)]">
-              <i class="fa-brands fa-facebook-f"></i>
+              <a
+                href="https://web.facebook.com/adegoke.gabriel.526"
+                target="_blank"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
             </div>
 
             <div className="rounded-full border-[2px] border-[rgb(0,180,224)] inline-block px-[10px] py-[6px] hover:bg-[rgb(0,180,224)] transition-all duration-500 ease-in-out cursor-pointer bg-[rgb(3,11,21)]">
-              <i class="fa-brands fa-twitter"></i>
+              <a href="https://twitter.com/TheRealAdegoke" target="_blank">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
             </div>
 
             <div className="rounded-full border-[2px] border-[rgb(0,180,224)] inline-block px-[10px] py-[6px] hover:bg-[rgb(0,180,224)] transition-all duration-500 ease-in-out cursor-pointer bg-[rgb(3,11,21)]">
-              <i class="fa-brands fa-linkedin-in"></i>
+              <a
+                href="https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3Bn%2FzKdLZxTsKDmAOamTiU6w%3D%3D"
+                target="_blank"
+              >
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
             </div>
 
             <div className="rounded-full border-[2px] border-[rgb(0,180,224)] inline-block px-[10px] py-[6px] hover:bg-[rgb(0,180,224)] transition-all duration-500 ease-in-out cursor-pointer bg-[rgb(3,11,21)]">
-              <i class="fa-brands fa-github"></i>
+              <a href="https://github.com/TheRealAdegoke" target="_blank">
+                <i class="fa-brands fa-github"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -45,31 +62,37 @@ const Footer = () => {
           <h1 className="mb-[20px] font-[600] text-[23px]">USEFUL LINKS</h1>
 
           <div className="flex flex-col">
-            <p className="font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[15px] transition-all duration-500 ease-in-out">
-              Home
-            </p>
+            <Link to="SectionOne" smooth={true} duration={500} offset={-100}>
+              <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
+                Home
+              </p>
+            </Link>
 
-            <p className="font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[15px] transition-all duration-500 ease-in-out">
-              About Us
-            </p>
+            <Link to="SectionTwo" smooth={true} duration={500} offset={-50}>
+              <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
+                About Us
+              </p>
+            </Link>
 
-            <p className="font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[15px] transition-all duration-500 ease-in-out">
-              Why Choose Us
-            </p>
+            <Link to="SectionThree" smooth={true} duration={500} offset={-50}>
+              <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
+                Why Choose Us
+              </p>
+            </Link>
 
-            <p className="font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[15px] transition-all duration-500 ease-in-out">
-              Contact Us
-            </p>
-
-            <p className="font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[15px] transition-all duration-500 ease-in-out">
-              Terms & Conditions
-            </p>
+            <Link to="SectionFour" smooth={true} duration={500} offset={-100}>
+              <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
+                Contact Us
+              </p>
+            </Link>
           </div>
         </div>
       </div>
 
       <div className="border-t-[1px] border-[rgba(255,255,255,0.2)] w-[90%] mx-auto">
-        <p className='py-[40px] text-center font-[600]'>Copyright © 2023. All Rights Reserved CoinVault</p>
+        <p className="py-[40px] text-center font-[600]">
+          Copyright © 2023. All Rights Reserved CoinVault
+        </p>
       </div>
     </footer>
   );
