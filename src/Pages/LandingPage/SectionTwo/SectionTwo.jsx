@@ -19,7 +19,7 @@ import { Autoplay } from "swiper";
 
 const SectionTwo = () => {
   return (
-    <section className="relative z-[0] mb-[40px]">
+    <section className="relative z-[0] mb-[40px]" id="SectionTwo">
       <div className="largeDevice:flex justify-center generalDevice:max-w-[750px] mx-auto">
         <div className="generalDevice:w-[100%] generalDevice:max-w-[800px] generalDevice:mx-auto largeDevice:w-[50%]">
           <img
@@ -46,9 +46,11 @@ const SectionTwo = () => {
           </p>
 
           <div className="relative inline-block">
-            <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px] capitalize">
-              Get started
-            </button>
+            <Link to="/signup">
+              <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px] capitalize">
+                Get started
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -146,9 +148,11 @@ const SectionTwo = () => {
           </Swiper>
 
           <div className="relative inline-block mt-[20px]">
-            <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px] capitalize">
-              Get started
-            </button>
+            <Link to="/signup">
+              <button className="about-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px] h-[45px] capitalize">
+                Get started
+              </button>
+            </Link>
           </div>
         </div>
       </div>

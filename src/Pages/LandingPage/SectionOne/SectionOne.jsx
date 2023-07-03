@@ -3,6 +3,7 @@ import "../SectionOne/SectionOne.css"
 import BackGround from "./SectionOne-Image/Background.jpg";
 import Ellipse from "./SectionOne-Image/elipse.png";
 import fire from "./SectionOne-Image/fire.png";
+import { Link } from "react-router-dom";
 
 const SectionOne = () => {
   return (
@@ -15,6 +16,7 @@ const SectionOne = () => {
         backgroundRepeat: "no-repeat",
         filter: "opacity(0.9)",
       }}
+      id="SectionOne"
     >
       <div className="relative transition-all duration-[1s] ease-in-out select-none">
         <img
@@ -51,9 +53,11 @@ const SectionOne = () => {
 
       <div className="relative  mt-[20px] top-[40%] smallerDevice:top-[20%] smallDevice:top-[40%] flex justify-center">
         <div className="relative w-[80%] max-w-[300px]">
-          <button className="hero-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px]  w-[100%] text-[30px] capitalize">
-            Get started
-          </button>
+          <Link to="/signup">
+            <button className="hero-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[5px] px-[20px]  w-[100%] text-[30px] capitalize">
+              Get started
+            </button>
+          </Link>
         </div>
       </div>
     </section>
