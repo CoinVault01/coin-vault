@@ -1,0 +1,11 @@
+.user-input {
+    outline: none;
+}
+
+.user-input {
+    border: none;
+}
+
+.form-btn {
+    background: linear-gradient(to right, rgb(60, 51, 165),rgb(88, 54, 141), rgb(105, 56, 126), rgb(127, 59, 107), rgb(157, 62, 81));
+}
