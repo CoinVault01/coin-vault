@@ -35,7 +35,7 @@ const Username = ({onNext}) => {
     <section className="ml-[20px]">
       <div>
         <div className="mb-[30px]">
-          <h1 className="text-[30px] font-[600] font-[poppins]">Hey 👋</h1>
+          <h1 className="text-[30px] font-[600] font-[poppins] capitalize">Hey 👋</h1>
           <p className="pb-[5px] text-[28px] font-[600] font-[poppins] capitalize smallerDevice:text-[25px]">
             welcome to CoinVault
           </p>

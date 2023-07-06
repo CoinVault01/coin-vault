@@ -23,7 +23,7 @@ const LegalName = ({onNext, onPrevious, userName}) => {
    };
 
   return (
-    <section className="">
+    <section className="ml-[20px]">
       <div>
         <div className="mb-[30px]">
           <h1 className="text-[25px] font-[600] font-[poppins] capitalize">

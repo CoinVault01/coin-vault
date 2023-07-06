@@ -4,17 +4,25 @@ import coinVault from "./SignUp-Image/coin-bg.png";
 import Username from './SignUP-Components/UserName';
 import LegalName from './SignUP-Components/LegalName';
 import EmailPassword from './SignUP-Components/EmailPassword';
+import Pin from './SignUP-Components/Pin';
+import VerifyEmail from './VerifyEmail';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
   const [userName, setUserName] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleNext = (text) => {
     setUserName(text);
     setFirstName(text);
     setStep(step + 1);
   };
+
+  const handleEmail = (value) => {
+    setEmail(value);
+  };
+
 
   const handlePrevious = () => {
     setStep(step - 1);
@@ -50,17 +58,21 @@ const SignUp = () => {
                 } w-[80px] h-[2px] cursor-pointer hover:h-[3px] hover:rounded-full`}
               ></div>
 
-              <div className={`${
+              <div
+                className={`${
                   step >= 3
                     ? "bg-[rgb(160,210,254)]"
                     : "bg-[rgba(255,255,255,0.5)]"
-                } w-[80px] h-[2px] cursor-pointer hover:h-[3px] hover:rounded-full`}></div>
+                } w-[80px] h-[2px] cursor-pointer hover:h-[3px] hover:rounded-full`}
+              ></div>
 
-              <div className={`${
+              <div
+                className={`${
                   step >= 4
                     ? "bg-[rgb(160,210,254)]"
                     : "bg-[rgba(255,255,255,0.5)]"
-                } w-[80px] h-[2px] cursor-pointer hover:h-[3px] hover:rounded-full`}></div>
+                } w-[80px] h-[2px] cursor-pointer hover:h-[3px] hover:rounded-full`}
+              ></div>
             </div>
           </div>
         </div>
@@ -75,8 +87,14 @@ const SignUp = () => {
             />
           )}
           {step === 3 && (
-            <EmailPassword
+            <Pin
               onNext={handleNext}
+              onPrevious={handlePrevious}
+              userFirstName={firstName}
+            />
+          )}
+          {step === 4 && (
+            <EmailPassword
               onPrevious={handlePrevious}
               userFirstName={firstName}
             />
