@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import coinVault from "../SignUp-Image/coin-bg.png";
 import { Link } from "react-router-dom";
 
 const Username = ({onNext}) => {
