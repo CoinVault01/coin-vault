@@ -9,3 +9,19 @@
 .form-btn {
     background: linear-gradient(to right, rgb(60, 51, 165),rgb(88, 54, 141), rgb(105, 56, 126), rgb(127, 59, 107), rgb(157, 62, 81));
 }
+
+.formAnim {
+    animation: formAnim 0.5s ease-in-out;
+}
+
+@keyframes formAnim {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
