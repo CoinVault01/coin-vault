@@ -1,31 +1,34 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  function verifyemailNavigate() {
+    navigate(`/verifyemail`,{state:{email:email}});
+    console.log(email);
+  }
 
   const handleInputChange1 = (event) => {
-    setFirstName(event.target.value);
+    setEmail(event.target.value);
   };
 
   const handleInputChange2 = (event) => {
-    setLastName(event.target.value);
+    setPassword(event.target.value);
   };
 
-  const isContinueDisabled = firstName === "" || lastName === "";
-
-  const handleContinueClick = () => {
-    if (!isContinueDisabled) {
-      onNext();
-    }
+  const isFormValid = () => {
+    return email !== "" && password !== "";
   };
+
+
   return (
-    <section className="">
+    <section className="ml-[20px]">
       <div>
         <div className="mb-[30px]">
-          <h1 className="text-[25px] font-[600] font-[poppins]">
-            Thank you {userFirstName}👋
+          <h1 className="text-[25px] font-[600] font-[poppins] capitalize">
+            Last Step {userFirstName} 🚀
           </h1>
           <p className="pb-[5px] text-[25px] font-[600] font-[poppins] capitalize smallerDevice:text-[25px]">
             Enter email and create password
@@ -47,7 +50,8 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
               </div>
               <input
                 type="email"
-                className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
+                value={email}
+                className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                 placeholder="John@mail.com"
                 onChange={handleInputChange1}
               />
@@ -68,7 +72,7 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
               </div>
               <input
                 type="password"
-                className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
+                className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                 placeholder="Password"
                 onChange={handleInputChange2}
               />
@@ -85,9 +89,12 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
           </button>
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            onClick={handleContinueClick}
+            disabled={!isFormValid()}
+            onClick={() => {
+              verifyemailNavigate();
+            }}
           >
-            Continue
+            Create Account
           </button>
         </div>
 
