@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "../SignUp/SignUp.css";
 import coinVault from "./SignUp-Image/coin-bg.png";
-import Username from './SignUP-Components/Username';
+import Username from './SignUP-Components/UserName';
 import LegalName from './SignUP-Components/LegalName';
 import EmailPassword from './SignUP-Components/EmailPassword';
 
