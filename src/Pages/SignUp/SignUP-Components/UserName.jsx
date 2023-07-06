@@ -55,7 +55,7 @@ const Username = ({onNext}) => {
             htmlFor="username"
             className="capitalize text-[rgb(157,166,177)] font-[600] pb-[3px] inline-block"
           >
-            username
+            Username
           </label>
 
           <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px]">
