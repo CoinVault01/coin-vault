@@ -6,7 +6,9 @@ const Username = ({onNext}) => {
     const [isChecked, setIsChecked] = useState(false);
 
     const handleInputChange = (event) => {
-      setInputText(event.target.value);
+      const value = event.target.value;
+      const filteredValue = value.replace(/[^a-zA-Z0-9]/g, ""); // Remove characters other than numbers and alphabets
+      setInputText(filteredValue);
     };
 
     const handleCheckboxChange = () => {
@@ -15,13 +17,8 @@ const Username = ({onNext}) => {
 
     const handleContinueClick = () => {
       if (inputText.trim() !== "" && isChecked) {
-        onNext(inputText)
-        
+        onNext(inputText);
       }
-    };
-
-    const handleFormSubmit = (event) => {
-      event.preventDefault();
     };
 
     const isDisabled = inputText.trim() === "" || !isChecked;
@@ -29,13 +26,13 @@ const Username = ({onNext}) => {
       ? { cursor: "not-allowed", filter: "opacity(0.5)" }
       : {};
 
-    
-
   return (
     <section className="ml-[20px]">
       <div>
         <div className="mb-[30px]">
-          <h1 className="text-[30px] font-[600] font-[poppins] capitalize">Hey 👋</h1>
+          <h1 className="text-[30px] font-[600] font-[poppins] capitalize">
+            Hey 👋
+          </h1>
           <p className="pb-[5px] text-[28px] font-[600] font-[poppins] capitalize smallerDevice:text-[25px]">
             welcome to CoinVault
           </p>
@@ -68,6 +65,7 @@ const Username = ({onNext}) => {
               placeholder="Enter Username"
               value={inputText}
               onChange={handleInputChange}
+              pattern="[a-zA-Z0-9]*"
             />
           </div>
 
@@ -82,9 +80,13 @@ const Username = ({onNext}) => {
             />
             <p className="font-[600]">
               I agree to CoinVault's{" "}
-              <span className="text-[rgb(160,210,254)]">
-                Terms & conditions
-              </span>
+                <a
+                  href="https://drive.google.com/file/d/1mcnhrtUj8N3I_d3XSW1WI4FRfX4k7eaJ/view?usp=drive_link"
+                  target="_blank"
+                  className="text-[rgb(160,210,254)]"
+                >
+                  Terms & conditions
+                </a>
             </p>
           </div>
         </div>

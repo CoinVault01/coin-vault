@@ -5,24 +5,17 @@ import Username from './SignUP-Components/UserName';
 import LegalName from './SignUP-Components/LegalName';
 import EmailPassword from './SignUP-Components/EmailPassword';
 import Pin from './SignUP-Components/Pin';
-import VerifyEmail from './VerifyEmail';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
   const [userName, setUserName] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
 
   const handleNext = (text) => {
     setUserName(text);
     setFirstName(text);
     setStep(step + 1);
   };
-
-  const handleEmail = (value) => {
-    setEmail(value);
-  };
-
 
   const handlePrevious = () => {
     setStep(step - 1);
@@ -91,6 +84,7 @@ const SignUp = () => {
               onNext={handleNext}
               onPrevious={handlePrevious}
               userFirstName={firstName}
+              userName={userName}
             />
           )}
           {step === 4 && (
