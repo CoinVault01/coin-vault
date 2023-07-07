@@ -4,7 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
+
   function verifyemailNavigate() {
     navigate(`/verifyemail`,{state:{email:email}});
     console.log(email);
@@ -20,6 +22,10 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
 
   const isFormValid = () => {
     return email !== "" && password !== "";
+  };
+
+  const handlePasswordVisibility = async () => {
+    setPasswordVisible(!passwordVisible);
   };
 
 
@@ -46,7 +52,7 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
 
             <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px]">
               <div className="mx-[20px]">
-                <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
+                <i className="fa-solid fa-envelope text-[rgb(157,166,177)]"></i>
               </div>
               <input
                 type="email"
@@ -66,16 +72,29 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
               Password
             </label>
 
-            <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px]">
+            <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px] relative">
               <div className="mx-[20px]">
                 <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
               </div>
               <input
-                type="password"
-                className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
+                type={passwordVisible ? "text" : "password"}
+                className="user-input w-[100%] max-w-[300px] h-[100%] bg-transparent pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                 placeholder="Password"
                 onChange={handleInputChange2}
               />
+              <div className="relative pt-[15px]">
+                {passwordVisible ? (
+                  <i
+                    class={`fa-solid fa-eye-slash absolute bottom-0 left-[20px] cursor-pointer`}
+                    onClick={handlePasswordVisibility}
+                  ></i>
+                ) : (
+                  <i
+                    class={`fa-solid fa-eye ml-[20px] absolute bottom-0 cursor-pointer`}
+                    onClick={handlePasswordVisibility}
+                  ></i>
+                )}
+              </div>
             </div>
           </div>
         </div>

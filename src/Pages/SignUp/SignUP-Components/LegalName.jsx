@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+const LegalName = ({ onNext, onPrevious, userName }) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-const LegalName = ({onNext, onPrevious, userName}) => {
-   const [firstName, setFirstName] = useState("");
-   const [lastName, setLastName] = useState("");
+  const handleInputChange1 = (event) => {
+    const inputValue = event.target.value.replace(/[^a-zA-Z]/g, "");
+    setFirstName(inputValue);
+  };
 
-   const handleInputChange1 = (event) => {
-     setFirstName(event.target.value);
-   };
+  const handleInputChange2 = (event) => {
+    const inputValue = event.target.value.replace(/[^a-zA-Z]/g, "");
+    setLastName(inputValue);
+  };
 
-   const handleInputChange2 = (event) => {
-     setLastName(event.target.value);
-   };
+  const isContinueDisabled = firstName === "" || lastName === "";
 
-   const isContinueDisabled = firstName === "" || lastName === "";
-
-   const handleContinueClick = () => {
-     if (!isContinueDisabled) {
-       onNext(firstName);
-     }
-   };
+  const handleContinueClick = () => {
+    if (!isContinueDisabled) {
+      onNext(firstName);
+    }
+  };
 
   return (
     <section className="ml-[20px]">
@@ -37,10 +38,10 @@ const LegalName = ({onNext, onPrevious, userName}) => {
         <div>
           <div className="mb-[20px]">
             <label
-              htmlFor="lastName"
+              htmlFor="firstName"
               className="capitalize text-[rgb(157,166,177)] font-[600] pb-[3px] inline-block"
             >
-              first name
+              First Name
             </label>
 
             <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px]">
@@ -49,6 +50,7 @@ const LegalName = ({onNext, onPrevious, userName}) => {
               </div>
               <input
                 type="text"
+                id="firstName"
                 className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
                 placeholder="John"
                 onChange={handleInputChange1}
@@ -62,7 +64,7 @@ const LegalName = ({onNext, onPrevious, userName}) => {
               htmlFor="lastName"
               className="capitalize text-[rgb(157,166,177)] font-[600] pb-[3px] inline-block"
             >
-              last name
+              Last Name
             </label>
 
             <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px]">
@@ -71,6 +73,7 @@ const LegalName = ({onNext, onPrevious, userName}) => {
               </div>
               <input
                 type="text"
+                id="lastName"
                 className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
                 placeholder="Doe"
                 onChange={handleInputChange2}
@@ -90,6 +93,7 @@ const LegalName = ({onNext, onPrevious, userName}) => {
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
             onClick={handleContinueClick}
+            disabled={isContinueDisabled}
           >
             Continue
           </button>

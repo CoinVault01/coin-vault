@@ -4,6 +4,7 @@ import SignUp from "./Pages/SignUp/SignUp";
 import Login from "./Pages/Login/Login";
 import { useEffect } from "react";
 import VerifyEmail from "./Pages/SignUp/VerifyEmail";
+import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 
 
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verifyemail" element={<VerifyEmail />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Routes>
       </BrowserRouter>
     </>

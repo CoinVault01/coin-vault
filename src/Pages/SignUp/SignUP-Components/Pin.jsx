@@ -1,41 +1,46 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 
-const Pin = ({ onNext, onPrevious, userFirstName }) => {
-   const [pin, setPin] = useState(new Array(4).fill(""));
-   const [confirmPin, setConfirmPin] = useState(new Array(4).fill(""));
+const Pin = ({
+  onNext,
+  onPrevious,
+  userFirstName,
+  userName
+}) => {
+  const [pin, setPin] = useState(new Array(4).fill(""));
+  const [confirmPin, setConfirmPin] = useState(new Array(4).fill(""));
 
-   const handleChange = (element, index) => {
-     if (isNaN(element.value)) return false;
+  const handleChange = (element, index) => {
+    if (isNaN(element.value)) return false;
 
-     setPin([...pin.map((d, idx) => (idx === index ? element.value : d))]);
+    setPin([...pin.map((d, idx) => (idx === index ? element.value : d))]);
 
-     // Focus next input
-     if (element.nextSibling) {
-       element.nextSibling.focus();
-     }
-   };
+    // Focus next input
+    if (element.nextSibling) {
+      element.nextSibling.focus();
+    }
+  };
 
-   const handleChange2 = (element, index) => {
-     if (isNaN(element.value)) return false;
+  const handleChange2 = (element, index) => {
+    if (isNaN(element.value)) return false;
 
-     setConfirmPin([
-       ...confirmPin.map((d, idx) => (idx === index ? element.value : d)),
-     ]);
+    setConfirmPin([
+      ...confirmPin.map((d, idx) => (idx === index ? element.value : d)),
+    ]);
 
-     // Focus next input
-     if (element.nextSibling) {
-       element.nextSibling.focus();
-     }
-   };
+    // Focus next input
+    if (element.nextSibling) {
+      element.nextSibling.focus();
+    }
+  };
 
-   const isContinueDisabled = pin.includes("") || confirmPin.includes("");
+  const isContinueDisabled = pin.includes("") || confirmPin.includes("");
 
-   const handleContinueClick = () => {
-     if (!isContinueDisabled) {
-       onNext(userFirstName);
-     }
-   };
+  const handleContinueClick = () => {
+    if (!isContinueDisabled) {
+      onNext(userFirstName);
+    }
+  };
 
   return (
     <section className="ml-[20px]">
@@ -110,7 +115,9 @@ const Pin = ({ onNext, onPrevious, userFirstName }) => {
         <div className="mt-[40px] max-w-[400px] gap-[5px] flex justify-center">
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            onClick={onPrevious}
+            onClick={() => {
+              onPrevious();
+            }}
           >
             Previous
           </button>
