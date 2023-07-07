@@ -67,7 +67,7 @@ const Pin = ({
               Create Pin
             </label>
 
-            <div className="flex gap-[30px]">
+            <div className="flex gap-[20px]">
               {pin.map((data, index) => {
                 return (
                   <input
@@ -94,7 +94,7 @@ const Pin = ({
               Confirm Pin
             </label>
 
-            <div className="flex gap-[30px]">
+            <div className="flex gap-[20px]">
               {confirmPin.map((data, index) => {
                 return (
                   <input

@@ -36,8 +36,8 @@ const Login = () => {
               </label>
 
               <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px]">
-                <div className="mx-[20px]">
-                  <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
+                <div className="mx-[10px]">
+                  <i className="fa-solid fa-envelope text-[rgb(157,166,177)]"></i>
                 </div>
                 <input
                   type="email"
@@ -56,24 +56,26 @@ const Login = () => {
               </label>
 
               <div className="max-w-[400px]">
-                <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center">
-                  <div className="mx-[20px]">
-                    <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
+                <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex justify-between px-[5px] items-center">
+                  <div className="flex items-center w-[95%] gap-[10px] h-[100%]">
+                    <div className="ml-[10px] smallerDevice:ml-[5px]">
+                      <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
+                    </div>
+                    <input
+                      type={passwordVisible ? "text" : "password"}
+                      className="user-input w-[100%] smallerDevice:max-w-[200px] h-[100%] bg-transparent pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
+                      placeholder="Password"
+                    />
                   </div>
-                  <input
-                    type={passwordVisible ? "text" : "password"}
-                    className="user-input w-[100%] max-w-[300px] h-[100%] bg-transparent pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
-                    placeholder="Password"
-                  />
-                  <div className="relative pt-[15px]">
+                  <div className="relative w-[] pt-[15px] pl-[5px]">
                     {passwordVisible ? (
                       <i
-                        class={`fa-solid fa-eye-slash absolute bottom-0 left-[20px] cursor-pointer`}
+                        class={`fa-solid fa-eye-slash absolute bottom-0 right-0 inline-block  cursor-pointer`}
                         onClick={handlePasswordVisibility}
                       ></i>
                     ) : (
                       <i
-                        class={`fa-solid fa-eye ml-[20px] absolute bottom-0 cursor-pointer`}
+                        class={`fa-solid fa-eye ml-[] absolute bottom-0 right-0 cursor-pointer`}
                         onClick={handlePasswordVisibility}
                       ></i>
                     )}
