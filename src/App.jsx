@@ -5,6 +5,7 @@ import Login from "./Pages/Login/Login";
 import { useEffect } from "react";
 import VerifyEmail from "./Pages/SignUp/VerifyEmail";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
+import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 
 
 
@@ -18,6 +19,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="*" element={<PageNotFound/>} />
           <Route path="/" element={<Main />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
