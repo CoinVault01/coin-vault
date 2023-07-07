@@ -24,6 +24,17 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
     return email !== "" && password !== "";
   };
 
+  const handleContinue = () => {
+    if (isFormValid()) {
+      verifyemailNavigate();
+    } else {
+      // Handle form validation error
+      // You can show an error message or perform any other action
+      console.log("Please fill in both email and password fields.");
+    }
+  };
+
+
   const handlePasswordVisibility = async () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -82,6 +93,8 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
                     type={passwordVisible ? "text" : "password"}
                     className="user-input w-[100%] smallerDevice:max-w-[200px] h-[100%] bg-transparent pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                     placeholder="Password"
+                    value={password}
+                    onChange={handleInputChange2}
                   />
                 </div>
                 <div className="relative w-[] pt-[15px] pl-[5px]">
@@ -117,9 +130,8 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
           </button>
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            disabled={!isFormValid()}
             onClick={() => {
-              verifyemailNavigate();
+              handleContinue();
             }}
           >
             Create Account
