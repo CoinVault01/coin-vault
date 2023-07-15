@@ -1,30 +1,107 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import "../SignUp/SignUp.css";
+import axios from "axios";
 import coinVault from "./SignUp-Image/coin-bg.png";
-import Username from './SignUP-Components/UserName';
-import LegalName from './SignUP-Components/LegalName';
-import EmailPassword from './SignUP-Components/EmailPassword';
-import Pin from './SignUP-Components/Pin';
+import Username from "./SignUP-Components/UserName";
+import LegalName from "./SignUP-Components/LegalName";
+import EmailPassword from "./SignUP-Components/EmailPassword";
+import Pin from "./SignUP-Components/Pin";
+
 
 const SignUp = () => {
-  const [step, setStep] = useState(1);
-  const [userName, setUserName] = useState("");
-  const [firstName, setFirstName] = useState("");
+   const [step, setStep] = useState(1);
+   const [user, setUser] = useState({
+     userName: "",
+     firstName: "",
+     lastName: "",
+     pin: "",
+     email: "",
+     password: "",
+   });
 
-  const handleNext = (text) => {
-    setUserName(text);
-    setFirstName(text);
-    setStep(step + 1);
+   const handleNext = () => {
+     setStep(step + 1);
+   };
+
+   const handlePrevious = () => {
+     setStep(step - 1);
+   };
+
+   const handleChange = (e) => {
+     setUser({
+       ...user,
+       [e.target.name]: e.target.value,
+     });
+   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:8080/v1/auth/signup", user)
+      .then((response) => {
+        // Handle successful response
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // Handle error
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error("Server responded with an error:", error.response.data);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error("No response received from the server:", error.request);
+        } else {
+          // Something happened in setting up the request that triggered an error
+          console.error("Error during request setup:", error.message);
+        }
+      });
   };
 
-  const handlePrevious = () => {
-    setStep(step - 1);
+  const renderComponent = () => {
+    switch (step) {
+      case 1:
+        return (
+          <Username
+            handleChange={handleChange}
+            handleNext={handleNext}
+            user={user}
+          />
+        );
+      case 2:
+        return (
+          <LegalName
+            handleChange={handleChange}
+            handleNext={handleNext}
+            handlePrevious={handlePrevious}
+            user={user}
+          />
+        );
+      case 3:
+        return (
+          <Pin
+            handleChange={handleChange}
+            handleNext={handleNext}
+            handlePrevious={handlePrevious}
+            user={user}
+          />
+        );
+      case 4:
+        return (
+          <EmailPassword
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            handlePrevious={handlePrevious}
+            user={user}
+          />
+        );
+      default:
+        return null;
+    }
   };
 
-    const handleFormSubmit = (event) => {
-      event.preventDefault();
-    };
-
+  
 
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
@@ -70,33 +147,10 @@ const SignUp = () => {
           </div>
         </div>
 
-        <form action="" method="post" onSubmit={handleFormSubmit}>
-          {step === 1 && <Username onNext={handleNext} />}
-          {step === 2 && (
-            <LegalName
-              onNext={handleNext}
-              onPrevious={handlePrevious}
-              userName={userName}
-            />
-          )}
-          {step === 3 && (
-            <Pin
-              onNext={handleNext}
-              onPrevious={handlePrevious}
-              userFirstName={firstName}
-              userName={userName}
-            />
-          )}
-          {step === 4 && (
-            <EmailPassword
-              onPrevious={handlePrevious}
-              userFirstName={firstName}
-            />
-          )}
-        </form>
+        <div>{renderComponent()}</div>
       </div>
     </section>
   );
-}
+};
 
-export default SignUp
+export default SignUp;

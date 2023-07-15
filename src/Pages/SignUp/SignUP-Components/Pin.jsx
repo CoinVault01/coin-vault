@@ -1,53 +1,20 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
+import PinInput from "react-pin-input";
 
-const Pin = ({
-  onNext,
-  onPrevious,
-  userFirstName,
-  userName
-}) => {
-  const [pin, setPin] = useState(new Array(4).fill(""));
-  const [confirmPin, setConfirmPin] = useState(new Array(4).fill(""));
-
-  const handleChange = (element, index) => {
-    if (isNaN(element.value)) return false;
-
-    setPin([...pin.map((d, idx) => (idx === index ? element.value : d))]);
-
-    // Focus next input
-    if (element.nextSibling) {
-      element.nextSibling.focus();
-    }
-  };
-
-  const handleChange2 = (element, index) => {
-    if (isNaN(element.value)) return false;
-
-    setConfirmPin([
-      ...confirmPin.map((d, idx) => (idx === index ? element.value : d)),
-    ]);
-
-    // Focus next input
-    if (element.nextSibling) {
-      element.nextSibling.focus();
-    }
-  };
-
-  const isContinueDisabled = pin.includes("") || confirmPin.includes("");
-
-  const handleContinueClick = () => {
-    if (!isContinueDisabled) {
-      onNext(userFirstName);
-    }
-  };
+const Pin = ({ handleChange, handleNext, handlePrevious, user }) => {
+  const savedfirstName = localStorage.getItem("firstName");
+  const [pinValue, setPinValue] = useState("");
+  const [confirmPinValue, setConfirmPinValue] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(true);
+  
 
   return (
     <section className="ml-[20px]">
       <div>
         <div className="mb-[30px]">
           <h1 className="text-[25px] font-[600] font-[poppins] capitalize">
-            Thank you {userFirstName} 🚀
+            Thank you {savedfirstName} 🚀
           </h1>
           <p className="pb-[5px] text-[25px] font-[600] font-[poppins] capitalize smallerDevice:text-[25px]">
             Create your transaction pin
@@ -62,53 +29,78 @@ const Pin = ({
           <div className="mb-[20px]">
             <label
               htmlFor="password"
-              className="capitalize text-[rgb(157,166,177)] font-[600] pb-[10px] inline-block"
+              className="capitalize text-[rgb(157,166,177)] font-[600] pb-[10px] pl-[15px] inline-block"
             >
               Create Pin
             </label>
 
-            <div className="flex gap-[20px]">
-              {pin.map((data, index) => {
-                return (
-                  <input
-                    key={index}
-                    value={data}
-                    type="text"
-                    maxLength={1}
-                    className="pin w-[50px] h-[40px] text-[white] bg-transparent border rounded-[5px] text-center text-[20px] pb-[3px] font-[600] select-none"
-                    onChange={(e) => {
-                      handleChange(e.target, index);
-                    }}
-                    onFocus={(e) => e.target.select()}
-                  />
-                );
-              })}
-            </div>
+            <PinInput
+              length={4}
+              initialValue={user.pin}
+              secret
+              secretDelay={100}
+              onChange={(value) => {
+                handleChange({ target: { name: "pin", value } });
+                setPinValue(value);
+                if (value === confirmPinValue) {
+                  setButtonDisabled(false);
+                } else {
+                  setButtonDisabled(true);
+                }
+              }}
+              inputMode="number"
+              style={{ padding: "10px" }}
+              inputStyle={{
+                borderColor: "rgba(255,255,255,0.5)",
+                borderTopRightRadius: "5px",
+                borderTopLeftRadius: "5px",
+                borderBottomLeftRadius: "5px",
+                borderBottomRightRadius: "5px",
+                background: "transparent",
+                marginRight: "10px",
+              }}
+              inputFocusStyle={{ borderColor: "rgba(255,255,255,0.5)" }}
+              autoSelect={true}
+              regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+            />
           </div>
 
           <div className="mb-[20px]">
             <label
               htmlFor="password"
-              className="capitalize text-[rgb(157,166,177)] font-[600] pb-[10px] inline-block"
+              className="capitalize text-[rgb(157,166,177)] font-[600] pb-[10px] pl-[15px] inline-block"
             >
               Confirm Pin
             </label>
 
-            <div className="flex gap-[20px]">
-              {confirmPin.map((data, index) => {
-                return (
-                  <input
-                    key={index}
-                    value={data}
-                    type="text"
-                    maxLength={1}
-                    className="pin w-[50px] h-[40px] text-[white] bg-transparent border rounded-[5px] text-center text-[20px] pb-[3px] font-[600] select-none"
-                    onChange={(e) => handleChange2(e.target, index)}
-                    onFocus={(e) => e.target.select()}
-                  />
-                );
-              })}
-            </div>
+            <PinInput
+              length={4}
+              initialValue=""
+              secret
+              secretDelay={100}
+              onChange={(value) => {
+                setConfirmPinValue(value);
+                if (value === pinValue) {
+                  setButtonDisabled(false);
+                } else {
+                  setButtonDisabled(true);
+                }
+              }}
+              inputMode="number"
+              style={{ padding: "10px" }}
+              inputStyle={{
+                borderColor: "rgba(255,255,255,0.5)",
+                borderTopRightRadius: "5px",
+                borderTopLeftRadius: "5px",
+                borderBottomLeftRadius: "5px",
+                borderBottomRightRadius: "5px",
+                background: "transparent",
+                marginRight: "10px",
+              }}
+              inputFocusStyle={{ borderColor: "rgba(255,255,255,0.5)" }}
+              autoSelect={true}
+              regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+            />
           </div>
         </div>
 
@@ -116,7 +108,7 @@ const Pin = ({
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
             onClick={() => {
-              onPrevious();
+              handlePrevious();
             }}
           >
             Previous
@@ -124,7 +116,11 @@ const Pin = ({
 
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            onClick={handleContinueClick}
+            disabled={isButtonDisabled}
+            style={{ opacity: isButtonDisabled ? 0.5 : 1, cursor: isButtonDisabled ? "not-allowed" : "pointer" }}
+            onClick={() => {
+              handleNext();
+            }}
           >
             Continue
           </button>
@@ -145,3 +141,23 @@ const Pin = ({
 };
 
 export default Pin
+
+{/* <div>
+      <input
+      className='text-[black] w-[40px]'
+        type="text"
+        name="pin"
+        placeholder="PIN"
+        value={user.pin}
+        maxLength={1}
+        onChange={handleChange}
+        required
+      />
+      
+      <button type="button" onClick={handlePrevious}>
+        Previous
+      </button>
+      <button type="button" onClick={handleNext}>
+        Continue
+      </button>
+    </div> */}
