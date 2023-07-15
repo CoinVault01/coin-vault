@@ -1,30 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Username = ({onNext}) => {
-    const [inputText, setInputText] = useState("");
-    const [isChecked, setIsChecked] = useState(false);
+const UserName = ({ handleChange, handleNext, user }) => {
+  const [isChecked, setIsChecked] = useState(false);
 
-    const handleInputChange = (event) => {
-      const value = event.target.value;
-      const filteredValue = value.replace(/[^a-zA-Z0-9]/g, ""); // Remove characters other than numbers and alphabets
-      setInputText(filteredValue);
-    };
+  useEffect(() => {
+    // Load saved value from local storage on component mount
+    const savedUserName = localStorage.getItem("userName");
 
-    const handleCheckboxChange = () => {
-      setIsChecked(!isChecked);
-    };
+    if (savedUserName) {
+      // Set the saved value in the component state
+      handleChange({
+        target: { name: "userName", value: savedUserName },
+      });
+    }
+  }, []);
 
-    const handleContinueClick = () => {
-      if (inputText.trim() !== "" && isChecked) {
-        onNext(inputText);
-      }
-    };
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
 
-    const isDisabled = inputText.trim() === "" || !isChecked;
-    const buttonStyle = isDisabled
-      ? { cursor: "not-allowed", filter: "opacity(0.5)" }
-      : {};
+    // Only allow letters and alphabets
+    const regex = /^[a-zA-Z0-9\s]*$/;
+    if (!value || regex.test(value)) {
+      handleChange(event);
+      localStorage.setItem(name, value); // Save the value to local storage
+    }
+  };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const isFormValid = user.userName && isChecked;
 
   return (
     <section className="ml-[20px]">
@@ -60,33 +67,34 @@ const Username = ({onNext}) => {
               <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
             </div>
             <input
-              type="text"
               className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
-              placeholder="Enter Username"
-              value={inputText}
+              type="text"
+              name="userName"
+              placeholder="Username"
+              value={user.userName}
               onChange={handleInputChange}
-              pattern="[a-zA-Z0-9]*"
+              required
             />
           </div>
 
           <div className="flex gap-[10px] ml-[15px] mt-[15px]">
             <input
               type="checkbox"
-              name=""
-              id=""
+              name="checkbox"
+              id="checkbox"
               className=""
               checked={isChecked}
               onChange={handleCheckboxChange}
             />
             <p className="font-[600]">
               I agree to CoinVault's{" "}
-                <a
-                  href="https://drive.google.com/file/d/1mcnhrtUj8N3I_d3XSW1WI4FRfX4k7eaJ/view?usp=drive_link"
-                  target="_blank"
-                  className="text-[rgb(160,210,254)]"
-                >
-                  Terms & conditions
-                </a>
+              <a
+                href="https://drive.google.com/file/d/1mcnhrtUj8N3I_d3XSW1WI4FRfX4k7eaJ/view?usp=drive_link"
+                target="_blank"
+                className="text-[rgb(160,210,254)]"
+              >
+                Terms & conditions
+              </a>
             </p>
           </div>
         </div>
@@ -94,10 +102,11 @@ const Username = ({onNext}) => {
 
       <div className="mt-[40px] max-w-[400px] flex justify-center">
         <button
-          className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-          style={buttonStyle}
-          disabled={isDisabled}
-          onClick={handleContinueClick}
+          className={`form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] ${
+            isFormValid ? "" : "cursor-not-allowed opacity-50"
+          }`}
+          onClick={() => handleNext(user)}
+          disabled={!isFormValid}
         >
           Continue
         </button>
@@ -116,4 +125,4 @@ const Username = ({onNext}) => {
   );
 };
 
-export default Username;
+export default UserName;

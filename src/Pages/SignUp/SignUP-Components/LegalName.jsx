@@ -1,34 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const LegalName = ({ onNext, onPrevious, userName }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+const LegalName = ({
+  handleChange,
+  handleNext,
+  handlePrevious,
+  user,
+}) => {
+  const savedUserName = localStorage.getItem("userName");
+  
+  useEffect(() => {
+    // Load saved value from local storage on component mount
+    const savedfirstName = localStorage.getItem("firstName");
 
-  const handleInputChange1 = (event) => {
-    const inputValue = event.target.value.replace(/[^a-zA-Z]/g, "");
-    setFirstName(inputValue);
-  };
+    if (savedfirstName) {
+      // Set the saved value in the component state
+      handleChange({
+        target: { name: "firstName", value: savedfirstName },
+      });
+    }
+  }, []);
 
-  const handleInputChange2 = (event) => {
-    const inputValue = event.target.value.replace(/[^a-zA-Z]/g, "");
-    setLastName(inputValue);
-  };
+  // Save the first name to local storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("firstName", user.firstName);
+  }, [user.firstName]);
 
-  const isContinueDisabled = firstName === "" || lastName === "";
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
 
-  const handleContinueClick = () => {
-    if (!isContinueDisabled) {
-      onNext(firstName);
+    // Only allow letters and alphabets
+    const regex = /^[a-zA-Z\s]*$/;
+    if (!value || regex.test(value)) {
+      handleChange(event);
+      localStorage.setItem(name, value); // Save the value to local storage
     }
   };
+
+  const isFormValid = user.firstName && user.lastName;
 
   return (
     <section className="ml-[20px]">
       <div>
         <div className="mb-[30px]">
           <h1 className="text-[25px] font-[600] font-[poppins] capitalize">
-            Hey {userName}👋
+            Hey {savedUserName}👋
           </h1>
           <p className="pb-[5px] text-[25px] font-[600] font-[poppins] capitalize smallerDevice:text-[25px]">
             Please give us your legal name
@@ -49,12 +65,13 @@ const LegalName = ({ onNext, onPrevious, userName }) => {
                 <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
               </div>
               <input
-                type="text"
-                id="firstName"
                 className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
-                placeholder="John"
-                onChange={handleInputChange1}
-                value={firstName}
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={user.firstName}
+                onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -72,12 +89,13 @@ const LegalName = ({ onNext, onPrevious, userName }) => {
                 <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
               </div>
               <input
-                type="text"
-                id="lastName"
                 className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
-                placeholder="Doe"
-                onChange={handleInputChange2}
-                value={lastName}
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                value={user.lastName}
+                onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -86,14 +104,16 @@ const LegalName = ({ onNext, onPrevious, userName }) => {
         <div className="mt-[40px] max-w-[400px] gap-[5px] flex justify-center">
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            onClick={onPrevious}
+            onClick={handlePrevious}
           >
             Previous
           </button>
           <button
-            className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            onClick={handleContinueClick}
-            disabled={isContinueDisabled}
+            className={`form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] ${
+              isFormValid ? "" : "cursor-not-allowed opacity-50"
+            }`}
+            onClick={() => handleNext(user)}
+            disabled={!isFormValid}
           >
             Continue
           </button>

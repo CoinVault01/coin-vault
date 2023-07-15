@@ -1,51 +1,26 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+const EmailPassword = ({
+  handleSubmit,
+  handleChange,
+  handlePrevious,
+  user,
+}) => {
+  const savedfirstName = localStorage.getItem("firstName");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const navigate = useNavigate();
-
-  function verifyemailNavigate() {
-    navigate(`/verifyemail`,{state:{email:email}});
-    console.log(email);
-  }
-
-  const handleInputChange1 = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleInputChange2 = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const isFormValid = () => {
-    return email !== "" && password !== "";
-  };
-
-  const handleContinue = () => {
-    if (isFormValid()) {
-      verifyemailNavigate();
-    } else {
-      // Handle form validation error
-      // You can show an error message or perform any other action
-      console.log("Please fill in both email and password fields.");
-    }
-  };
-
 
   const handlePasswordVisibility = async () => {
     setPasswordVisible(!passwordVisible);
   };
-
 
   return (
     <section className="ml-[20px]">
       <div>
         <div className="mb-[30px]">
           <h1 className="text-[25px] font-[600] font-[poppins] capitalize">
-            Last Step {userFirstName} 🚀
+            Last Step {savedfirstName} 🚀
           </h1>
           <p className="pb-[5px] text-[25px] font-[600] font-[poppins] capitalize smallerDevice:text-[25px]">
             Enter email and create password
@@ -66,11 +41,13 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
                 <i className="fa-solid fa-envelope text-[rgb(157,166,177)]"></i>
               </div>
               <input
-                type="email"
-                value={email}
                 className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                 placeholder="John@mail.com"
-                onChange={handleInputChange1}
+                type="email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
+                required
               />
             </div>
           </div>
@@ -93,8 +70,10 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
                     type={passwordVisible ? "text" : "password"}
                     className="user-input w-[100%] smallerDevice:max-w-[200px] h-[100%] bg-transparent pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                     placeholder="Password"
-                    value={password}
-                    onChange={handleInputChange2}
+                    name="password"
+                    value={user.password}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="relative w-[] pt-[15px] pl-[5px]">
@@ -124,15 +103,13 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
         <div className="mt-[40px] max-w-[400px] gap-[5px] flex justify-center">
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            onClick={onPrevious}
+            onClick={handlePrevious}
           >
             Previous
           </button>
           <button
             className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-            onClick={() => {
-              handleContinue();
-            }}
+            onClick={handleSubmit}
           >
             Create Account
           </button>
@@ -153,3 +130,30 @@ const EmailPassword = ({ onNext, onPrevious, userFirstName }) => {
 };
 
 export default EmailPassword;
+
+{
+  /* <div className="text-[black]">
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={user.email}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={user.password}
+        onChange={handleChange}
+        required
+      />
+      <button type="button" onClick={handlePrevious}>
+        Previous
+      </button>
+      <button type="button" onClick={handleSubmit}>
+        Submit
+      </button>
+    </div> */
+}
