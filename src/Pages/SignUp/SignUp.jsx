@@ -5,58 +5,81 @@ import coinVault from "./SignUp-Image/coin-bg.png";
 import Username from "./SignUP-Components/UserName";
 import LegalName from "./SignUP-Components/LegalName";
 import EmailPassword from "./SignUP-Components/EmailPassword";
+import VerifyEmail from "./VerifyEmail";
 import Pin from "./SignUP-Components/Pin";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-   const [step, setStep] = useState(1);
-   const [user, setUser] = useState({
-     userName: "",
-     firstName: "",
-     lastName: "",
-     pin: "",
-     email: "",
-     password: "",
-   });
+  const navigate = useNavigate()
+  const [signingIn, setSigningIn] = useState(false);
+  const [step, setStep] = useState(1);
+  const [user, setUser] = useState({
+    userName: "",
+    firstName: "",
+    lastName: "",
+    pin: "",
+    email: "",
+    password: "",
+  });
 
-   const handleNext = () => {
-     setStep(step + 1);
-   };
+  const handleNext = () => {
+    setStep(step + 1);
+  };
 
-   const handlePrevious = () => {
-     setStep(step - 1);
-   };
+  const handlePrevious = () => {
+    setStep(step - 1);
+  };
 
-   const handleChange = (e) => {
-     setUser({
-       ...user,
-       [e.target.name]: e.target.value,
-     });
-   };
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:8080/v1/auth/signup", user)
-      .then((response) => {
-        // Handle successful response
-        console.log(response.data);
-      })
-      .catch((error) => {
-        // Handle error
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.error("Server responded with an error:", error.response.data);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.error("No response received from the server:", error.request);
-        } else {
-          // Something happened in setting up the request that triggered an error
-          console.error("Error during request setup:", error.message);
-        }
+    try {
+      // Make the API request
+      const response = await axios.post(
+        "http://localhost:8080/v1/auth/signup",
+        user
+      );
+
+      // Display success message using Toastify
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
       });
+
+      // Save email in localStorage
+      localStorage.setItem("email", user.email);
+
+      setTimeout(() => {
+        navigate("/verifyemail");
+      }, 3000);
+    } catch (error) {
+      // Display error message using Toastify
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   const renderComponent = () => {
@@ -101,10 +124,9 @@ const SignUp = () => {
     }
   };
 
-  
-
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
+      <ToastContainer hideProgressBar autoClose={3000} />
       <div className="w-[90%] max-w-[500px] mx-auto">
         <div className="pt-[50px]">
           <img src={coinVault} alt="" className="inline-block w-[150px]" />
