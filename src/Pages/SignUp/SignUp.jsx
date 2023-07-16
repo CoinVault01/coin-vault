@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate()
-  const [signingIn, setSigningIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1);
   const [user, setUser] = useState({
     userName: "",
@@ -43,7 +43,9 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      // Make the API request
+      setIsLoading(true); // Set loading state to true
+
+      // Make the API request using supercool axios 😎
       const response = await axios.post(
         "http://localhost:8080/v1/auth/signup",
         user
@@ -79,6 +81,8 @@ const SignUp = () => {
         progress: undefined,
         theme: "dark",
       });
+    } finally {
+      setIsLoading(false); // Set loading state back to false
     }
   };
 
@@ -116,6 +120,7 @@ const SignUp = () => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             handlePrevious={handlePrevious}
+            isLoading={isLoading}
             user={user}
           />
         );
