@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 
 const EmailPassword = ({
   handleSubmit,
@@ -10,10 +9,20 @@ const EmailPassword = ({
 }) => {
   const savedfirstName = localStorage.getItem("firstName");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handlePasswordVisibility = async () => {
+  const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  const checkFormValidity = () => {
+    const { email, password } = user;
+    setIsFormValid(email.trim() !== "" && password.trim() !== "");
+  };
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [user]);
 
   return (
     <section className="ml-[20px]">
@@ -79,12 +88,12 @@ const EmailPassword = ({
                 <div className="relative w-[] pt-[15px] pl-[5px]">
                   {passwordVisible ? (
                     <i
-                      class={`fa-solid fa-eye-slash absolute bottom-0 right-0 inline-block  cursor-pointer`}
+                      className="fa-solid fa-eye-slash absolute bottom-0 right-0 inline-block cursor-pointer"
                       onClick={handlePasswordVisibility}
                     ></i>
                   ) : (
                     <i
-                      class={`fa-solid fa-eye ml-[] absolute bottom-0 right-0 cursor-pointer`}
+                      className="fa-solid fa-eye ml-[] absolute bottom-0 right-0 cursor-pointer"
                       onClick={handlePasswordVisibility}
                     ></i>
                   )}
@@ -102,14 +111,17 @@ const EmailPassword = ({
 
         <div className="mt-[40px] max-w-[400px] gap-[5px] flex justify-center">
           <button
-            className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
+            className={`form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]`}
             onClick={handlePrevious}
           >
             Previous
           </button>
           <button
-            className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px]"
+            className={`form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] ${
+              !isFormValid ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleSubmit}
+            disabled={!isFormValid}
           >
             Create Account
           </button>
@@ -130,30 +142,3 @@ const EmailPassword = ({
 };
 
 export default EmailPassword;
-
-{
-  /* <div className="text-[black]">
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={user.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={user.password}
-        onChange={handleChange}
-        required
-      />
-      <button type="button" onClick={handlePrevious}>
-        Previous
-      </button>
-      <button type="button" onClick={handleSubmit}>
-        Submit
-      </button>
-    </div> */
-}
