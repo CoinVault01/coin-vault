@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { ThreeCircles } from "react-loader-spinner";
+
 
 const EmailPassword = ({
   handleSubmit,
   handleChange,
   handlePrevious,
   user,
+  isLoading
 }) => {
   const savedfirstName = localStorage.getItem("firstName");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -123,7 +126,24 @@ const EmailPassword = ({
             onClick={handleSubmit}
             disabled={!isFormValid}
           >
-            Create Account
+            {isLoading ? (
+              <div className="w-[30px] mx-auto">
+                <ThreeCircles
+                  height="25"
+                  width="25"
+                  color="rgb(160,210,254)"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="three-circles-rotating"
+                  outerCircleColor=""
+                  innerCircleColor=""
+                  middleCircleColor=""
+                />
+              </div>
+            ) : (
+              "Create Account"
+            )}
           </button>
         </div>
 
