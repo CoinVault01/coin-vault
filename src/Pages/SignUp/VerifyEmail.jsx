@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../SignUp/SignUp.css";
 import PinInput from "react-pin-input";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,51 @@ import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
 
 const VerifyEmail = () => {
-  const savedEmail = localStorage.getItem("email");
-  const navigate = useNavigate();
-  const [verificationCode, setVerificationCode] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [resend, setResend] = useState(false);
+   const savedEmail = localStorage.getItem("email");
+   const navigate = useNavigate();
+   const [verificationCode, setVerificationCode] = useState("");
+   const [isLoading, setIsLoading] = useState(false);
+   const [resend, setResend] = useState(false);
+   const [countdown, setCountdown] = useState(120); // Countdown timer in seconds
+   let timer = null;
+
+   useEffect(() => {
+     const countdownTimer = localStorage.getItem("countdownTimer");
+     const savedTime = parseInt(localStorage.getItem("savedTime"), 10);
+     const currentTime = Math.floor(Date.now() / 1000);
+     const elapsedTime = currentTime - savedTime;
+
+     if (countdownTimer && elapsedTime < countdown) {
+       setCountdown(countdown - elapsedTime);
+       startCountdown();
+     } else {
+       startCountdown();
+     }
+
+     return () => {
+       clearInterval(timer);
+     };
+   }, []);
+
+   const startCountdown = () => {
+     const startTime = Math.floor(Date.now() / 1000);
+     localStorage.setItem("savedTime", startTime.toString());
+
+     timer = setInterval(() => {
+       setCountdown((prevCountdown) => {
+         const newCountdown = prevCountdown - 1;
+         localStorage.setItem("countdownTimer", newCountdown.toString());
+
+         if (newCountdown <= 0) {
+           clearInterval(timer);
+           localStorage.removeItem("countdownTimer");
+         }
+
+         return newCountdown;
+       });
+     }, 1000);
+   };
+
 
   const handleVerifyEmail = async () => {
     try {
@@ -78,9 +118,10 @@ const VerifyEmail = () => {
   };
 
   const handleResendCode = async () => {
-    try {
-      setResend(true); // Start loading
+    setResend(true); // Set the resend flag to true
 
+    try {
+      // Make the POST request
       const response = await axios.post(
         "http://localhost:8080/v1/auth/resend-verification-code",
         {
@@ -88,30 +129,25 @@ const VerifyEmail = () => {
         }
       );
 
+      // Check if the request was successful
       if (response.status === 200) {
-        toast.success(response.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-      } else {
-        toast.error(response.data.error, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        setCountdown(120); // Reset countdown to initial value
+        startCountdown(); // Start the countdown again
       }
+
+      // Show success toast message
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
+      // Error handling code
       console.error("Error resending verification code:", error);
 
       let errorMessage =
@@ -132,9 +168,10 @@ const VerifyEmail = () => {
         theme: "dark",
       });
     } finally {
-      setResend(false); // Stop loading
+      setResend(false); // Reset the resend flag to false
     }
   };
+
 
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
@@ -205,29 +242,46 @@ const VerifyEmail = () => {
           )}
         </button>
 
-        <button
-          className="block w-[80%] max-w-[350px] ml-[20px] font-[600] py-[10px] mb-[20px] rounded-[8px]"
-          onClick={handleResendCode}
-        >
-          {resend ? ( // Display loader spinner if loading
-            <div className="w-[30px] mx-auto">
-              <ThreeCircles
-                height="25"
-                width="25"
-                color="rgb(160,210,254)"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                ariaLabel="three-circles-rotating"
-                outerCircleColor=""
-                innerCircleColor=""
-                middleCircleColor=""
-              />
-            </div>
-          ) : (
-            "Resend Code" // Display default text
-          )}
-        </button>
+        <div className="flex justify-center w-[80%] max-w-[350px] ml-[20px] font-[600] py-[10px] mb-[20px] rounded-[8px]">
+          <button
+            className={` ${
+              countdown > 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={handleResendCode}
+            disabled={countdown > 0}
+          >
+            {resend ? ( // Display loader spinner if loading
+              <div className="w-[30px] mx-auto">
+                <ThreeCircles
+                  height="25"
+                  width="25"
+                  color="rgb(160,210,254)"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="three-circles-rotating"
+                  outerCircleColor=""
+                  innerCircleColor=""
+                  middleCircleColor=""
+                />
+              </div>
+            ) : (
+              "Resend Code" // Display default text
+            )}
+          </button>
+
+          <p
+            className={`text-[rgb(157,166,177)] font-[600] ml-[15px] ${
+              countdown > 0 ? "opacity-50" : ""
+            }`}
+          >
+            {countdown > 0
+              ? `${Math.floor(countdown / 60)}:${
+                  countdown % 60 < 10 ? "0" : ""
+                }${countdown % 60}`
+              : "0:00"}
+          </p>
+        </div>
       </div>
     </section>
   );
