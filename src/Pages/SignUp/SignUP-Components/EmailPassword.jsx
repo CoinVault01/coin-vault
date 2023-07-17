@@ -138,6 +138,7 @@ const EmailPassword = ({
                   ariaLabel="three-circles-rotating"
                   outerCircleColor=""
                   innerCircleColor=""
+                  
                   middleCircleColor=""
                 />
               </div>
