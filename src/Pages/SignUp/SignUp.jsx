@@ -47,7 +47,7 @@ const SignUp = () => {
 
       // Make the API request using supercool axios 😎
       const response = await axios.post(
-        "http://localhost:8080/v1/auth/signup",
+        "https://coinvault.onrender.com/v1/auth/signup",
         user
       );
 
