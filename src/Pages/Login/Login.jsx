@@ -1,18 +1,76 @@
 import React, { useState } from "react";
 import coinVault from "./Login-Image/coin-bg.png";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { ThreeCircles } from "react-loader-spinner";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const handlePasswordVisibility = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true); // Start loading
+
+    try {
+      const response = await axios.post(
+        "https://coinvault.onrender.com/v1/auth/login",
+        {
+          userName,
+          password,
+        }
+      );
+
+      const { token } = response.data;
+      // Store the token in localStorage or session storage
+      localStorage.setItem("token", token);
+
+      // Show success toast
+      toast.success("Login successful!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      // Redirect to the homepage
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+      // Show error toast
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
+
+  const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
+      <ToastContainer hideProgressBar autoClose={3000} />
       <div className="w-[90%] max-w-[500px] mx-auto">
         <div className="pt-[50px]">
           <img src={coinVault} alt="" className="inline-block w-[150px]" />
@@ -25,24 +83,27 @@ const Login = () => {
           </p>
         </div>
 
-        <form action="" method="post">
+        <form onSubmit={handleLogin}>
           <div className="mb-[40px]">
             <div className="mb-[20px]">
               <label
-                htmlFor="email"
+                htmlFor="userName"
                 className="capitalize text-[rgb(157,166,177)] font-[600] pb-[3px] inline-block"
               >
-                Email Address
+                UserName
               </label>
 
               <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex items-center max-w-[400px]">
                 <div className="mx-[10px]">
-                  <i className="fa-solid fa-envelope text-[rgb(157,166,177)]"></i>
+                  <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
                 </div>
                 <input
-                  type="email"
+                  type="text"
                   className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
-                  placeholder="John@mail.com"
+                  placeholder="JohnDoe"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -59,23 +120,26 @@ const Login = () => {
                 <div className="border-[1px] border-[rgba(255,255,255,0.2)] rounded-[5px] h-[45px] bg-[rgb(32,37,43)] flex justify-between px-[5px] items-center">
                   <div className="flex items-center w-[95%] gap-[10px] h-[100%]">
                     <div className="ml-[10px] smallerDevice:ml-[5px]">
-                      <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
+                      <i className="fa-solid fa-lock text-[rgb(157,166,177)]"></i>
                     </div>
                     <input
                       type={passwordVisible ? "text" : "password"}
                       className="user-input w-[100%] smallerDevice:max-w-[200px] h-[100%] bg-transparent pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                       placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
                     />
                   </div>
                   <div className="relative w-[] pt-[15px] pl-[5px]">
                     {passwordVisible ? (
                       <i
-                        class={`fa-solid fa-eye-slash absolute bottom-0 right-0 inline-block  cursor-pointer`}
+                        className="fa-solid fa-eye-slash absolute bottom-0 right-0 inline-block  cursor-pointer"
                         onClick={handlePasswordVisibility}
                       ></i>
                     ) : (
                       <i
-                        class={`fa-solid fa-eye ml-[] absolute bottom-0 right-0 cursor-pointer`}
+                        className="fa-solid fa-eye ml-[] absolute bottom-0 right-0 cursor-pointer"
                         onClick={handlePasswordVisibility}
                       ></i>
                     )}
@@ -91,8 +155,28 @@ const Login = () => {
             </div>
           </div>
 
-          <button className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] max-w-[400px]">
-            Sign In
+          <button
+            className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] max-w-[400px]"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="w-[30px] mx-auto">
+                <ThreeCircles
+                  height="25"
+                  width="25"
+                  color="rgb(160,210,254)"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="three-circles-rotating"
+                  outerCircleColor=""
+                  innerCircleColor=""
+                  middleCircleColor=""
+                />
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
 
