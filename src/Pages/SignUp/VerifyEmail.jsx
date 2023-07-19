@@ -59,7 +59,7 @@ const VerifyEmail = () => {
       setIsLoading(true); // Start loading
 
       const response = await axios.post(
-        "http://localhost:8080/v1/auth/verify-email",
+        "https://coinvault.onrender.com/v1/auth/verify-email",
         { verificationCode }
       );
       const data = response.data;
@@ -123,7 +123,7 @@ const VerifyEmail = () => {
     try {
       // Make the POST request
       const response = await axios.post(
-        "http://localhost:8080/v1/auth/resend-verification-code",
+        "https://coinvault.onrender.com/v1/auth/resend-verification-code",
         {
           email: savedEmail,
         }

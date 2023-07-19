@@ -48,7 +48,7 @@ const SignUp = () => {
       // Make the API request using supercool axios 😎
       const response = await axios.post(
         "https://coinvault.onrender.com/v1/auth/signup",
-        user, {withCredentials: true}
+        user
       );
 
       // Display success message using Toastify
