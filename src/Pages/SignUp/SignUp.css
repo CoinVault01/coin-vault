@@ -25,9 +25,3 @@
         transform: translateY(0);
     }
 }
-
-@media screen and (max-width: 350px) {
-    .pincode-input-container .pincode-input-text {
-        width: 20px;
-    }
-}
