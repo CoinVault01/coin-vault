@@ -56,7 +56,9 @@ const ResetPassword = () => {
           theme: "dark",});
 
       // Navigate to the login page after successful password reset
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
       setIsLoading(false);
 
