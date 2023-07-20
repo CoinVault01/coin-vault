@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import VerifyEmail from "./Pages/SignUp/VerifyEmail";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
+import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 
 
 
@@ -19,12 +20,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<PageNotFound/>} />
+          <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Main />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verifyemail" element={<VerifyEmail />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword" element={<ResetPassword/>} />
         </Routes>
       </BrowserRouter>
     </>
