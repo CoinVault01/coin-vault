@@ -1,11 +1,78 @@
-import React from 'react'
+import React, { useState } from 'react'
 import coinVault from "./ForgotPassword-Image/coin-bg.png";
 import "./ForgotPassword.css";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { ThreeCircles } from "react-loader-spinner";
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true); // Start loading
+
+      if (!email) {
+        toast.error("Email is required");
+        return;
+      }
+
+      const response = await axios.post(
+        "https://coinvault.onrender.com/v1/auth/forgot-password",
+        { email }
+      );
+      if (response.status === 200) {
+        toast.success("Reset password link sent successfully", {
+          // Toast success message
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.error, {
+          // Toast error message
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        toast.error("Internal server error", {
+          // Toast error message
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
+
+
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
+      <ToastContainer hideProgressBar autoClose={3000} />
       <div className="w-[90%] max-w-[500px] mx-auto">
         <div className="pt-[50px]">
           <img src={coinVault} alt="" className="inline-block w-[150px]" />
@@ -18,7 +85,7 @@ const ForgotPassword = () => {
           </p>
         </div>
 
-        <form action="" method="post">
+        <div>
           <div className="mb-[40px]">
             <div className="mb-[20px]">
               <label
@@ -36,15 +103,38 @@ const ForgotPassword = () => {
                   type="email"
                   className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                   placeholder="John@mail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
           </div>
 
-          <button className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] max-w-[400px]">
-            Reset Password
+          <button
+            className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] max-w-[400px]"
+            onClick={handleSubmit}
+            disabled={isLoading} // Disable the button while loading
+          >
+            {isLoading ? ( // Display loader spinner if loading
+              <div className="w-[30px] mx-auto">
+                <ThreeCircles
+                  height="25"
+                  width="25"
+                  color="rgb(160,210,254)"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="three-circles-rotating"
+                  outerCircleColor=""
+                  innerCircleColor=""
+                  middleCircleColor=""
+                />
+              </div>
+            ) : (
+              "Send Link" // Display default text
+            )}
           </button>
-        </form>
+        </div>
 
         <div>
           <p className="pb-[20px] text-[rgba(255,255,255,0.5)]">
