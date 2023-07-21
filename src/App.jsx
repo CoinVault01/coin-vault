@@ -7,6 +7,7 @@ import VerifyEmail from "./Pages/SignUp/VerifyEmail";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
+import TermsAndConditions from "./Pages/TermsAndConditions/TermsAndConditions";
 
 
 
@@ -26,7 +27,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/verifyemail" element={<VerifyEmail />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/resetpassword" element={<ResetPassword/>} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/termsandconditions" element={<TermsAndConditions/>} />
         </Routes>
       </BrowserRouter>
     </>
