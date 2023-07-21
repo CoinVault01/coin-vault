@@ -20,7 +20,7 @@ const EmailPassword = ({
 
   const checkFormValidity = () => {
     const { email, password } = user;
-    setIsFormValid(email.trim() !== "" && password.trim() !== "");
+    setIsFormValid(email.trim() !== "" && password.trim() !== "" && !isLoading);
   };
 
   useEffect(() => {
