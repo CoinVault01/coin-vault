@@ -88,13 +88,13 @@ const UserName = ({ handleChange, handleNext, user }) => {
             />
             <p className="font-[600]">
               I agree to CoinVault's{" "}
-              <a
-                href="https://drive.google.com/file/d/1mcnhrtUj8N3I_d3XSW1WI4FRfX4k7eaJ/view?usp=drive_link"
+              <Link
+                to="/termsandconditions"
                 target="_blank"
                 className="text-[rgb(160,210,254)]"
               >
                 Terms & conditions
-              </a>
+              </Link>
             </p>
           </div>
         </div>
