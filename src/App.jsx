@@ -8,6 +8,7 @@ import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import TermsAndConditions from "./Pages/TermsAndConditions/TermsAndConditions";
+import DashBoardHome from "./DashBoard/DashBoardHome/DashBoardHome";
 
 
 
@@ -28,7 +29,8 @@ function App() {
           <Route path="/verifyemail" element={<VerifyEmail />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
-          <Route path="/termsandconditions" element={<TermsAndConditions/>} />
+          <Route path="/termsandconditions" element={<TermsAndConditions />} />
+          <Route path="/dashboardhome" element={<DashBoardHome/>} />
         </Routes>
       </BrowserRouter>
     </>
