@@ -5,10 +5,14 @@ const DashBoardSideNav = () => {
   return (
     <aside className="bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed generalDevice:top-[70px] generalDevice:right-0">
       <div>
-        <img src={coinvault} alt="" className="w-[150px] generalDevice:hidden block pr-[10px]" />
+        <img
+          src={coinvault}
+          alt=""
+          className="w-[150px] generalDevice:hidden block pr-[10px]"
+        />
       </div>
 
-      <div className=''>
+      <div className="">
         <p className="text-[rgb(124,138,150)] text-[14px] font-[600] mb-[20px] ml-[10px] generalDevice:mt-[20px]">
           Dashboard
         </p>
@@ -48,9 +52,14 @@ const DashBoardSideNav = () => {
           </p>
 
           <div className="ml-[20px] pb-[40px]">
-            <ul>
+            <ul className="flex flex-col gap-[15px]">
               <li className="text-[rgb(157,168,181)] text-[18px] font-[600] font-[poppins] cursor-pointer">
                 <i class="fa-solid fa-gear pr-[10px]"></i> Settings
+              </li>
+
+              <li className="text-[rgb(157,168,181)] text-[18px] font-[600] font-[poppins] cursor-pointer largeDevice:hidden">
+                Logout{" "}
+                <i className="fa-solid fa-arrow-right-from-bracket pl-[10px]"></i>
               </li>
             </ul>
           </div>
