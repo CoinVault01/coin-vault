@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import coinvault from "./DashBoardSideNav-Image/coin-bg.png"
 
-const DashBoardSideNav = () => {
+const DashBoardSideNav = ({ showNav }) => {
+  const [showAsset, setShowAsset] = useState(false)
+
   return (
-    <aside className="bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed generalDevice:top-[70px] generalDevice:right-0">
+    <aside
+      className={`${
+        showNav ? "" : "generalDevice:right-[-100%]"
+      } bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed generalDevice:top-[70px] generalDevice:right-0 transition-all duration-[1s] ease-in-out`}
+    >
       <div>
         <img
           src={coinvault}
@@ -67,6 +73,6 @@ const DashBoardSideNav = () => {
       </div>
     </aside>
   );
-}
+};
 
 export default DashBoardSideNav

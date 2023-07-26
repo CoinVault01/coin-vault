@@ -78,7 +78,7 @@ const VerifyEmail = () => {
         });
 
         setTimeout(() => {
-          navigate("/login");
+          navigate("/dashboardhome");
         }, 2000);
       } else {
         toast.error(data.error, {

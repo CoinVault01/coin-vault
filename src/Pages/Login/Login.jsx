@@ -47,7 +47,7 @@ const Login = () => {
 
       // Redirect to the homepage
       setTimeout(() => {
-        navigate("/");
+        navigate("/dashboardhome");
       }, 2000);
     } catch (error) {
       // Show error toast
