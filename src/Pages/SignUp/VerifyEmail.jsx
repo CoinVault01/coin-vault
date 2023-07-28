@@ -8,51 +8,50 @@ import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
 
 const VerifyEmail = () => {
-   const savedEmail = localStorage.getItem("email");
-   const navigate = useNavigate();
-   const [verificationCode, setVerificationCode] = useState("");
-   const [isLoading, setIsLoading] = useState(false);
-   const [resend, setResend] = useState(false);
-   const [countdown, setCountdown] = useState(120); // Countdown timer in seconds
-   let timer = null;
+  const savedEmail = localStorage.getItem("email");
+  const navigate = useNavigate();
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [resend, setResend] = useState(false);
+  const [countdown, setCountdown] = useState(120); // Countdown timer in seconds
+  let timer = null;
 
-   useEffect(() => {
-     const countdownTimer = localStorage.getItem("countdownTimer");
-     const savedTime = parseInt(localStorage.getItem("savedTime"), 10);
-     const currentTime = Math.floor(Date.now() / 1000);
-     const elapsedTime = currentTime - savedTime;
+  useEffect(() => {
+    const countdownTimer = localStorage.getItem("countdownTimer");
+    const savedTime = parseInt(localStorage.getItem("savedTime"), 10);
+    const currentTime = Math.floor(Date.now() / 1000);
+    const elapsedTime = currentTime - savedTime;
 
-     if (countdownTimer && elapsedTime < countdown) {
-       setCountdown(countdown - elapsedTime);
-       startCountdown();
-     } else {
-       startCountdown();
-     }
+    if (countdownTimer && elapsedTime < countdown) {
+      setCountdown(countdown - elapsedTime);
+      startCountdown();
+    } else {
+      startCountdown();
+    }
 
-     return () => {
-       clearInterval(timer);
-     };
-   }, []);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
-   const startCountdown = () => {
-     const startTime = Math.floor(Date.now() / 1000);
-     localStorage.setItem("savedTime", startTime.toString());
+  const startCountdown = () => {
+    const startTime = Math.floor(Date.now() / 1000);
+    localStorage.setItem("savedTime", startTime.toString());
 
-     timer = setInterval(() => {
-       setCountdown((prevCountdown) => {
-         const newCountdown = prevCountdown - 1;
-         localStorage.setItem("countdownTimer", newCountdown.toString());
+    timer = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        const newCountdown = prevCountdown - 1;
+        localStorage.setItem("countdownTimer", newCountdown.toString());
 
-         if (newCountdown <= 0) {
-           clearInterval(timer);
-           localStorage.removeItem("countdownTimer");
-         }
+        if (newCountdown <= 0) {
+          clearInterval(timer);
+          localStorage.removeItem("countdownTimer");
+        }
 
-         return newCountdown;
-       });
-     }, 1000);
-   };
-
+        return newCountdown;
+      });
+    }, 1000);
+  };
 
   const handleVerifyEmail = async () => {
     try {
@@ -78,7 +77,7 @@ const VerifyEmail = () => {
         });
 
         setTimeout(() => {
-          navigate("/dashboardhome");
+          navigate("/login");
         }, 2000);
       } else {
         toast.error(data.error, {
@@ -172,7 +171,6 @@ const VerifyEmail = () => {
     }
   };
 
-
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
       <ToastContainer hideProgressBar autoClose={3000} />
@@ -211,7 +209,7 @@ const VerifyEmail = () => {
                 background: "transparent",
                 marginRight: "5px",
                 width: "39px",
-                height: "40px"
+                height: "40px",
               }}
               inputFocusStyle={{ borderColor: "rgba(255,255,255,0.5)" }}
               autoSelect={true}

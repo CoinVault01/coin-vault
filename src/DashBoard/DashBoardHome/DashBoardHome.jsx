@@ -1,12 +1,40 @@
-// DashBoardRoutes.jsx
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import DashBoardSideNav from "../DashBoardSideNav/DashBoardSideNav";
 import DashBoardTopHeader from "../DashBoardTopHeader/DashBoardTopHeader";
 
-const DashBoardRoutes = () => {
-  const savedfirstName = localStorage.getItem("firstName");
-  const savedlastName = localStorage.getItem("lastName");
+const DashboardHome = () => {
+  const [userData, setUserData] = useState(null);
   const [showNav, setShowNav] = useState(false);
+
+  useEffect(() => {
+    // Fetch user data from the backend using the JWT token
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          // Redirect to login if token not found
+          return;
+        }
+
+        // Make the API request to fetch user data
+        const response = await axios.get(
+          "https://coinvault.onrender.com/v1/auth/user",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   // Function to toggle the showNav state
   const toggleNav = () => {
@@ -18,12 +46,30 @@ const DashBoardRoutes = () => {
       <div className="">
         <DashBoardTopHeader showNav={showNav} toggleNav={toggleNav} />
         <DashBoardSideNav showNav={showNav} />
-          <p className="pt-[100px]">
-            Welcome, {savedfirstName} {savedlastName}
-          </p>
+        <div className="pt-[100px]">
+          {userData && (
+            <h1>
+              Welcome, {userData.firstName} {userData.lastName}!
+            </h1>
+          )}
         </div>
+      </div>
     </section>
   );
 };
 
-export default DashBoardRoutes;
+export default DashboardHome;
+
+
+{/* <div>
+  {userData ? (
+    <div>
+      <h1>
+        Welcome, {userData.firstName} {userData.lastName}!
+      </h1>
+      Render other dashboard components
+    </div>
+  ) : (
+    <h1>Loading...</h1>
+  )}
+</div>; */}
