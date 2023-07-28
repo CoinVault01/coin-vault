@@ -5,7 +5,6 @@ import coinVault from "./SignUp-Image/coin-bg.png";
 import Username from "./SignUP-Components/UserName";
 import LegalName from "./SignUP-Components/LegalName";
 import EmailPassword from "./SignUP-Components/EmailPassword";
-import VerifyEmail from "./VerifyEmail";
 import Pin from "./SignUP-Components/Pin";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -63,8 +62,9 @@ const SignUp = () => {
         theme: "dark",
       });
 
-      // Save email in localStorage
+      // Save email and token in localStorage
       localStorage.setItem("email", user.email);
+      localStorage.setItem("token", response.data.token);
 
       setTimeout(() => {
         navigate("/verifyemail");
