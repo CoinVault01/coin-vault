@@ -12,7 +12,6 @@ import DashBoardHome from "./DashBoard/DashBoardHome/DashBoardHome";
 
 
 
-
 function App() {
   useEffect(() => {
     window.history.scrollRestoration = "manual";
@@ -30,7 +29,7 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
-          <Route path="/dashboardhome" element={<DashBoardHome/>} />
+          <Route path="/dashboardhome" element={<DashBoardHome />} />
         </Routes>
       </BrowserRouter>
     </>
