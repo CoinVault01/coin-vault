@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import DashBoardSideNav from '../DashBoardSideNav/DashBoardSideNav'
-import DashBoardTopHeader from '../DashBoardTopHeader/DashBoardTopHeader';
+// DashBoardRoutes.jsx
+import React, { useContext, useState } from "react";
+import DashBoardSideNav from "../DashBoardSideNav/DashBoardSideNav";
+import DashBoardTopHeader from "../DashBoardTopHeader/DashBoardTopHeader";
 
 const DashBoardRoutes = () => {
+  const savedfirstName = localStorage.getItem("firstName");
+  const savedlastName = localStorage.getItem("lastName");
   const [showNav, setShowNav] = useState(false);
 
   // Function to toggle the showNav state
@@ -15,10 +18,12 @@ const DashBoardRoutes = () => {
       <div className="">
         <DashBoardTopHeader showNav={showNav} toggleNav={toggleNav} />
         <DashBoardSideNav showNav={showNav} />
-      </div>
-      <p className="pt-[100px]"></p>
+          <p className="pt-[100px]">
+            Welcome, {savedfirstName} {savedlastName}
+          </p>
+        </div>
     </section>
   );
-}
+};
 
-export default DashBoardRoutes
+export default DashBoardRoutes;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../SignUp/SignUp.css";
 import axios from "axios";
 import coinVault from "./SignUp-Image/coin-bg.png";
