@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
-
 const VerifyEmail = () => {
   const savedEmail = localStorage.getItem("email");
   const navigate = useNavigate();
@@ -15,54 +14,44 @@ const VerifyEmail = () => {
   const [resend, setResend] = useState(false);
   const [countdown, setCountdown] = useState(120); // Countdown timer in seconds
   let timer = null;
-
   useEffect(() => {
     const countdownTimer = localStorage.getItem("countdownTimer");
     const savedTime = parseInt(localStorage.getItem("savedTime"), 10);
     const currentTime = Math.floor(Date.now() / 1000);
     const elapsedTime = currentTime - savedTime;
-
     if (countdownTimer && elapsedTime < countdown) {
       setCountdown(countdown - elapsedTime);
       startCountdown();
     } else {
       startCountdown();
     }
-
     return () => {
       clearInterval(timer);
     };
   }, []);
-
   const startCountdown = () => {
     const startTime = Math.floor(Date.now() / 1000);
     localStorage.setItem("savedTime", startTime.toString());
-
     timer = setInterval(() => {
       setCountdown((prevCountdown) => {
         const newCountdown = prevCountdown - 1;
         localStorage.setItem("countdownTimer", newCountdown.toString());
-
         if (newCountdown <= 0) {
           clearInterval(timer);
           localStorage.removeItem("countdownTimer");
         }
-
         return newCountdown;
       });
     }, 1000);
   };
-
   const handleVerifyEmail = async () => {
     try {
       setIsLoading(true); // Start loading
-
       const response = await axios.post(
         "https://coinvault.onrender.com/v1/auth/verify-email",
         { verificationCode }
       );
       const data = response.data;
-
       if (response.status === 200) {
         toast.success(data.message, {
           // Toast success message
@@ -75,7 +64,6 @@ const VerifyEmail = () => {
           progress: undefined,
           theme: "dark",
         });
-
         setTimeout(() => {
           navigate("/login");
         }, 2000);
@@ -95,11 +83,9 @@ const VerifyEmail = () => {
     } catch (error) {
       console.error("Error verifying email:", error);
       let errorMessage = "Failed to verify email. Please try again later.";
-
       if (error.response && error.response.data && error.response.data.error) {
         errorMessage = error.response.data.error;
       }
-
       toast.error(errorMessage, {
         // Toast error message
         position: "top-right",
@@ -115,10 +101,8 @@ const VerifyEmail = () => {
       setIsLoading(false); // Stop loading
     }
   };
-
   const handleResendCode = async () => {
     setResend(true); // Set the resend flag to true
-
     try {
       // Make the POST request
       const response = await axios.post(
@@ -127,13 +111,11 @@ const VerifyEmail = () => {
           email: savedEmail,
         }
       );
-
       // Check if the request was successful
       if (response.status === 200) {
         setCountdown(120); // Reset countdown to initial value
         startCountdown(); // Start the countdown again
       }
-
       // Show success toast message
       toast.success(response.data.message, {
         position: "top-right",
@@ -148,14 +130,11 @@ const VerifyEmail = () => {
     } catch (error) {
       // Error handling code
       console.error("Error resending verification code:", error);
-
       let errorMessage =
         "Failed to resend verification code. Please try again later.";
-
       if (error.response && error.response.data && error.response.data.error) {
         errorMessage = error.response.data.error;
       }
-
       toast.error(errorMessage, {
         position: "top-right",
         autoClose: 2000,
