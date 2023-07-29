@@ -6,6 +6,8 @@ import DashBoardTopHeader from "../DashBoardTopHeader/DashBoardTopHeader";
 const DashboardHome = () => {
   const [userData, setUserData] = useState(null);
   const [showNav, setShowNav] = useState(false);
+  const [greeting, setGreeting] = useState("");
+  const [activeText, setActiveText] = useState("Home");
 
   useEffect(() => {
     // Fetch user data from the backend using the JWT token
@@ -41,15 +43,43 @@ const DashboardHome = () => {
     setShowNav((prevShowNav) => !prevShowNav);
   };
 
+  useEffect(() => {
+    // Get the current hour
+    const currentHour = new Date().getHours();
+
+    // Set the appropriate greeting based on the time of day
+    if (currentHour >= 5 && currentHour < 12) {
+      setGreeting("Good Morning");
+    } else if (currentHour >= 12 && currentHour < 18) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
+    }
+  }, []);
+
+  const handleNavItemClicked = (text) => {
+    setActiveText(text);
+  };
+
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
       <div className="">
-        <DashBoardTopHeader showNav={showNav} toggleNav={toggleNav} />
-        <DashBoardSideNav showNav={showNav} />
-        <div className="pt-[100px]">
+        <DashBoardTopHeader
+          showNav={showNav}
+          toggleNav={toggleNav}
+          userData={userData}
+          activeText={activeText}
+        />
+        <DashBoardSideNav
+          showNav={showNav}
+          userData={userData}
+          onNavItemClicked={handleNavItemClicked}
+        />
+
+        <div className="pt-[100px] largeDevice:ml-[230px]">
           {userData && (
-            <h1>
-              Welcome, {userData.firstName} {userData.lastName}!
+            <h1 className="font-[poppins] capitalize text-[20px]">
+              {greeting}, {userData.firstName} {userData.lastName}!
             </h1>
           )}
         </div>
@@ -59,17 +89,3 @@ const DashboardHome = () => {
 };
 
 export default DashboardHome;
-
-
-{/* <div>
-  {userData ? (
-    <div>
-      <h1>
-        Welcome, {userData.firstName} {userData.lastName}!
-      </h1>
-      Render other dashboard components
-    </div>
-  ) : (
-    <h1>Loading...</h1>
-  )}
-</div>; */}
