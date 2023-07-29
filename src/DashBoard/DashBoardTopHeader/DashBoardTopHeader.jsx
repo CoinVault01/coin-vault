@@ -1,8 +1,53 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import coinvault from "./DashBoardTopHeader-Image/coin-bg.png";
+import axios from "axios";
 
-const DashBoardTopHeader = ({ showNav, toggleNav }) => {
+const DashBoardTopHeader = ({ showNav, toggleNav, userData, activeText }) => {
   const [showAsset, setShowAsset] = useState(false);
+  const [coins, setCoins] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredCoins, setFilteredCoins] = useState([]);
+
+  // Fetch the list of coins from CoinGecko API
+  useEffect(() => {
+    fetchCoins();
+  }, []);
+
+  const fetchCoins = async () => {
+    try {
+      const response = await axios.get(
+        "https://api.coingecko.com/api/v3/coins/markets",
+        {
+          params: {
+            vs_currency: "usd",
+            order: "market_cap_desc",
+            per_page: 100,
+            page: 1,
+            sparkline: false,
+          },
+        }
+      );
+      setCoins(response.data);
+    } catch (error) {
+      console.error("Error fetching coins:", error);
+    }
+  };
+
+  // Handle search logic
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredCoins([]);
+    } else {
+      const filtered = coins.filter((coin) => {
+        const lowerCaseQuery = searchQuery.toLowerCase();
+        return (
+          coin.name.toLowerCase().includes(lowerCaseQuery) ||
+          coin.symbol.toLowerCase().includes(lowerCaseQuery)
+        );
+      });
+      setFilteredCoins(filtered);
+    }
+  }, [searchQuery, coins]);
 
   return (
     <nav className="fixed z-50">
@@ -12,7 +57,9 @@ const DashBoardTopHeader = ({ showNav, toggleNav }) => {
         </div>
 
         <div className="generalDevice:hidden">
-          <p>Home</p>
+          <p className="text-[25px] font-[poppins] text-[rgb(165,177,189)]">
+            {activeText}
+          </p>
         </div>
 
         <div className="generalDevice:hidden flex gap-[20px]">
@@ -27,16 +74,23 @@ const DashBoardTopHeader = ({ showNav, toggleNav }) => {
               type="text"
               className="border-none outline-none w-[100%] bg-[rgb(32,37,43)] h-[30px]"
               placeholder="Search for assets"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           <div className="flex items-center gap-[10px] bg-[rgb(18,23,29)]  rounded-t-[5px] w-[150px] rounded-b-[5px] py-[3px] cursor-pointer">
             <div className="bg-[rgb(255,179,0)] px-[3px] py-[2px] rounded-full cursor-pointer ml-[5px]">
-              <p className="font-[600]">GA</p>
+              <p className="font-[600] uppercase">
+                {userData && userData.firstName && userData.firstName.charAt(0)}
+                {userData && userData.lastName && userData.lastName.charAt(0)}
+              </p>
             </div>
 
             <div className="flex items-center gap-[20px]">
-              <p>Gabriel...</p>
+              <p className="capitalize font-[poppins]">
+                {userData && userData.firstName}....
+              </p>
               <i className="fa-solid fa-chevron-right"></i>
             </div>
           </div>
@@ -65,7 +119,12 @@ const DashBoardTopHeader = ({ showNav, toggleNav }) => {
           </div>
 
           <div className="bg-[rgb(255,179,0)] px-[5px] py-[4px] rounded-full cursor-pointer">
-            <p className="font-[600]">GA</p>
+            <p className="font-[600]">
+              <p className="font-[600] uppercase">
+                {userData && userData.firstName && userData.firstName.charAt(0)}
+                {userData && userData.lastName && userData.lastName.charAt(0)}
+              </p>
+            </p>
           </div>
 
           <div className="cursor-pointer">
@@ -102,6 +161,8 @@ const DashBoardTopHeader = ({ showNav, toggleNav }) => {
             type="text"
             className="border-none outline-none w-[100%] bg-[rgb(32,37,43)] h-[50px] rounded-b-[8px] rounded-t-[8px]"
             placeholder="Search for assets"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <i
             className={`fa-solid fa-xmark font-[600] pr-[5px] cursor-pointer`}
@@ -113,13 +174,30 @@ const DashBoardTopHeader = ({ showNav, toggleNav }) => {
 
         <div className="mt-[20px] ml-[20px]">
           <p className="mb-[10px]">Assets</p>
-          <p className="flex items-center gap-[10px] text-[rgb(131,207,237)]">
-            <i className="fa-solid fa-magnifying-glass"></i> View all assets
-          </p>
+          {filteredCoins.length > 0 ? (
+            <ul>
+              {filteredCoins.map((coin) => (
+                <li
+                  key={coin.id}
+                  className="flex items-center gap-[5px] mb-[20px] cursor-pointer"
+                >
+                  <img src={coin.image} alt="" className="w-[25px]" />
+                  <p className="capitalize text-[15px]">{coin.name}</p>
+                  <p className="uppercase text-[12px] text-[rgb(125,139,151)] font-[600]">
+                    {coin.symbol}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="flex items-center gap-[10px] text-[rgb(131,207,237)]">
+              <i className="fa-solid fa-magnifying-glass"></i> View all assets
+            </p>
+          )}
         </div>
       </div>
     </nav>
   );
 };
 
-export default DashBoardTopHeader
+export default DashBoardTopHeader;
