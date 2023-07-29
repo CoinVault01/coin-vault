@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import coinvault from "./DashBoardTopHeader-Image/coin-bg.png";
 import axios from "axios";
 
@@ -177,15 +178,17 @@ const DashBoardTopHeader = ({ showNav, toggleNav, userData, activeText }) => {
           {filteredCoins.length > 0 ? (
             <ul>
               {filteredCoins.map((coin) => (
-                <li
-                  key={coin.id}
-                  className="flex items-center gap-[5px] mb-[20px] cursor-pointer"
-                >
-                  <img src={coin.image} alt="" className="w-[25px]" />
-                  <p className="capitalize text-[15px]">{coin.name}</p>
-                  <p className="uppercase text-[12px] text-[rgb(125,139,151)] font-[600]">
-                    {coin.symbol}
-                  </p>
+                <li key={coin.id}>
+                  <Link
+                    to={`/coin/${coin.id}`}
+                    className="flex items-center gap-[5px] mb-[20px] cursor-pointer"
+                  >
+                    <img src={coin.image} alt="" className="w-[25px]" />
+                    <span className="capitalize text-[15px]">{coin.name}</span>
+                    <span className="uppercase text-[12px] text-[rgb(125,139,151)] font-[600]">
+                      {coin.symbol}
+                    </span>
+                  </Link>
                 </li>
               ))}
             </ul>

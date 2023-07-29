@@ -9,6 +9,7 @@ import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import TermsAndConditions from "./Pages/TermsAndConditions/TermsAndConditions";
 import DashBoardHome from "./DashBoard/DashBoardHome/DashBoardHome";
+import CoinDetails from "./CoinDetailsPages/CoinDetails";
 
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
           <Route path="/dashboardhome" element={<DashBoardHome />} />
+          <Route path="/coin/:id" element={<CoinDetails/>} />
         </Routes>
       </BrowserRouter>
     </>
