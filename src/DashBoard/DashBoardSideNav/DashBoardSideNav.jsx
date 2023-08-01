@@ -33,7 +33,7 @@ const DashBoardSideNav = ({ showNav, onNavItemClicked }) => {
     <aside
       className={`${
         showNav ? "" : "generalDevice:right-[-100%]"
-      } bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed generalDevice:top-[70px] generalDevice:right-0 transition-all duration-[1s] ease-in-out`}
+      } bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed z-50 generalDevice:top-[70px] generalDevice:right-0 transition-all duration-[1s] ease-in-out`}
     >
       <div>
         <img
