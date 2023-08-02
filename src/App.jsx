@@ -31,7 +31,7 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
           <Route path="/dashboardhome" element={<DashBoardHome />} />
-          <Route path="/coin/:id" element={<CoinDetails/>} />
+          <Route path="/coin/:id" element={<CoinDetails />} />
         </Routes>
       </BrowserRouter>
     </>

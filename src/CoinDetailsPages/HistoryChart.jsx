@@ -115,8 +115,8 @@ const HistoryChart = () => {
 
   return (
     <section className="">
-      <div className="w-[90%] mx-auto max-w-[700px] border-[rgb(42,48,55)] border-[1px] py-[20px] px-[10px] rounded-[8px] bg-[rgb(32,37,43)]">
-        <div className="cursor-pointer flex gap-[10px] mb-[10px]">
+      <div className="w-[90%] mx-auto max-w-[700px] border-[rgb(42,48,55)] border-[1px] py-[20px] px-[10px] rounded-[8px] bg-[rgb(32,37,43)] mb-[50px]">
+        <div className="cursor-pointer flex gap-[10px] mb-[10px] smallerDevice:gap-[5px] select-none">
           <p
             className="bg-[rgb(22,26,31)] text-[rgb(25,83,179)] px-[10px] py-[5px] rounded-[5px] text-center font-[600]"
             onClick={() => handleIntervalClick("1H")}

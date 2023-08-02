@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import coinvault from "./DashBoardSideNav-Image/coin-bg.png"
+import React, { useState } from "react";
+import coinvault from "./DashBoardSideNav-Image/coin-bg.png";
 import "../DashBoardSideNav/DashBoardSideNav.css";
 
 const DashBoardSideNav = ({ showNav, onNavItemClicked }) => {
@@ -196,4 +196,4 @@ const DashBoardSideNav = ({ showNav, onNavItemClicked }) => {
   );
 };
 
-export default DashBoardSideNav
+export default DashBoardSideNav;
