@@ -47,7 +47,7 @@ const Login = () => {
 
       // Redirect to the homepage
       setTimeout(() => {
-        navigate("/dashboardhome");
+        navigate("/wallet-home");
       }, 2000);
     } catch (error) {
       // Show error toast

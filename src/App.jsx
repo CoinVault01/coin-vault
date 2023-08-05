@@ -10,13 +10,18 @@ import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import TermsAndConditions from "./Pages/TermsAndConditions/TermsAndConditions";
 import DashBoardHome from "./DashBoard/DashBoardHome/DashBoardHome";
 import CoinDetails from "./CoinDetailsPages/CoinDetails";
+import Buy from "./DashBoard/Buy-Assets/Buy";
+import Sell from "./DashBoard/Sell-Assets/Sell"
+import SwapCoin from "./DashBoard/SwapCoin/SwapCoin";
+import Cards from "./DashBoard/Cards/Cards";
+import Wallet from "./DashBoard/Wallet/Wallet";
+import Transactions from "./DashBoard/Transactions/Transactions";
+import Settings from "./DashBoard/Settings/Settings";
 
 
 
 function App() {
-  useEffect(() => {
-    window.history.scrollRestoration = "manual";
-  }, []);
+  
 
   return (
     <>
@@ -30,7 +35,14 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
-          <Route path="/dashboardhome" element={<DashBoardHome />} />
+          <Route path="/wallet-home" element={<DashBoardHome />} />
+          <Route path="/wallet-buy" element={<Buy />} />
+          <Route path="/wallet-sell" element={<Sell />} />
+          <Route path="/wallet-swapcoin" element={<SwapCoin />} />
+          <Route path="/wallet-cards" element={<Cards />} />
+          <Route path="/wallet-wallet" element={<Wallet />} />
+          <Route path="/wallet-transactions" element={<Transactions />} />
+          <Route path="/wallet-settings" element={<Settings />} />
           <Route path="/coin/:id" element={<CoinDetails />} />
         </Routes>
       </BrowserRouter>

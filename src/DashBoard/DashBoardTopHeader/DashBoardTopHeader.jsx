@@ -7,13 +7,13 @@ const DashBoardTopHeader = ({
   showNav,
   toggleNav,
   userData,
-  activeText,
+  activeLinkText,
 }) => {
   const [showAsset, setShowAsset] = useState(false);
   const [coins, setCoins] = useState([]);
+  const [selectedCoinName, setSelectedCoinName] = useState(""); // New state to store selected coin name and show asset toggle
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
-  const [selectedCoinName, setSelectedCoinName] = useState("");
 
   // Fetch the list of coins from CoinGecko API
   useEffect(() => {
@@ -57,6 +57,20 @@ const DashBoardTopHeader = ({
     }
   }, [searchQuery, coins]);
 
+  // Handle selecting a coin from the list
+  const handleSelectCoin = (coinName) => {
+    setSelectedCoinName(coinName);
+    setShowAsset(false);
+  };
+
+  useEffect(() => {
+    if (selectedCoinName) {
+      // Do something with the selected coin, like fetching data or updating UI
+      console.log("Selected coin:", selectedCoinName);
+    }
+  }, [selectedCoinName]);
+
+
   return (
     <nav className="fixed z-50">
       <div className="bg-[rgb(28,33,39)] generalDevice:w-[100%] h-[70px] border-b-[1px] border-b-[rgb(125,139,151)] fixed largeDevice:left-[230px] largeDevice:right-0 flex items-center justify-between px-[15px]">
@@ -66,7 +80,7 @@ const DashBoardTopHeader = ({
 
         <div className="generalDevice:hidden">
           <p className="text-[25px] font-[poppins] text-[rgb(165,177,189)]">
-            {selectedCoinName || activeText}
+            {activeLinkText || selectedCoinName}
           </p>
         </div>
 
@@ -185,11 +199,16 @@ const DashBoardTopHeader = ({
           {filteredCoins.length > 0 ? (
             <ul>
               {filteredCoins.map((coin) => (
-                <li key={coin.id}>
+                <li
+                  key={coin.id}
+                  onClick={() => {
+                    setShowAsset(false);
+                    handleSelectCoin(coin.name);
+                  }}
+                >
                   <Link
                     to={`/coin/${coin.id}`}
                     className="flex items-center gap-[5px] mb-[20px] cursor-pointer"
-                    onClick={() => setSelectedCoinName(coin.name)}
                   >
                     <img
                       src={coin.image}
