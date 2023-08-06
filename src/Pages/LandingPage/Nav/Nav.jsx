@@ -29,24 +29,6 @@ const Nav = () => {
     }
   };
 
-  const handleHover = (id) => {
-    const newShowBorder = [...active];
-    const index = newShowBorder.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      newShowBorder[index].isOpen = true;
-      setActive(newShowBorder);
-    }
-  };
-
-  const handleMouseLeave = (id) => {
-    const newShowBorder = [...active];
-    const index = newShowBorder.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      newShowBorder[index].isOpen = false;
-      setActive(newShowBorder);
-    }
-  };
-
   const handleClickOutside = (event) => {
     if (closenav2.current && !closenav2.current.contains(event.target)) {
       setCloseNav(false);
