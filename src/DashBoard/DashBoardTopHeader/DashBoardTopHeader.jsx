@@ -60,15 +60,7 @@ const DashBoardTopHeader = ({
   // Handle selecting a coin from the list
   const handleSelectCoin = (coinName) => {
     setSelectedCoinName(coinName);
-    setShowAsset(false);
   };
-
-  useEffect(() => {
-    if (selectedCoinName) {
-      // Do something with the selected coin, like fetching data or updating UI
-      console.log("Selected coin:", selectedCoinName);
-    }
-  }, [selectedCoinName]);
 
 
   return (
@@ -80,7 +72,7 @@ const DashBoardTopHeader = ({
 
         <div className="generalDevice:hidden">
           <p className="text-[25px] font-[poppins] text-[rgb(165,177,189)]">
-            {activeLinkText || selectedCoinName}
+            {activeLinkText || selectedCoinName || "Coin"}
           </p>
         </div>
 
@@ -199,16 +191,15 @@ const DashBoardTopHeader = ({
           {filteredCoins.length > 0 ? (
             <ul>
               {filteredCoins.map((coin) => (
-                <li
-                  key={coin.id}
-                  onClick={() => {
-                    setShowAsset(false);
-                    handleSelectCoin(coin.name);
-                  }}
-                >
+                <li key={coin.id}>
                   <Link
                     to={`/coin/${coin.id}`}
                     className="flex items-center gap-[5px] mb-[20px] cursor-pointer"
+                    onClick={() => {
+                      setShowAsset(false);
+                      handleSelectCoin(coin.name);
+                      setSearchQuery("")
+                    }}
                   >
                     <img
                       src={coin.image}
