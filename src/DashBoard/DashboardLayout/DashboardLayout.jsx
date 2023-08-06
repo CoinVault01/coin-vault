@@ -85,6 +85,7 @@ const DashboardLayout = () => {
         toggleNav={toggleNav}
         userData={userData}
         activeLinkText={activeLinkText}
+        setActiveLinkText={setActiveLinkText}
       />
       <DashBoardSideNav
         showNav={showNav}
