@@ -1,0 +1,27 @@
+.roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Add ellipsis to the text and hide overflow */
+.ellipsis-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit to three lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Add ellipsis to the title and hide overflow */
+.ellipsis-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    /* Limit to two lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Style for the "Read more" link */
+.read-more {
+    color: blue;
+    cursor: pointer;
+}
