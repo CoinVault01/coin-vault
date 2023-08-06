@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
+import HomeComponent from "./HomeComponent";
 
 const DashboardHome = () => {
+  
   
 
   return (
@@ -10,7 +12,7 @@ const DashboardHome = () => {
       <div>
         <DashboardLayout />
         <div className="pt-[100px] largeDevice:ml-[230px]">
-          Home
+          <HomeComponent/>
         </div>
       </div>
     </section>
