@@ -17,20 +17,24 @@ const DashBoardTopHeader = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
 
-  // Function to handle clicks outside the div
-  const handleClickOutside = (event) => {
-    if (assetRef.current && !assetRef.current.contains(event.target)) {
-      setShowAsset(false);
-    }
-  };
-
-  // Attach a click event listener on mount
+  // Handle click outside the div to hide it
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
+    const handleOutsideClick = (e) => {
+      if (assetRef.current && !assetRef.current.contains(e.target)) {
+        setShowAsset(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
+
+  const handleDivClick = () => {
+    setShowAsset(!showAsset);
+  };
 
   // Fetch the list of coins from CoinGecko API
   useEffect(() => {
@@ -94,13 +98,10 @@ const DashBoardTopHeader = ({
 
         <div className="generalDevice:hidden flex gap-[20px]">
           <div
-            ref={assetRef}
             className={`${
               showAsset ? "glowing-border" : ""
             } flex items-center gap-[10px] bg-[rgb(32,37,43)]  rounded-t-[5px] h-[35px] rounded-b-[5px]`}
-            onClick={() => {
-              setShowAsset(!showAsset);
-            }}
+            onClick={handleDivClick}
           >
             <i className="fa-solid fa-magnifying-glass pl-[5px]"></i>
             <input
@@ -142,13 +143,7 @@ const DashBoardTopHeader = ({
         </div>
 
         <div className="largeDevice:hidden flex gap-[20px] items-center">
-          <div
-            ref={assetRef}
-            className="cursor-pointer"
-            onClick={() => {
-              setShowAsset(!showAsset);
-            }}
-          >
+          <div className="cursor-pointer" onClick={handleDivClick}>
             <i className="fa-solid fa-magnifying-glass"></i>
           </div>
 
@@ -185,6 +180,7 @@ const DashBoardTopHeader = ({
       </div>
 
       <div
+        ref={assetRef}
         className={`${
           showAsset ? "block" : "hidden"
         } fixed top-[69px] w-[100%] largeDevice:w-[210px] h-[100%] largeDevice:h-auto border-[1px] border-[rgb(125,139,151)] largeDevice:rounded-t-[0px] largeDevice:rounded-b-[10px] rounded-t-[15px] largeDevice:right-[265px] bg-[rgb(28,33,39)]`}
