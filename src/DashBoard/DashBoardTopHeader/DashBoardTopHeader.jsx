@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import coinvault from "./DashBoardTopHeader-Image/coin-bg.png";
 import axios from "axios";
+import "../DashBoardTopHeader/DashBoardTopHeader.css"
 
 const DashBoardTopHeader = ({
   showNav,
@@ -9,11 +10,27 @@ const DashBoardTopHeader = ({
   userData,
   activeLinkText,
 }) => {
+  const assetRef = useRef(null);
   const [showAsset, setShowAsset] = useState(false);
   const [coins, setCoins] = useState([]);
   const [selectedCoinName, setSelectedCoinName] = useState(""); // New state to store selected coin name and show asset toggle
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
+
+  // Function to handle clicks outside the div
+  const handleClickOutside = (event) => {
+    if (assetRef.current && !assetRef.current.contains(event.target)) {
+      setShowAsset(false);
+    }
+  };
+
+  // Attach a click event listener on mount
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   // Fetch the list of coins from CoinGecko API
   useEffect(() => {
@@ -62,7 +79,6 @@ const DashBoardTopHeader = ({
     setSelectedCoinName(coinName);
   };
 
-
   return (
     <nav className="fixed z-50">
       <div className="bg-[rgb(28,33,39)] generalDevice:w-[100%] h-[70px] border-b-[1px] border-b-[rgb(125,139,151)] fixed largeDevice:left-[230px] largeDevice:right-0 flex items-center justify-between px-[15px]">
@@ -78,7 +94,10 @@ const DashBoardTopHeader = ({
 
         <div className="generalDevice:hidden flex gap-[20px]">
           <div
-            className="flex items-center gap-[10px] bg-[rgb(32,37,43)]  rounded-t-[5px] h-[35px] rounded-b-[5px]"
+            ref={assetRef}
+            className={`${
+              showAsset ? "glowing-border" : ""
+            } flex items-center gap-[10px] bg-[rgb(32,37,43)]  rounded-t-[5px] h-[35px] rounded-b-[5px]`}
             onClick={() => {
               setShowAsset(!showAsset);
             }}
@@ -173,7 +192,7 @@ const DashBoardTopHeader = ({
           <i className="fa-solid fa-magnifying-glass pl-[10px]"></i>
           <input
             type="text"
-            className="border-none outline-none w-[100%] bg-[rgb(32,37,43)] h-[50px] rounded-b-[8px] rounded-t-[8px]"
+            className={`border-none outline-none w-[100%] bg-[rgb(32,37,43)] h-[50px] rounded-b-[8px] rounded-t-[8px]`}
             placeholder="Search for assets"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -198,7 +217,7 @@ const DashBoardTopHeader = ({
                     onClick={() => {
                       setShowAsset(false);
                       handleSelectCoin(coin.name);
-                      setSearchQuery("")
+                      setSearchQuery("");
                     }}
                   >
                     <img
