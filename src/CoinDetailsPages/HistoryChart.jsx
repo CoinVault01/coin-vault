@@ -30,6 +30,28 @@ const HistoryChart = () => {
   const { id } = useParams();
   const [selectedInterval, setSelectedInterval] = useState("1D"); // Default to 1D
   const [coinChartData, setCoinChartData] = useState([]);
+  const [active, setActive] = useState([
+    { id: 1, isOpen: false },
+    { id: 2, isOpen: true },
+    { id: 3, isOpen: false },
+    { id: 4, isOpen: false },
+    { id: 5, isOpen: false },
+    { id: 6, isOpen: false },
+  ]);
+
+  const handleLinkClick = (id) => {
+    const newShowBorder = [...active];
+    const index = newShowBorder.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      newShowBorder[index].isOpen = true;
+      for (let i = 0; i < newShowBorder.length; i++) {
+        if (i !== index) {
+          newShowBorder[i].isOpen = false;
+        }
+      }
+      setActive(newShowBorder);
+    }
+  };
 
   const fetchChartData = async (interval) => {
     const response = await axios.get(
@@ -118,38 +140,80 @@ const HistoryChart = () => {
       <div className="w-[90%] mx-auto max-w-[700px] border-[rgb(42,48,55)] border-[1px] py-[20px] px-[10px] rounded-[8px] bg-[rgb(32,37,43)] mb-[50px]">
         <div className="cursor-pointer flex gap-[10px] mb-[10px] smallerDevice:gap-[5px] select-none">
           <p
-            className="bg-[rgb(22,26,31)] text-[rgb(25,83,179)] px-[10px] py-[5px] rounded-[5px] text-center font-[600]"
-            onClick={() => handleIntervalClick("1H")}
+            className={`${
+              active[0].isOpen
+                ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
+                : "bg-[rgb(22,26,31)]"
+            } px-[10px] py-[5px] rounded-[5px] text-center font-[600]`}
+            onClick={() => {
+              handleIntervalClick("1H");
+              handleLinkClick(active[0].id);
+            }}
           >
             1H
           </p>
           <p
-            className="bg-[rgb(22,26,31)] text-[rgb(25,83,179)] px-[10px] py-[5px] rounded-[5px] text-center font-[600]"
-            onClick={() => handleIntervalClick("1D")}
+            className={`${
+              active[1].isOpen
+                ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
+                : "bg-[rgb(22,26,31)]"
+            }  px-[10px] py-[5px] rounded-[5px] text-center font-[600]`}
+            onClick={() => {
+              handleIntervalClick("1D");
+              handleLinkClick(active[1].id);
+            }}
           >
             1D
           </p>
           <p
-            className="bg-[rgb(22,26,31)] text-[rgb(25,83,179)] px-[10px] py-[5px] rounded-[5px] text-center font-[600]"
-            onClick={() => handleIntervalClick("1W")}
+            className={`${
+              active[2].isOpen
+                ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
+                : "bg-[rgb(22,26,31)]"
+            } px-[10px] py-[5px] rounded-[5px] text-center font-[600]`}
+            onClick={() => {
+              handleIntervalClick("1W");
+              handleLinkClick(active[2].id);
+            }}
           >
             1W
           </p>
           <p
-            className="bg-[rgb(22,26,31)] text-[rgb(25,83,179)] px-[10px] py-[5px] rounded-[5px] text-center font-[600]"
-            onClick={() => handleIntervalClick("1M")}
+            className={`${
+              active[3].isOpen
+                ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
+                : "bg-[rgb(22,26,31)]"
+            } px-[10px] py-[5px] rounded-[5px] text-center font-[600]`}
+            onClick={() => {
+              handleIntervalClick("1M");
+              handleLinkClick(active[3].id);
+            }}
           >
             1M
           </p>
           <p
-            className="bg-[rgb(22,26,31)] text-[rgb(25,83,179)] px-[10px] py-[5px] rounded-[5px] text-center font-[600]"
-            onClick={() => handleIntervalClick("6M")}
+            className={`${
+              active[4].isOpen
+                ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
+                : "bg-[rgb(22,26,31)]"
+            } px-[10px] py-[5px] rounded-[5px] text-center font-[600]`}
+            onClick={() => {
+              handleIntervalClick("6M");
+              handleLinkClick(active[4].id);
+            }}
           >
             6M
           </p>
           <p
-            className="bg-[rgb(22,26,31)] text-[rgb(25,83,179)] px-[10px] py-[5px] rounded-[5px] text-center font-[600]"
-            onClick={() => handleIntervalClick("1Y")}
+            className={`${
+              active[5].isOpen
+                ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
+                : "bg-[rgb(22,26,31)]"
+            } px-[10px] py-[5px] rounded-[5px] text-center font-[600]`}
+            onClick={() => {
+              handleIntervalClick("1Y");
+              handleLinkClick(active[5].id);
+            }}
           >
             1Y
           </p>

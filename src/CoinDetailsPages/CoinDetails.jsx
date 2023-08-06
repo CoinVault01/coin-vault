@@ -60,6 +60,11 @@ const CoinDetails = () => {
     const handleNavItemClicked = (text) => {
       setActiveText(text);
     };
+
+    const formattedPrice =
+      coinData?.market_data?.current_price?.usd?.toLocaleString();
+
+
   
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh] pb-[40px]">
@@ -85,13 +90,15 @@ const CoinDetails = () => {
                 alt={coinData.name}
                 className="w-[30px] smallerDevice:w-[20px] block"
               />
-              <h2 className="text-[20px] smallerDevice:text-[15px] font-[600]">{coinData.name}</h2>
+              <h2 className="text-[20px] smallerDevice:text-[15px] font-[600]">
+                {coinData.name}
+              </h2>
               <h2 className="text-[20px] smallerDevice:text-[15px] text-[rgba(255,255,255,0.5)] font-[600] uppercase">
                 {coinData.symbol}
               </h2>
             </div>
             <p className="text-[25px] smallerDevice:text-[20px] font-[600]">
-              ${coinData.market_data.current_price.usd}
+              ${formattedPrice}
             </p>
           </div>
         ) : (
