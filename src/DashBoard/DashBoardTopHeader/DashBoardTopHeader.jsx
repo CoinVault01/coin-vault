@@ -143,6 +143,7 @@ const DashBoardTopHeader = ({
 
         <div className="largeDevice:hidden flex gap-[20px] items-center">
           <div
+            ref={assetRef}
             className="cursor-pointer"
             onClick={() => {
               setShowAsset(!showAsset);
