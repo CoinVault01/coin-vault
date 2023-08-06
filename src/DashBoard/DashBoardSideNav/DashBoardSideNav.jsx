@@ -23,11 +23,11 @@ const DashBoardSideNav = ({ showNav, setActiveLinkText }) => {
       </div>
 
       <div className="">
-        <p className="text-[rgb(124,138,150)] text-[14px] font-[600] mb-[20px] ml-[10px] generalDevice:mt-[20px]">
+        <p className="text-[rgb(124,138,150)] text-[14px] font-[600] mb-[20px] ml-[10px] smallDevice:mt-[20px]">
           Dashboard
         </p>
 
-        <div className="ml-[20px] mb-[40px] smallerDevice:mb-[15ypx]">
+        <div className="ml-[20px] mb-[40px] smallerDevice:mb-[15px]">
           <ul className="flex flex-col gap-[20px] smallDevice:gap-[25px] smallerDevice:gap-[10px]">
             <NavLink
               to="/wallet-home"
@@ -146,7 +146,7 @@ const DashBoardSideNav = ({ showNav, setActiveLinkText }) => {
           </p>
 
           <div className="ml-[20px] pb-[40px]">
-            <ul className="flex flex-col gap-[15px]">
+            <ul className="flex flex-col gap-[15px] smallerDevice:gap-[0px]">
               <NavLink
                 to="/wallet-settings"
                 className={`side-btn w-[80%] rounded-[8px] `}

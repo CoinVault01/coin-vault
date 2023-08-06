@@ -95,11 +95,11 @@ const HomeComponent = () => {
     <section className="w-[90%] mx-auto">
       {userData && (
         <div>
-          <h1 className="roboto capitalize text-[20px] largeDevice:text-[25px] mb-[5px]">
+          <h1 className="roboto capitalize text-[20px] largeDevice:text-[25px] mb-[5px] smallerDevice:text-[18px]">
             {greeting}, {userData.firstName} {userData.lastName}!
           </h1>
 
-          <p className="text-[rgb(167,177,188)] font-[poppins] mb-[80px]">
+          <p className="text-[rgb(167,177,188)] font-[poppins] generalDevice:mb-[40px] mb-[80px]">
             Checkout out what's on trending the NEWS
           </p>
         </div>
