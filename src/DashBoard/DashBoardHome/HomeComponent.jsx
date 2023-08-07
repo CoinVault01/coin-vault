@@ -53,9 +53,9 @@ const HomeComponent = () => {
     const currentHour = new Date().getHours();
 
     // Set the appropriate greeting based on the time of day
-    if (currentHour >= 5 && currentHour < 12) {
+    if (currentHour >= 0 && currentHour < 12) {
       setGreeting("Good Morning");
-    } else if (currentHour >= 12 && currentHour < 18) {
+    } else if (currentHour >= 12 && currentHour < 17) {
       setGreeting("Good Afternoon");
     } else {
       setGreeting("Good Evening");
