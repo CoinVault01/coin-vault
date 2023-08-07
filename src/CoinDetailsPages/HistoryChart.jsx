@@ -139,7 +139,7 @@ const HistoryChart = () => {
     <section className="">
       <div className="w-[90%] mx-auto max-w-[700px] border-[rgb(42,48,55)] border-[1px] py-[20px] px-[10px] rounded-[8px] bg-[rgb(32,37,43)] mb-[50px]">
         <div className="cursor-pointer flex gap-[10px] mb-[10px] smallerDevice:gap-[5px] select-none">
-          <p
+          <button
             className={`${
               active[0].isOpen
                 ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
@@ -151,8 +151,8 @@ const HistoryChart = () => {
             }}
           >
             1H
-          </p>
-          <p
+          </button>
+          <button
             className={`${
               active[1].isOpen
                 ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
@@ -164,8 +164,8 @@ const HistoryChart = () => {
             }}
           >
             1D
-          </p>
-          <p
+          </button>
+          <button
             className={`${
               active[2].isOpen
                 ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
@@ -177,8 +177,8 @@ const HistoryChart = () => {
             }}
           >
             1W
-          </p>
-          <p
+          </button>
+          <button
             className={`${
               active[3].isOpen
                 ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
@@ -190,8 +190,8 @@ const HistoryChart = () => {
             }}
           >
             1M
-          </p>
-          <p
+          </button>
+          <button
             className={`${
               active[4].isOpen
                 ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
@@ -203,8 +203,8 @@ const HistoryChart = () => {
             }}
           >
             6M
-          </p>
-          <p
+          </button>
+          <button
             className={`${
               active[5].isOpen
                 ? "bg-[rgb(22,26,31)] text-[rgb(25,83,179)] "
@@ -216,7 +216,7 @@ const HistoryChart = () => {
             }}
           >
             1Y
-          </p>
+          </button>
         </div>
         <Line options={options} data={data} />
       </div>
