@@ -1,0 +1,84 @@
+/*! card loading animation */
+.smallcard .card{
+width:100%;
+background-color: rgb(32, 37, 43);
+padding: 10px;
+border-radius: 3px;
+}
+.card__skeleton{
+background-image: linear-gradient(
+90deg, #ccc 0px, rgb(229 229 229 / 90%) 40px, #9d9595 80px
+);
+background-size: 300%;
+background-position: 100% 0 ;
+border-radius: inherit;
+position: relative;
+animation: shimmer 1.5s infinite;
+}
+.card-title{
+height: 15px;
+margin-bottom: 15px;
+}
+@keyframes shimmer {
+to{
+background-position: -100% 0;
+}
+}
+@keyframes placeHolderShimmer {
+0% {
+background-position: -468px 0
+}
+
+100% {
+background-position: 468px 0
+}
+}
+.smallcard .linear-background {
+animation-duration: 1.5s;
+animation-fill-mode: forwards;
+animation-iteration-count: infinite;
+animation-name: placeHolderShimmer;
+animation-timing-function: linear;
+background: rgb(32,37,43);
+background: linear-gradient(to right, #eeeeee 8%, #9d9595 18%, #9d959533);
+background-size: 1000px 104px;
+height: 200px;
+position: relative;
+overflow: hidden;
+}
+
+.inter-draw {
+background: rgb(32,37,43);
+width: 100%;
+height: 100px;
+position: absolute;
+top: 100px;
+}
+
+.inter-right--top {
+background: rgb(32,37,43);
+width: 100%;
+height: 20px;
+position: absolute;
+top: 20px;
+left: 100px;
+}
+
+.inter-right--bottom {
+background: rgb(32,37,43);
+width: 100%;
+height: 50px;
+position: absolute;
+top: 60px;
+left: 100px;
+}
+
+.inter-crop {
+background: rgb(32,37,43);
+width: 20px;
+height: 100%;
+position: absolute;
+top: 0;
+left: 100px;
+}
+/*! end of card animation */

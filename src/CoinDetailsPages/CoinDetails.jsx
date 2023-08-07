@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import HistoryChart from "./HistoryChart";
 import DashBoardSideNav from "../DashBoard/DashBoardSideNav/DashBoardSideNav";
 import DashBoardTopHeader from "../DashBoard/DashBoardTopHeader/DashBoardTopHeader";
+import { SmallCard } from "../Skeleton/Skeleton"
 
 const CoinDetails = () => {
      const { id } = useParams();
@@ -11,6 +12,7 @@ const CoinDetails = () => {
      const [userData, setUserData] = useState(null);
      const [showNav, setShowNav] = useState(false);
      const [activeText, setActiveText] = useState("Home");
+     const [loading, setLoading] = useState(true);
 
      useEffect(() => {
        const fetchCoinData = async () => {
@@ -43,8 +45,10 @@ const CoinDetails = () => {
            );
 
            setUserData(response.data);
+           setLoading(false);
          } catch (error) {
            console.error("Error fetching user data:", error);
+           setLoading(false);
          }
        };
 
@@ -64,7 +68,7 @@ const CoinDetails = () => {
     const formattedPrice =
       coinData?.market_data?.current_price?.usd?.toLocaleString();
 
-
+      
   
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh] pb-[40px]">
@@ -102,7 +106,7 @@ const CoinDetails = () => {
             </p>
           </div>
         ) : (
-          <p>Loading...</p>
+          <SmallCard />
         )}
         <HistoryChart />
         {coinData ? (
@@ -116,7 +120,7 @@ const CoinDetails = () => {
             </div>
           </>
         ) : (
-          <p>Loading...</p>
+          <SmallCard />
         )}
       </div>
     </section>

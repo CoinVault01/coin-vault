@@ -56,7 +56,6 @@ const DashBoardTopHeader = ({
         }
       );
       setCoins(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching coins:", error);
     }
