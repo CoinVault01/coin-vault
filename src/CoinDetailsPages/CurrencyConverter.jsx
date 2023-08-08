@@ -19,7 +19,9 @@ const CurrencyConverter = ({ coinData }) => {
     flag: usd, // Replace with the actual URL for the USD flag
   });
   const [cryptoAmount, setCryptoAmount] = useState("");
-  const [fiatAmount, setFiatAmount] = useState("");
+  const [fiatAmount, setFiatAmount] = useState(""); // Initialize as an empty string
+  const [fiatAmountFetched, setFiatAmountFetched] = useState(false); // Track whether fiat amount is fetched
+  const [validCryptoAmount, setValidCryptoAmount] = useState(false);
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -75,46 +77,61 @@ const CurrencyConverter = ({ coinData }) => {
     setCountryDropDown(true);
   };
 
-   useEffect(() => {
-     // Fetch the equivalent fiat amount whenever cryptoAmount or country.currency changes
-     fetchEquivalentFiatAmountForCountry(cryptoAmount, country.currency);
-   }, [cryptoAmount, country.currency]);
+  const handleCryptoAmountChange = (e) => {
+    const { value } = e.target;
+    // Remove any non-digit characters from the input value
+    const cleanedValue = value.replace(/[^0-9.]/g, "");
 
-   const handleCryptoAmountChange = (e) => {
-     const { value } = e.target;
-     // Remove any non-digit characters from the input value
-     const cleanedValue = value.replace(/[^0-9.]/g, "");
+    // Check if the cleaned value is a valid numeric value
+    const isValid = !isNaN(parseFloat(cleanedValue)) && isFinite(cleanedValue);
+    // Update the validCryptoAmount state
+    setValidCryptoAmount(isValid);
 
-     // Add commas to the cleaned value for better readability
-     const formattedValue = cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Add commas to the cleaned value for better readability
+    const formattedValue = cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Update the cryptoAmount state with the formatted value
+    setCryptoAmount(formattedValue);
+  };
 
-     // Update the cryptoAmount state with the formatted value
-     setCryptoAmount(formattedValue);
-   };
+  // ...
 
-   const fetchEquivalentFiatAmountForCountry = async (
-     cryptoValue,
-     fiatCurrency
-   ) => {
-     try {
-       // Remove commas from the cryptoValue before converting
-       const cleanedCryptoValue = cryptoValue.replace(/,/g, "");
-       const response = await axios.get(
-         `https://api.coingecko.com/api/v3/simple/price?ids=${coinData.id}&vs_currencies=${fiatCurrency}`
-       );
-       const cryptoToUsdRate =
-         response.data[coinData.id][fiatCurrency.toLowerCase()];
-       if (isNaN(cryptoToUsdRate) || isNaN(cleanedCryptoValue)) {
-         throw new Error("Invalid API response or input value");
-       }
-       const equivalentFiatValue =
-         parseFloat(cleanedCryptoValue) * cryptoToUsdRate;
-       setFiatAmount(equivalentFiatValue.toFixed(2));
-     } catch (error) {
-       console.error("Error fetching equivalent fiat amount:", error.message);
-       setFiatAmount("");
-     }
-   };
+  useEffect(() => {
+    // Fetch the equivalent fiat amount whenever cryptoAmount or country.currency changes
+    if (validCryptoAmount) {
+      fetchEquivalentFiatAmountForCountry(cryptoAmount, country.currency);
+    } else {
+      // If validCryptoAmount is false, reset the fiatAmount and fiatAmountFetched states
+      setFiatAmount("");
+      setFiatAmountFetched(false);
+    }
+  }, [cryptoAmount, country.currency, validCryptoAmount]);
+
+    const fetchEquivalentFiatAmountForCountry = async (
+      cryptoValue,
+      fiatCurrency
+    ) => {
+      try {
+        // Remove commas from the cryptoValue before converting
+        const cleanedCryptoValue = cryptoValue.replace(/,/g, "");
+        const response = await axios.get(
+          `https://api.coingecko.com/api/v3/simple/price?ids=${coinData.id}&vs_currencies=${fiatCurrency}`
+        );
+        const cryptoToUsdRate =
+          response.data[coinData.id][fiatCurrency.toLowerCase()];
+        if (isNaN(cryptoToUsdRate) || isNaN(cleanedCryptoValue)) {
+          throw new Error("Invalid API response or input value");
+        }
+        const equivalentFiatValue =
+          parseFloat(cleanedCryptoValue) * cryptoToUsdRate;
+        setFiatAmount(equivalentFiatValue.toFixed(2));
+        setFiatAmountFetched(true); // Set the fiatAmountFetched state to true on successful fetch
+      } catch (error) {
+        console.error("Error fetching equivalent fiat amount:", error.message);
+        setFiatAmount("");
+        setFiatAmountFetched(false); // Set fiatAmountFetched state to false on error
+      }
+    };
+
 
   const handleCountrySelect = (selectedCountry) => {
     setCountry({
@@ -124,8 +141,6 @@ const CurrencyConverter = ({ coinData }) => {
     setCountryDropDown(false);
     fetchEquivalentFiatAmountForCountry(cryptoAmount, selectedCountry.currency);
   };
-
-  
 
   return (
     <section>
@@ -217,8 +232,16 @@ const CurrencyConverter = ({ coinData }) => {
                 <input
                   type="text"
                   className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
-                  placeholder="Equivalent Amount"
-                  value={parseFloat(fiatAmount).toLocaleString()}
+                  placeholder={
+                    fiatAmountFetched && validCryptoAmount
+                      ? "Equivalent Amount"
+                      : "Enter Amount"
+                  } // Show "Enter Amount" when cryptoAmount is empty or not a valid number, or show "Equivalent Amount" if fetched
+                  value={
+                    fiatAmountFetched && validCryptoAmount
+                      ? parseFloat(fiatAmount).toLocaleString()
+                      : ""
+                  }
                   readOnly
                 />
               </div>
