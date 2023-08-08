@@ -90,7 +90,7 @@ const CoinDetails = () => {
       <div className="pt-[100px] largeDevice:ml-[230px]">
         {coinData ? (
           <div className="flex items-center gap-[30px] w-[90%] mx-auto max-w-[700px] mb-[20px]">
-            <div className="flex items-center gap-[10px] smallerDevice:gap-[5px] border-[rgb(42,48,55)] border-[1px] py-[10px] px-[20px]  rounded-[8px] bg-[rgb(32,37,43)]">
+            <div className="flex items-center gap-[10px] smallerDevice:gap-[5px] border-[rgb(42,48,55)] border-[1px] py-[10px] px-[20px] generalDevice:w-[230px] rounded-[8px] bg-[rgb(32,37,43)]">
               <img
                 src={coinData.image.large}
                 alt={coinData.name}
@@ -100,7 +100,7 @@ const CoinDetails = () => {
                 className="text-[20px] smallerDevice:text-[10px] font-[600] overflow-hidden whitespace-nowrap"
                 title={coinData.name}
                 style={{
-                  textOverflow: "ellipsis"
+                  textOverflow: "ellipsis",
                 }}
               >
                 {coinData.name}
@@ -109,17 +109,19 @@ const CoinDetails = () => {
                 {coinData.symbol}
               </h2>
             </div>
-            <p className="text-[25px] smallerDevice:text-[20px] font-[600]">
+            <p className="text-[25px] smallDevice:text-[20px] smallerDevice:text-[15px] font-[600]">
               ${formattedPrice}
             </p>
           </div>
         ) : (
-          <SmallCard />
+          <div className="w-[90%] mx-auto max-w-[700px] mb-[20px]">
+            <SmallCard />
+          </div>
         )}
       </div>
 
       <div className="largeDevice:ml-[230px]">
-        <CurrencyConverter coinData = {coinData} />
+        <CurrencyConverter coinData={coinData} />
       </div>
 
       <div className="largeDevice:ml-[230px]">
