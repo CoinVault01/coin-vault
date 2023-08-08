@@ -13,7 +13,6 @@ const DashBoardTopHeader = ({
   const assetRef = useRef(null);
   const [showAsset, setShowAsset] = useState(false);
   const [coins, setCoins] = useState([]);
-  const [selectedCoinName, setSelectedCoinName] = useState(""); // New state to store selected coin name and show asset toggle
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
 
@@ -77,9 +76,14 @@ const DashBoardTopHeader = ({
     }
   }, [searchQuery, coins]);
 
-  // Handle selecting a coin from the list
-  const handleSelectCoin = (coinName) => {
-    setSelectedCoinName(coinName);
+  const handleLinkClick = (coinId) => {
+    setShowAsset(false);
+    handleSelectCoin(coinId);
+    setSearchQuery("");
+    // Reload the page after a short delay (optional)
+    setTimeout(() => {
+      window.location.reload();
+    }, 500); // You can adjust the delay as needed.
   };
 
   return (
@@ -91,7 +95,7 @@ const DashBoardTopHeader = ({
 
         <div className="generalDevice:hidden">
           <p className="text-[25px] font-[poppins] text-[rgb(165,177,189)]">
-            {activeLinkText || selectedCoinName || "Coin"}
+            {activeLinkText || "Coin"}
           </p>
         </div>
 
@@ -213,6 +217,7 @@ const DashBoardTopHeader = ({
                     onClick={() => {
                       setShowAsset(false);
                       handleSelectCoin(coin.name);
+                      handleLinkClick(coin.id);
                       setSearchQuery("");
                     }}
                   >

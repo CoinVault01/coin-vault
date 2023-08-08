@@ -106,32 +106,31 @@ const CurrencyConverter = ({ coinData }) => {
     }
   }, [cryptoAmount, country.currency, validCryptoAmount]);
 
-    const fetchEquivalentFiatAmountForCountry = async (
-      cryptoValue,
-      fiatCurrency
-    ) => {
-      try {
-        // Remove commas from the cryptoValue before converting
-        const cleanedCryptoValue = cryptoValue.replace(/,/g, "");
-        const response = await axios.get(
-          `https://api.coingecko.com/api/v3/simple/price?ids=${coinData.id}&vs_currencies=${fiatCurrency}`
-        );
-        const cryptoToUsdRate =
-          response.data[coinData.id][fiatCurrency.toLowerCase()];
-        if (isNaN(cryptoToUsdRate) || isNaN(cleanedCryptoValue)) {
-          throw new Error("Invalid API response or input value");
-        }
-        const equivalentFiatValue =
-          parseFloat(cleanedCryptoValue) * cryptoToUsdRate;
-        setFiatAmount(equivalentFiatValue.toFixed(2));
-        setFiatAmountFetched(true); // Set the fiatAmountFetched state to true on successful fetch
-      } catch (error) {
-        console.error("Error fetching equivalent fiat amount:", error.message);
-        setFiatAmount("");
-        setFiatAmountFetched(false); // Set fiatAmountFetched state to false on error
+  const fetchEquivalentFiatAmountForCountry = async (
+    cryptoValue,
+    fiatCurrency
+  ) => {
+    try {
+      // Remove commas from the cryptoValue before converting
+      const cleanedCryptoValue = cryptoValue.replace(/,/g, "");
+      const response = await axios.get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${coinData.id}&vs_currencies=${fiatCurrency}`
+      );
+      const cryptoToUsdRate =
+        response.data[coinData.id][fiatCurrency.toLowerCase()];
+      if (isNaN(cryptoToUsdRate) || isNaN(cleanedCryptoValue)) {
+        throw new Error("Invalid API response or input value");
       }
-    };
-
+      const equivalentFiatValue =
+        parseFloat(cleanedCryptoValue) * cryptoToUsdRate;
+      setFiatAmount(equivalentFiatValue.toFixed(2));
+      setFiatAmountFetched(true); // Set the fiatAmountFetched state to true on successful fetch
+    } catch (error) {
+      console.error("Error fetching equivalent fiat amount:", error.message);
+      setFiatAmount("");
+      setFiatAmountFetched(false); // Set fiatAmountFetched state to false on error
+    }
+  };
 
   const handleCountrySelect = (selectedCountry) => {
     setCountry({
@@ -181,7 +180,7 @@ const CurrencyConverter = ({ coinData }) => {
                     : "border-[rgb(42,48,55)] border-[1px]"
                 }  rounded-[8px] bg-[rgb(28,33,39)] cursor-pointer flex gap-[10px] h-[50px]`}
               >
-                <div className="flex items-center gap-[8px] pl-[5px] pr-[40px] mr-[-9px]">
+                <div className="flex items-center gap-[8px] pl-[5px] pr-[60px] mr-[-9px]">
                   <img
                     src={coinData && coinData.image.large}
                     alt={coinData && coinData.name}
