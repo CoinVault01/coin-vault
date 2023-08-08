@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import coinVault from "./Login-Image/coin-bg.png";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
+import { isTokenExpired } from "../../JWT/token.Utils";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -69,6 +70,34 @@ const Login = () => {
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  // Function to check token expiration on component mount
+  const checkTokenExpiration = () => {
+    const token = localStorage.getItem("token");
+
+    if (token && isTokenExpired(token)) {
+      localStorage.removeItem("token"); // Remove the expired token
+      // Show a toast message indicating timeout
+      toast.warning("Session timeout. Please login again.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      // Redirect to the login page
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  };
+
+  useEffect(() => {
+    checkTokenExpiration();
+  }, []);
 
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">

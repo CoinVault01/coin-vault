@@ -5,6 +5,7 @@ import HistoryChart from "./HistoryChart";
 import DashBoardSideNav from "../DashBoard/DashBoardSideNav/DashBoardSideNav";
 import DashBoardTopHeader from "../DashBoard/DashBoardTopHeader/DashBoardTopHeader";
 import { SmallCard } from "../Skeleton/Skeleton"
+import CurrencyConverter from "./CurrencyConverter";
 
 const CoinDetails = () => {
      const { id } = useParams();
@@ -85,6 +86,7 @@ const CoinDetails = () => {
           onNavItemClicked={handleNavItemClicked}
         />
       </div>
+
       <div className="pt-[100px] largeDevice:ml-[230px]">
         {coinData ? (
           <div className="flex items-center gap-[30px] w-[90%] mx-auto max-w-[700px] mb-[20px]">
@@ -94,7 +96,13 @@ const CoinDetails = () => {
                 alt={coinData.name}
                 className="w-[30px] smallerDevice:w-[20px] block"
               />
-              <h2 className="text-[20px] smallerDevice:text-[10px] font-[600]">
+              <h2
+                className="text-[20px] smallerDevice:text-[10px] font-[600] overflow-hidden whitespace-nowrap"
+                title={coinData.name}
+                style={{
+                  textOverflow: "ellipsis"
+                }}
+              >
                 {coinData.name}
               </h2>
               <h2 className="text-[20px] smallerDevice:text-[10px] text-[rgba(255,255,255,0.5)] font-[600] uppercase">
@@ -108,6 +116,13 @@ const CoinDetails = () => {
         ) : (
           <SmallCard />
         )}
+      </div>
+
+      <div className="largeDevice:ml-[230px]">
+        <CurrencyConverter coinData = {coinData} />
+      </div>
+
+      <div className="largeDevice:ml-[230px]">
         <HistoryChart />
         {coinData ? (
           <>
