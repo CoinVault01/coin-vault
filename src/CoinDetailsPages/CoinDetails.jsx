@@ -137,7 +137,9 @@ const CoinDetails = () => {
             </div>
           </>
         ) : (
-          <SmallCard />
+          <div className="w-[90%] mx-auto max-w-[700px] mb-[20px]">
+            <SmallCard />
+          </div>
         )}
       </div>
     </section>
