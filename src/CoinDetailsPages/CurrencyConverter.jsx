@@ -3,6 +3,7 @@ import "./CoinDetails.css";
 import { countryData } from "./countryData";
 import usd from "../CoinDetailsPages/CoinDetailsImage/USD.png";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const CurrencyConverter = ({ coinData }) => {
   const inputRef = useRef(null);
@@ -12,13 +13,14 @@ const CurrencyConverter = ({ coinData }) => {
   const [glowingBorder2, setGlowingBorder2] = useState(false);
   const [countryDropDown, setCountryDropDown] = useState(false);
   const [country, setCountry] = useState({
-    code: "US",
+    code: "USD",
     name: "US Dollar",
     currency: "USD",
-    flag: usd,
+    flag: usd, // Replace with the actual URL for the USD flag
   });
+  const [cryptoAmount, setCryptoAmount] = useState("");
+  const [fiatAmount, setFiatAmount] = useState("");
 
-  // Handle click outside the div to hide it
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (inputRef.current && !inputRef.current.contains(e.target)) {
@@ -73,6 +75,58 @@ const CurrencyConverter = ({ coinData }) => {
     setCountryDropDown(true);
   };
 
+   useEffect(() => {
+     // Fetch the equivalent fiat amount whenever cryptoAmount or country.currency changes
+     fetchEquivalentFiatAmountForCountry(cryptoAmount, country.currency);
+   }, [cryptoAmount, country.currency]);
+
+   const handleCryptoAmountChange = (e) => {
+     const { value } = e.target;
+     // Remove any non-digit characters from the input value
+     const cleanedValue = value.replace(/[^0-9.]/g, "");
+
+     // Add commas to the cleaned value for better readability
+     const formattedValue = cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+     // Update the cryptoAmount state with the formatted value
+     setCryptoAmount(formattedValue);
+   };
+
+   const fetchEquivalentFiatAmountForCountry = async (
+     cryptoValue,
+     fiatCurrency
+   ) => {
+     try {
+       // Remove commas from the cryptoValue before converting
+       const cleanedCryptoValue = cryptoValue.replace(/,/g, "");
+       const response = await axios.get(
+         `https://api.coingecko.com/api/v3/simple/price?ids=${coinData.id}&vs_currencies=${fiatCurrency}`
+       );
+       const cryptoToUsdRate =
+         response.data[coinData.id][fiatCurrency.toLowerCase()];
+       if (isNaN(cryptoToUsdRate) || isNaN(cleanedCryptoValue)) {
+         throw new Error("Invalid API response or input value");
+       }
+       const equivalentFiatValue =
+         parseFloat(cleanedCryptoValue) * cryptoToUsdRate;
+       setFiatAmount(equivalentFiatValue.toFixed(2));
+     } catch (error) {
+       console.error("Error fetching equivalent fiat amount:", error.message);
+       setFiatAmount("");
+     }
+   };
+
+  const handleCountrySelect = (selectedCountry) => {
+    setCountry({
+      flag: selectedCountry.flag,
+      currency: selectedCountry.currency,
+    });
+    setCountryDropDown(false);
+    fetchEquivalentFiatAmountForCountry(cryptoAmount, selectedCountry.currency);
+  };
+
+  
+
   return (
     <section>
       <div className="w-[90%] mx-auto max-w-[700px] border-[rgb(42,48,55)] border-[1px] py-[20px] rounded-[8px] bg-[rgb(32,37,43)] mb-[50px]">
@@ -99,81 +153,9 @@ const CurrencyConverter = ({ coinData }) => {
 
         <div className="border-t-[1px] border-[rgb(50,56,63)]">
           <div className="w-[90%] mx-auto max-w-[] mt-[20px]">
-            <div className="mb-[40px] relative">
-              <p className="font-[600] text-[rgb(165,177,189)] mb-[5px]">
-                Amount
-              </p>
-
-              <div
-                ref={inputRef}
-                className={`${
-                  glowingBorder
-                    ? "glowing-border"
-                    : "border-[rgb(42,48,55)] border-[1px]"
-                }  rounded-[8px] bg-[rgb(28,33,39)] cursor-pointer flex gap-[10px] h-[50px] mb-[10px]`}
-              >
-                <div
-                  className="flex items-center gap-[8px] border-[rgb(42,48,55)] border-r-[2px] pl-[5px] pr-[40px] mr-[-9px]"
-                  onClick={() => {
-                    handleDivClick3();
-                  }}
-                >
-                  <img src={country.flag} alt="" className="block w-[30px]" />
-                  <p className="uppercase font-[600]">{country.currency}</p>
-                  <i className="fa-solid fa-chevron-down"></i>
-                </div>
-
-                <input
-                  type="text"
-                  className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
-                  placeholder="Enter Amount"
-                  onClick={() => {
-                    handleDivClick();
-                  }}
-                />
-              </div>
-
-              <div
-                ref={countryRef}
-                className={`${
-                  countryDropDown ? "block" : "hidden"
-                } border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] py-[10px] flex gap-[10px] relative`}
-              >
-                <ul className="flex flex-col gap-[15px] ml-[10px]">
-                  {countryData.map((countries) => {
-                    return (
-                      <li
-                        key={countries.code}
-                        className="flex gap-[10px] select-none cursor-pointer"
-                        onClick={() => {
-                          setCountry({
-                            flag: countries.flag,
-                            currency: countries.currency,
-                          });
-                          setCountryDropDown(false);
-                        }}
-                      >
-                        <img
-                          src={countries.flag}
-                          alt={countries.name}
-                          className="w-[25px]"
-                        />
-                        <p className="font-[600] text-[15px]">
-                          {countries.name}
-                        </p>
-                        <p className="font-[600] text-[12px] text-[rgb(165,177,189)]">
-                          {countries.currency}
-                        </p>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </div>
-
             <div className="mb-[40px]">
               <p className="font-[600] text-[rgb(165,177,189)] mb-[5px]">
-                You Get
+                Amount
               </p>
 
               <div
@@ -198,10 +180,78 @@ const CurrencyConverter = ({ coinData }) => {
                 <input
                   type="text"
                   className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
+                  placeholder="Enter Amount"
                   onClick={() => {
                     handleDivClick2();
                   }}
+                  value={cryptoAmount}
+                  onChange={handleCryptoAmountChange}
                 />
+              </div>
+            </div>
+
+            <div className="mb-[40px] relative">
+              <p className="font-[600] text-[rgb(165,177,189)] mb-[5px]">
+                You Get
+              </p>
+
+              <div
+                ref={inputRef}
+                className={`${
+                  glowingBorder
+                    ? "glowing-border"
+                    : "border-[rgb(42,48,55)] border-[1px]"
+                }  rounded-[8px] bg-[rgb(28,33,39)] cursor-pointer flex gap-[10px] h-[50px] mb-[10px]`}
+              >
+                <div
+                  className="flex items-center gap-[8px] border-[rgb(42,48,55)] border-r-[2px] pl-[5px] pr-[40px] mr-[-9px]"
+                  onClick={() => {
+                    handleDivClick3();
+                  }}
+                >
+                  <img src={country.flag} alt="" className="block w-[30px]" />
+                  <p className="uppercase font-[600]">{country.currency}</p>
+                  <i className="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <input
+                  type="text"
+                  className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
+                  placeholder="Equivalent Amount"
+                  value={parseFloat(fiatAmount).toLocaleString()}
+                  readOnly
+                />
+              </div>
+
+              <div
+                ref={countryRef}
+                className={`${
+                  countryDropDown ? "block" : "hidden"
+                } border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] py-[10px] flex gap-[10px] relative`}
+              >
+                <ul className="flex flex-col gap-[15px] ml-[10px]">
+                  {countryData.map((countries) => {
+                    return (
+                      <li
+                        key={countries.code}
+                        className="flex gap-[10px] select-none cursor-pointer"
+                        onClick={() => handleCountrySelect(countries)}
+                      >
+                        <img
+                          src={countries.flag}
+                          alt={countries.name}
+                          className="w-[25px]"
+                        />
+                        <p className="font-[600] text-[15px]">
+                          {countries.name}
+                        </p>
+                        <p className="font-[600] text-[12px] text-[rgb(165,177,189)]">
+                          {countries.currency}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             </div>
           </div>
