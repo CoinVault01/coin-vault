@@ -67,7 +67,7 @@ const UserName = ({ handleChange, handleNext, user }) => {
               <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
             </div>
             <input
-              className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
+              className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
               type="text"
               name="userName"
               placeholder="Username"

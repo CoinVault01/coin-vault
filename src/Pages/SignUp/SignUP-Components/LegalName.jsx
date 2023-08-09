@@ -67,7 +67,7 @@ const LegalName = ({
                 <i className="fa-solid fa-user text-[rgb(157,166,177)]"></i>
               </div>
               <input
-                className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600] capitalize"
+                className="user-input w-[100%] h-[100%] bg-[rgb(32,37,43)] pl-[20px] pb-[3px] pr-[20px] mr-[2px] font-[600]"
                 type="text"
                 name="firstName"
                 placeholder="First Name"
@@ -81,7 +81,7 @@ const LegalName = ({
           <div className="">
             <label
               htmlFor="lastName"
-              className="capitalize text-[rgb(157,166,177)] font-[600] pb-[3px] inline-block"
+              className="text-[rgb(157,166,177)] font-[600] pb-[3px] inline-block"
             >
               Last Name
             </label>

@@ -53,6 +53,12 @@ const VerifyEmail = () => {
       );
       const data = response.data;
       if (response.status === 200) {
+        // Clear the data from local storage
+        localStorage.removeItem("firstName");
+        localStorage.removeItem("lastName");
+        localStorage.removeItem("email");
+        localStorage.removeItem("username");
+
         toast.success(data.message, {
           // Toast success message
           position: "top-right",

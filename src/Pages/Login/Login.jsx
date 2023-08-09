@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import coinVault from "./Login-Image/coin-bg.png";
-import "./Login.css";
+import jwtDecode from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
-import { isTokenExpired } from "../../JWT/token.Utils";
+import { useAuthentication } from "../../Authentication/useAuthentication";
 
 const Login = () => {
+  const { setIsUserSignedIn } = useAuthentication()
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     try {
       const response = await axios.post(
@@ -28,13 +29,29 @@ const Login = () => {
         }
       );
 
-      console.log(response);
-
       const { token } = response.data;
-      // Store the token in localStorage or session storage
       localStorage.setItem("token", token);
+      setIsUserSignedIn(true); // Set authentication state
 
-      // Show success toast
+      const decodedToken = jwtDecode(token);
+      const tokenExpirationTime = decodedToken.exp * 1000;
+
+      const currentTime = Date.now();
+      const timeUntilExpiration = tokenExpirationTime - currentTime;
+      setTimeout(() => {
+        toast.error("Session timeout, please login again", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        navigate("/login");
+      }, timeUntilExpiration);
+
       toast.success("Login successful!", {
         position: "top-right",
         autoClose: 2000,
@@ -46,12 +63,10 @@ const Login = () => {
         theme: "dark",
       });
 
-      // Redirect to the homepage
       setTimeout(() => {
         navigate("/wallet-home");
       }, 2000);
     } catch (error) {
-      // Show error toast
       toast.error(error.response.data.error, {
         position: "top-right",
         autoClose: 2000,
@@ -63,41 +78,13 @@ const Login = () => {
         theme: "dark",
       });
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-
-  // Function to check token expiration on component mount
-  const checkTokenExpiration = () => {
-    const token = localStorage.getItem("token");
-
-    if (token && isTokenExpired(token)) {
-      localStorage.removeItem("token"); // Remove the expired token
-      // Show a toast message indicating timeout
-      toast.warning("Session timeout. Please login again.", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      // Redirect to the login page
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
-    }
-  };
-
-  useEffect(() => {
-    checkTokenExpiration();
-  }, []);
 
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
