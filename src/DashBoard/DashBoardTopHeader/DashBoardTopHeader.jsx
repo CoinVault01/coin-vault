@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import coinvault from "./DashBoardTopHeader-Image/coin-bg.png";
 import axios from "axios";
 import "../DashBoardTopHeader/DashBoardTopHeader.css"
@@ -116,21 +116,25 @@ const DashBoardTopHeader = ({
             />
           </div>
 
-          <div className="flex items-center gap-[10px] bg-[rgb(18,23,29)]  rounded-t-[5px] w-[150px] rounded-b-[5px] py-[3px] cursor-pointer">
-            <div className="bg-[rgb(255,179,0)] px-[3px] py-[2px] rounded-full cursor-pointer ml-[5px]">
-              <p className="font-[600] uppercase">
-                {userData && userData.firstName && userData.firstName.charAt(0)}
-                {userData && userData.lastName && userData.lastName.charAt(0)}
-              </p>
-            </div>
+          <NavLink to="/wallet-settings">
+            <div className="flex items-center gap-[10px] bg-[rgb(18,23,29)]  rounded-t-[5px] w-[150px] rounded-b-[5px] py-[3px] cursor-pointer">
+              <div className="bg-[rgb(255,179,0)] px-[3px] py-[2px] rounded-full cursor-pointer ml-[5px]">
+                <p className="font-[600] uppercase">
+                  {userData &&
+                    userData.firstName &&
+                    userData.firstName.charAt(0)}
+                  {userData && userData.lastName && userData.lastName.charAt(0)}
+                </p>
+              </div>
 
-            <div className="flex items-center gap-[20px]">
-              <p className="capitalize font-[poppins]">
-                {userData && userData.firstName}....
-              </p>
-              <i className="fa-solid fa-chevron-right"></i>
+              <div className="flex items-center gap-[20px]">
+                <p className="capitalize font-[poppins]">
+                  {userData && userData.firstName}....
+                </p>
+                <i className="fa-solid fa-chevron-right"></i>
+              </div>
             </div>
-          </div>
+          </NavLink>
 
           <div className="cursor-pointer mt-[8px]">
             <abbr title="Notification">
@@ -150,14 +154,18 @@ const DashBoardTopHeader = ({
             <i className="fa-solid fa-magnifying-glass"></i>
           </div>
 
-          <div className="bg-[rgb(255,179,0)] px-[5px] py-[4px] rounded-full cursor-pointer">
-            <p className="font-[600]">
-              <p className="font-[600] uppercase">
-                {userData && userData.firstName && userData.firstName.charAt(0)}
-                {userData && userData.lastName && userData.lastName.charAt(0)}
+          <NavLink to="/wallet-settings">
+            <div className="bg-[rgb(255,179,0)] px-[5px] py-[4px] rounded-full cursor-pointer">
+              <p className="font-[600]">
+                <p className="font-[600] uppercase">
+                  {userData &&
+                    userData.firstName &&
+                    userData.firstName.charAt(0)}
+                  {userData && userData.lastName && userData.lastName.charAt(0)}
+                </p>
               </p>
-            </p>
-          </div>
+            </div>
+          </NavLink>
 
           <div className="cursor-pointer">
             <abbr title="Notification">
