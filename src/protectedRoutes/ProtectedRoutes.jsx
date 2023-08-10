@@ -1,17 +1,44 @@
+import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
 import { Navigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProtectedRoutes = ({ children }) => {
   const token = localStorage.getItem("token");
 
-  // Check if the token is valid and not expired
-  if (isValidToken(token)) {
-    // Return the protected content if the token is valid and not expired
-    return children;
-  } else {
-    // Redirect to the login page if the token is invalid, expired, or not present
-    return <Navigate to="/login" />;
-  }
+  useEffect(() => {
+    // Check if the token is valid and not expired
+    if (token === null || !isValidToken(token)) {
+      // Clear the token from local storage
+      localStorage.removeItem("token");
+      // Show a toast message
+      toast.warn("User timeout. Please login.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      // Navigate to the login page after a short delay
+      const timeoutId = setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+      // Clean up the timeout on unmount
+      return () => clearTimeout(timeoutId);
+    }
+  }, [token]);
+
+  // If the token is valid, render the protected content
+  return (
+    <>
+      {children}
+      <ToastContainer hideProgressBar autoClose={3000} />
+    </>
+  );
 };
 
 // Function to check if the token is valid and not expired
