@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./Pages/LandingPage/Main/Main";
 import SignUp from "./Pages/SignUp/SignUp";
 import Login from "./Pages/Login/Login";
-import { useEffect, useState } from "react";
 import VerifyEmail from "./Pages/SignUp/VerifyEmail";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
@@ -18,11 +17,10 @@ import Wallet from "./DashBoard/Wallet/Wallet";
 import Transactions from "./DashBoard/Transactions/Transactions";
 import Settings from "./DashBoard/Settings/Settings";
 import ProtectedRoutes from "./protectedRoutes/ProtectedRoutes";
-import { useAuthentication } from "./Authentication/useAuthentication";
+
 
 function App() {
-  const { isUserSignedIn } = useAuthentication();
-  
+
   return (
     <>
       <BrowserRouter>
@@ -35,33 +33,77 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
-          <Route path="/wallet-home" element={<ProtectedRoutes />}>
-            <Route index element={<DashBoardHome />} />
-          </Route>
-          <Route path="/wallet-buy" element={<ProtectedRoutes />}>
-            <Route index element={<Buy />} />
-          </Route>
-          <Route path="/wallet-sell" element={<ProtectedRoutes />}>
-            <Route index element={<Sell/>} />
-          </Route>
-          <Route path="/wallet-swapcoin" element={<ProtectedRoutes />}>
-            <Route index element={<SwapCoin/>} />
-          </Route>
-          <Route path="/wallet-cards" element={<ProtectedRoutes />}>
-            <Route index element={<Cards/>} />
-          </Route>
-          <Route path="/wallet-wallet" element={<ProtectedRoutes />}>
-            <Route index element={<Wallet/>} />
-          </Route>
-          <Route path="/wallet-transactions" element={<ProtectedRoutes />}>
-            <Route index element={<Transactions/>} />
-          </Route>
-          <Route path="/wallet-settings" element={<ProtectedRoutes />}>
-            <Route index element={<Settings/>} />
-          </Route>
-          <Route path="/coin/:id" element={<ProtectedRoutes />}>
-            <Route index element={<CoinDetails/>} />
-          </Route>
+          <Route
+            path="/wallet-home"
+            element={
+              <ProtectedRoutes>
+                <DashBoardHome />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/wallet-buy"
+            element={
+              <ProtectedRoutes>
+                <Buy />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/wallet-sell"
+            element={
+              <ProtectedRoutes>
+                <Sell />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/wallet-swapcoin"
+            element={
+              <ProtectedRoutes>
+                <SwapCoin />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/wallet-cards"
+            element={
+              <ProtectedRoutes>
+                <Cards />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/wallet-wallet"
+            element={
+              <ProtectedRoutes>
+                <Wallet />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/wallet-transactions"
+            element={
+              <ProtectedRoutes>
+                <Transactions />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/wallet-settings"
+            element={
+              <ProtectedRoutes>
+                <Settings />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/coin/:id"
+            element={
+            <ProtectedRoutes>
+              <CoinDetails/>
+            </ProtectedRoutes>}
+          />
         </Routes>
       </BrowserRouter>
     </>
