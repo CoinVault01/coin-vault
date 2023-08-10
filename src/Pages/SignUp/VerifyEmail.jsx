@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
+
+
 const VerifyEmail = () => {
   const savedEmail = localStorage.getItem("email");
   const navigate = useNavigate();

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import coinVault from "./Login-Image/coin-bg.png";
-import jwtDecode from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
-import { useAuthentication } from "../../Authentication/useAuthentication";
 
 const Login = () => {
-  const { setIsUserSignedIn } = useAuthentication()
+  
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -27,30 +25,11 @@ const Login = () => {
           userName,
           password,
         }
-      );
-
+      )
       const { token } = response.data;
       localStorage.setItem("token", token);
-      setIsUserSignedIn(true); // Set authentication state
 
-      const decodedToken = jwtDecode(token);
-      const tokenExpirationTime = decodedToken.exp * 1000;
 
-      const currentTime = Date.now();
-      const timeUntilExpiration = tokenExpirationTime - currentTime;
-      setTimeout(() => {
-        toast.error("Session timeout, please login again", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-        navigate("/login");
-      }, timeUntilExpiration);
 
       toast.success("Login successful!", {
         position: "top-right",

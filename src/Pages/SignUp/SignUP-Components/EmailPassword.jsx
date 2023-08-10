@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ThreeCircles } from "react-loader-spinner";
 
-
 const EmailPassword = ({
   handleSubmit,
   handleChange,
   handlePrevious,
   user,
-  isLoading
+  isLoading,
 }) => {
   const savedfirstName = localStorage.getItem("firstName");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -124,7 +123,7 @@ const EmailPassword = ({
               !isFormValid ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleSubmit}
-            disabled={!isFormValid}
+            disabled={!isFormValid || isLoading}
           >
             {isLoading ? (
               <div className="w-[30px] mx-auto">
@@ -138,7 +137,6 @@ const EmailPassword = ({
                   ariaLabel="three-circles-rotating"
                   outerCircleColor=""
                   innerCircleColor=""
-                  
                   middleCircleColor=""
                 />
               </div>
