@@ -3,6 +3,7 @@ import axios from "axios";
 import DashBoardSideNav from "../DashBoardSideNav/DashBoardSideNav";
 import DashBoardTopHeader from "../DashBoardTopHeader/DashBoardTopHeader";
 import { useLocation } from "react-router-dom"; // Import useLocation hook
+import Logout from "../../Pages/LogOut/Logout";
 
 const DashboardLayout = () => {
   const [userData, setUserData] = useState(null);
@@ -90,6 +91,7 @@ const DashboardLayout = () => {
       <DashBoardSideNav
         showNav={showNav}
         setActiveLinkText={setActiveLinkText}
+        setShowNav={setShowNav}
       />
     </section>
   );
