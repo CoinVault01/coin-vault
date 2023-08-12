@@ -61,6 +61,9 @@ const VerifyEmail = () => {
         localStorage.removeItem("email");
         localStorage.removeItem("username");
 
+        const { token } = response.data;
+        localStorage.setItem("token", token);
+
         toast.success(data.message, {
           // Toast success message
           position: "top-right",
@@ -73,7 +76,7 @@ const VerifyEmail = () => {
           theme: "dark",
         });
         setTimeout(() => {
-          navigate("/login");
+          navigate("/wallet-home");
         }, 2000);
       } else {
         toast.error(data.error, {

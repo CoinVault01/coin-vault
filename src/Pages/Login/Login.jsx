@@ -7,7 +7,6 @@ import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
 
 const Login = () => {
-  
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
