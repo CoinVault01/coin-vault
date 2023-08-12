@@ -1,0 +1,43 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+const SecuritySettings = () => {
+  
+  return (
+    <section>
+      <div className="w-[90%] mx-auto my-[25px]">
+        <p className="font-[poppins] font-[600] text-[rgb(165,177,189)] mb-[20px]">
+          Security
+        </p>
+
+        <div className="border-[1px] border-[rgb(50,56,63)] rounded-[10px] bg-[rgb(32,37,43)]">
+          <div className="border-b-[1px] border-[rgb(50,56,63)] w-[90%] mx-auto my-[20px] flex justify-between items-center">
+            <h1 className="font-[poppins] font-[600] text-[rgb(165,177,189)]">
+              Change Password
+            </h1>
+
+            <div className="mb-[5px]">
+              <button className="bg-[rgb(0,105,255)] py-[5px] px-[10px] rounded-[5px]">
+                <i className="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+            </div>
+          </div>
+
+          <div className="border-b-[1px] border-[rgb(50,56,63)] w-[90%] mx-auto my-[20px] flex justify-between items-center">
+            <h1 className="font-[poppins] font-[600] text-[rgb(165,177,189)]">
+              Change PIN
+            </h1>
+
+            <div className="mb-[5px]">
+              <button className="bg-[rgb(0,105,255)] py-[5px] px-[10px] rounded-[5px]">
+                <i className="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default SecuritySettings;
