@@ -39,6 +39,7 @@ const HomeComponent = () => {
           }
         );
         setUserData(response.data);
+        console.log(response.data);
         setBrowserLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
