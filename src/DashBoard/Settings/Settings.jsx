@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "../Settings/settings.css"
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import DefaultImage from "../Settings/SettingsImage/default.png";
 import ProfileSettings from "./ProfileSettings";
 import SecuritySettings from "./SecuritySettings";
 import axios from "axios";
 import UploadProfilePicture from "./UploadProfilePicture";
-import { SmallCard } from "../../Skeleton/Skeleton";
 import { ThreeCircles } from "react-loader-spinner";
 
 const Settings = () => {
