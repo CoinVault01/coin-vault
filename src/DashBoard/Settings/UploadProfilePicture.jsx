@@ -98,6 +98,57 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
     }
   };
 
+  const handleDeleteProfileImage = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.delete(
+        `https://coinvault.onrender.com/delete-profile-image/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Update the user data and selectedFile state after successful deletion
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        profileImage: null,
+      }));
+      setSelectedFile(null);
+
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete profile image", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
   const openFileInput = () => {
     fileInputRef.current.click();
   };
@@ -138,8 +189,11 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
             )}
           </div>
 
-          <div className="absolute top-[85px] right-[0] rounded-full bg-[rgb(38,57,81)] px-[9px] py-[5px]">
-            <i className="fa-solid fa-trash text-[red]"></i>
+          <div
+            className="absolute top-[85px] right-[0] rounded-full bg-[rgb(38,57,81)] px-[9px] py-[5px] select-none"
+            onClick={handleDeleteProfileImage}
+          >
+            <i className="fa-solid fa-trash text-[red] select-none"></i>
           </div>
         </div>
       </div>
@@ -147,7 +201,7 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
       <div className="w-[90%] mx-auto text-center bg-[rgb(38,57,81)] text-[rgb(45,136,255)] rounded-[8px] py-[5px] mb-[20px]">
         <label
           htmlFor="fileInput"
-          className="flex items-center justify-center gap-[10px] cursor-pointer"
+          className="flex items-center justify-center gap-[10px] cursor-pointer w-[100%]"
           onClick={openFileInput}
         >
           <i className="fa-solid fa-plus"></i>
@@ -163,7 +217,11 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
       </div>
 
       <div className="w-[90%] mx-auto text-center bg-[rgb(38,57,81)] text-[rgb(45,136,255)] rounded-[8px] py-[5px] mb-[10px] cursor-pointer">
-        <button onClick={handleUpload} disabled={isLoading}>
+        <button
+          onClick={handleUpload}
+          className="block w-[100%]"
+          disabled={isLoading}
+        >
           {isLoading ? (
             <div className="w-[30px] mx-auto">
               <ThreeCircles
