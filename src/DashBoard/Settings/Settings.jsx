@@ -1,53 +1,91 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
-import DefaultImage from "../Settings/SettingsImage/default.png"
+import DefaultImage from "../Settings/SettingsImage/default.png";
 import ProfileSettings from "./ProfileSettings";
 import SecuritySettings from "./SecuritySettings";
+import axios from "axios";
+import UploadProfilePicture from "./UploadProfilePicture";
+import { ThreeCircles } from "react-loader-spinner";
 
 const Settings = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
+  const [imageModal, setImageModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // New state to track loading
 
   useEffect(() => {
-    // Fetch user data from the backend using the JWT token
+    // Fetch user data here using an API endpoint
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          // Redirect to login if token not found
-          return;
-        }
-        // Make the API request to fetch user data
         const response = await axios.get(
           "https://coinvault.onrender.com/v1/auth/user",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
-        console.log("API Response:", response.data); // Add this line
         setUserData(response.data);
+        setIsLoading(false); // Set loading state to false after data is fetched
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error(error);
+        setIsLoading(false); // Set loading state to false even if there's an error
       }
     };
+
     fetchUserData();
   }, []);
 
+  const handleModalToggle = () => {
+    setImageModal(true);
+  };
+
+
+
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
-      <div>
+      <div className="settings-section">
         <DashboardLayout />
+
         <div className="pt-[100px] largeDevice:ml-[230px] pb-[20px]">
-          <div className="flex justify-center items-center rounded-full bg-[#ffffffe5] pt-[5px] max-w-[100px] mx-auto relative cursor-pointer">
-            <img
-              src={DefaultImage}
-              alt=""
-              className="block w-[100%] rounded-full"
-            />
-            <div className="absolute top-[65px] right-[0] rounded-full bg-[rgb(36,37,38)] px-[9px] py-[5px]">
-              <i className="fa-solid fa-camera text-[rgb(228,230,234)]"></i>
+          {isLoading ? (
+            <div className="flex items-center justify-center max-w-[500px] mx-auto">
+              <ThreeCircles
+                height="50"
+                width="50"
+                color="rgb(160,210,254)"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="three-circles-rotating"
+                outerCircleColor=""
+                innerCircleColor=""
+                middleCircleColor=""
+              />
             </div>
+          ) : (
+            <div className="flex items-center justify-center rounded-full bg-[#ffffffe5] max-w-[130px] mx-auto relative cursor-pointer">
+              <div className="w-[100%]">
+                <img
+                  src={userData.profileImage || DefaultImage}
+                  alt=""
+                  className="profile-image block w-[100%] h-[130px] rounded-full object-cover"
+                />
+              </div>
+              <div className="absolute top-[85px] right-[0] rounded-full bg-[rgb(38,57,81)] px-[9px] py-[5px]">
+                <i
+                  className="fa-solid fa-camera text-[rgb(228,230,234)]"
+                  onClick={handleModalToggle}
+                ></i>
+              </div>
+            </div>
+          )}
+
+          <div className="w-[90%] max-w-[500px] mx-auto">
+            <UploadProfilePicture
+              userId={userData.userId}
+              imageModal={imageModal}
+              setImageModal={setImageModal}
+            />
           </div>
 
           <ProfileSettings />
