@@ -1,7 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import DeleteAccount from "./DeleteAccount";
 
 const SecuritySettings = () => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(true)
+  }
 
   
   return (
@@ -30,12 +36,22 @@ const SecuritySettings = () => {
             </h1>
 
             <div className="mb-[5px]">
-              <button className="bg-[rgb(248,81,73)] py-[5px] px-[10px] rounded-[5px]">
+              <button
+                className="bg-[rgb(248,81,73)] py-[5px] px-[10px] rounded-[5px]"
+                onClick={handleCloseDeleteModal}
+              >
                 Delete
               </button>
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="">
+        <DeleteAccount
+          deleteModal={deleteModal}
+          setDeleteModal={setDeleteModal}
+        />
       </div>
     </section>
   );

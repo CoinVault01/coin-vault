@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import warning from "../LogOut/LogoutImage/warning.svg"
 import "./Logout.css"
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Logout = ({ closeLogout, handleLogout }) => {
   const navigate = useNavigate()
