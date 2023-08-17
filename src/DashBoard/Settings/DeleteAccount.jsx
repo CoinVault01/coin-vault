@@ -46,7 +46,7 @@ const DeleteAccount = ({deleteModal, setDeleteModal}) => {
         setIsDeleting(true);
 
         const response = await axios.delete(
-          `http://localhost:8080/delete-account/${userData.userId}`,
+          `https://coinvault.onrender.com/delete-account/${userData.userId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
