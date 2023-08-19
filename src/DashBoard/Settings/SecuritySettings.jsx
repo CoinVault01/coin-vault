@@ -1,14 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DeleteAccount from "./DeleteAccount";
 
 const SecuritySettings = () => {
   const [deleteModal, setDeleteModal] = useState(false)
+  
 
   const handleCloseDeleteModal = () => {
     setDeleteModal(true)
   }
-
   
   return (
     <section>

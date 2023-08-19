@@ -6,6 +6,7 @@ import SecuritySettings from "./SecuritySettings";
 import axios from "axios";
 import UploadProfilePicture from "./UploadProfilePicture";
 import { ThreeCircles } from "react-loader-spinner";
+import UpdateName from "./UpdateName";
 
 const Settings = () => {
   const [userData, setUserData] = useState({});
