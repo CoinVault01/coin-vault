@@ -4,6 +4,7 @@ import coinvault from "./DashBoardTopHeader-Image/coin-bg.png";
 import axios from "axios";
 import "../DashBoardTopHeader/DashBoardTopHeader.css"
 import Logout from "../../Pages/LogOut/Logout";
+import { ThreeCircles } from "react-loader-spinner";
 
 const DashBoardTopHeader = ({
   showNav,
@@ -17,10 +18,13 @@ const DashBoardTopHeader = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [closeLogout, setCloseLogout] = useState(false);
+  const [userProfileData, setUserProfileData] = useState({});
 
   const handleLogout = () => {
     setCloseLogout(false);
   };
+
+  
 
   // Handle click outside the div to hide it
   useEffect(() => {
@@ -125,16 +129,39 @@ const DashBoardTopHeader = ({
 
             <NavLink to="/wallet-settings">
               <div className="flex items-center gap-[10px] bg-[rgb(18,23,29)]  rounded-t-[5px] w-[150px] rounded-b-[5px] py-[3px] cursor-pointer">
-                <div className="bg-[rgb(255,179,0)] px-[3px] py-[2px] rounded-full cursor-pointer ml-[5px]">
-                  <p className="font-[600] uppercase">
-                    {userData &&
-                      userData.firstName &&
-                      userData.firstName.charAt(0)}
-                    {userData &&
-                      userData.lastName &&
-                      userData.lastName.charAt(0)}
-                  </p>
-                </div>
+                {!userData ? (
+                  <div className="w-[30px] mx-auto">
+                    <ThreeCircles
+                      height="25"
+                      width="25"
+                      color="rgb(160,210,254)"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                      visible={true}
+                      ariaLabel="three-circles-rotating"
+                      outerCircleColor=""
+                      innerCircleColor=""
+                      middleCircleColor=""
+                    />
+                  </div>
+                ) : (
+                  <div className="bg-[rgb(255,179,0)] w-[28px] h-[28px] rounded-full flex justify-center items-center cursor-pointer text-[14px]">
+                    {userData.profileImage === null ? (
+                      <p className="font-[600] uppercase text-[white]">
+                        {userData.firstName && userData.firstName.charAt(0)}
+                        {userData.lastName && userData.lastName.charAt(0)}
+                      </p>
+                    ) : (
+                      <div className="w-[30px] h-[30px] flex justify-center items-center cursor-pointer">
+                        <img
+                          src={userData.profileImage}
+                          alt=""
+                          className="block w-[100%] h-[30px] rounded-full object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="flex items-center gap-[20px]">
                   <p className="capitalize font-[poppins]">
@@ -169,18 +196,39 @@ const DashBoardTopHeader = ({
             </div>
 
             <NavLink to="/wallet-settings">
-              <div className="bg-[rgb(255,179,0)] px-[5px] py-[4px] rounded-full cursor-pointer">
-                <p className="font-[600]">
-                  <p className="font-[600] uppercase">
-                    {userData &&
-                      userData.firstName &&
-                      userData.firstName.charAt(0)}
-                    {userData &&
-                      userData.lastName &&
-                      userData.lastName.charAt(0)}
-                  </p>
-                </p>
-              </div>
+              {!userData ? (
+                <div className="w-[30px] mx-auto">
+                  <ThreeCircles
+                    height="25"
+                    width="25"
+                    color="rgb(160,210,254)"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel="three-circles-rotating"
+                    outerCircleColor=""
+                    innerCircleColor=""
+                    middleCircleColor=""
+                  />
+                </div>
+              ) : (
+                <div className="bg-[rgb(255,179,0)] w-[28px] h-[28px] rounded-full flex justify-center items-center cursor-pointer text-[14px]">
+                  {userData.profileImage === null ? (
+                    <p className="font-[600] uppercase text-[white]">
+                      {userData.firstName && userData.firstName.charAt(0)}
+                      {userData.lastName && userData.lastName.charAt(0)}
+                    </p>
+                  ) : (
+                    <div className="w-[30px] h-[30px] flex justify-center items-center cursor-pointer">
+                      <img
+                        src={userData.profileImage}
+                        alt=""
+                        className="block w-[100%] h-[30px] rounded-full object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
             </NavLink>
 
             <div className="cursor-pointer">
@@ -270,10 +318,7 @@ const DashBoardTopHeader = ({
       </nav>
 
       <div className="">
-        <Logout
-          closeLogout={closeLogout}
-          handleLogout={handleLogout}
-        />
+        <Logout closeLogout={closeLogout} handleLogout={handleLogout} />
       </div>
     </section>
   );
