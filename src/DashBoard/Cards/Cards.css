@@ -1,0 +1,8 @@
+.cards-transform {
+    margin: 80px 0;
+    rotate: z 90deg;
+}
+
+.swiper-3d .swiper-slide-shadow {
+    background: none;
+}
