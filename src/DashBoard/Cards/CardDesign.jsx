@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/effect-cards";
 import { EffectCards } from "swiper";
+import { Autoplay, FreeMode } from "swiper";
 import "./Cards.css";
 import firstCard from "../Cards/CardImage/CoinVault-card-1.png";
 import secondCard from "../Cards/CardImage/CoinVault-card-2.png";
@@ -71,11 +72,7 @@ const CardDesign = ({ userId }) => {
       >
         <div className="mt-[20px] mb-[40px] w-[80%] max-w-[350px] mx-auto cursor-pointer">
           {selectedCard ? (
-            <img
-              src={selectedCard}
-              alt=""
-              className="w-full rounded-[8px]"
-            />
+            <img src={selectedCard} alt="" className="w-full rounded-[8px]" />
           ) : (
             // Only display the loading spinner if selectedCard is not null
             userId && (
@@ -107,7 +104,11 @@ const CardDesign = ({ userId }) => {
           <Swiper
             effect={"cards"}
             grabCursor={true}
-            modules={[EffectCards]}
+            autoplay={{
+              delay: 1500,
+              disableOnInteraction: false,
+            }}
+            modules={[EffectCards, Autoplay, FreeMode]}
             className="mySwiper"
           >
             <SwiperSlide>
