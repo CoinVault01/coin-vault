@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/effect-cards";
 import { EffectCards } from "swiper";
@@ -9,15 +9,58 @@ import thirdCard from "../Cards/CardImage/CoinVault-card-3.png";
 import fourthCard from "../Cards/CardImage/CoinVault-card-4.png";
 import fifthCard from "../Cards/CardImage/CoinVault-card-5.png";
 import CardModal from "./CardModal";
+import axios from "axios";
+import { ThreeCircles } from "react-loader-spinner";
 
-const CardDesign = () => {
+const CardDesign = ({ userId }) => {
   const [showCardDetails, setShowCardDetails] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(firstCard); 
+  const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleImageClick = (imageSrc) => {
-    setSelectedImage(imageSrc);
+  useEffect(() => {
+    async function fetchSelectedCard() {
+      try {
+        const response = await axios.get(
+          `https://coinvault.onrender.com/get-selected-card/${userId}`
+        );
+
+        if (response.status === 200) {
+          setSelectedCard(response.data.selectedCard);
+        } if (response.data.selectedCard === null) {
+          setSelectedCard(firstCard);
+        } else {
+          console.error("Failed to fetch selected card");
+        }
+      } catch (error) {
+        console.error("Error fetching selected card:", error);
+      }
+    }
+
+    fetchSelectedCard();
+  }, [userId]);
+
+  const handleImageClick = async (imageSrc) => {
+    try {
+      setSelectedCard(imageSrc);
+
+      const response = await axios.put(
+        `http://localhost:8080/update-selected-card/${userId}`,
+        {
+          selectedCard: imageSrc,
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Selected card updated successfully");
+      } else {
+        console.error("Failed to update selected card");
+      }
+    } catch (error) {
+      console.error("Error updating selected card:", error);
+    }
+
     setShowCardDetails(false);
   };
+
 
   return (
     <section className="flex flex-col justify-center">
@@ -27,8 +70,25 @@ const CardDesign = () => {
         } border-[1px] bg-[rgb(32,37,43)] border-[rgb(50,56,63)] w-[90%] max-w-[1050px] mx-auto  my-[20px] rounded-[8px]`}
       >
         <div className="mt-[20px] mb-[40px] w-[80%] max-w-[350px] mx-auto cursor-pointer">
-          {selectedImage && (
-            <img src={selectedImage} alt="" className="w-full rounded-[8px]" />
+          {selectedCard ? (
+            <img
+              src={selectedCard}
+              alt=""
+              className="w-full rounded-[8px]"
+            />
+          ) : (
+            // Only display the loading spinner if selectedCard is not null
+            userId && (
+              <div className="flex items-center justify-center max-w-[500px] mx-auto">
+                <ThreeCircles
+                  height={50}
+                  width={50}
+                  color="rgb(160,210,254)"
+                  visible={true}
+                  ariaLabel="three-circles-rotating"
+                />
+              </div>
+            )
           )}
         </div>
 
@@ -106,7 +166,7 @@ const CardDesign = () => {
       <CardModal
         showCardDetails={showCardDetails}
         setShowCardDetails={setShowCardDetails}
-        selectedImage={selectedImage}
+        selectedCard={selectedCard}
       />
     </section>
   );

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import "./Cards.css";
 import firstCard from "../Cards/CardImage/CoinVault-card-1.png";
 
-const CardModal = ({ showCardDetails, setShowCardDetails, selectedImage }) => {
+const CardModal = ({ showCardDetails, setShowCardDetails, selectedCard }) => {
   return (
     <section
       className={`${
@@ -23,9 +23,9 @@ const CardModal = ({ showCardDetails, setShowCardDetails, selectedImage }) => {
 
         <div className="flex generalDevice:flex-col largeDevice:justify-between">
           <div className="largeDevice:w-[40%] w-full generalDevice:flex justify-center items-center generalDevice:border-b-[1px] largeDevice:border-r-[1px] border-[rgb(50,56,63)] py-[20px] largeDevice:h-[500px]">
-            {selectedImage && (
+            {selectedCard && (
               <img
-                src={selectedImage}
+                src={selectedCard}
                 alt=""
                 className="cards-transform-details w-[330px] rounded-[8px]"
               />
