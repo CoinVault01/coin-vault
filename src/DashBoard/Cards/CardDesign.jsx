@@ -43,7 +43,7 @@ const CardDesign = ({ userId }) => {
       setSelectedCard(imageSrc);
 
       const response = await axios.put(
-        `http://localhost:8080/update-selected-card/${userId}`,
+        `https://coinvault.onrender.com/update-selected-card/${userId}`,
         {
           selectedCard: imageSrc,
         }
