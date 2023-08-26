@@ -36,7 +36,7 @@ const Cards = () => {
       <div>
         <DashboardLayout />
         <div className="pt-[100px] largeDevice:ml-[230px]">
-          <CardDesign userId={userData.userId} />
+          <CardDesign userData={userData} />
         </div>
       </div>
     </section>

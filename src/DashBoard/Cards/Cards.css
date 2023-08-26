@@ -11,3 +11,11 @@
     margin: 100px 0;
     rotate: z 90deg;
 }
+
+
+
+@media screen and (min-width: 400px) and (max-width: 499px) {
+    .user-card-name {
+        top: 120px;
+    }
+}

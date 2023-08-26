@@ -13,7 +13,7 @@ import CardModal from "./CardModal";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
 
-const CardDesign = ({ userId }) => {
+const CardDesign = ({ userData }) => {
   const [showCardDetails, setShowCardDetails] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -21,12 +21,13 @@ const CardDesign = ({ userId }) => {
     async function fetchSelectedCard() {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/get-selected-card/${userId}`
+          `https://coinvault.onrender.com/get-selected-card/${userData.userId}`
         );
 
         if (response.status === 200) {
           setSelectedCard(response.data.selectedCard);
-        } if (response.data.selectedCard === null) {
+        }
+        if (response.data.selectedCard === null) {
           setSelectedCard(firstCard);
         } else {
           console.error("Failed to fetch selected card");
@@ -37,14 +38,14 @@ const CardDesign = ({ userId }) => {
     }
 
     fetchSelectedCard();
-  }, [userId]);
+  }, [userData]);
 
   const handleImageClick = async (imageSrc) => {
     try {
       setSelectedCard(imageSrc);
 
       const response = await axios.put(
-        `https://coinvault.onrender.com/update-selected-card/${userId}`,
+        `https://coinvault.onrender.com/update-selected-card/${userData.userId}`,
         {
           selectedCard: imageSrc,
         }
@@ -62,6 +63,10 @@ const CardDesign = ({ userId }) => {
     setShowCardDetails(false);
   };
 
+  const cardNumber = userData.cardNumber;
+  const formattedCardNumber = cardNumber
+    ? cardNumber.replace(/(.{4})/g, "$1 ")
+    : ""; // ! Adds a space every 4 characters
 
   return (
     <section className="flex flex-col justify-center">
@@ -72,10 +77,15 @@ const CardDesign = ({ userId }) => {
       >
         <div className="mt-[20px] mb-[40px] w-[80%] max-w-[350px] mx-auto cursor-pointer">
           {selectedCard ? (
-            <img src={selectedCard} alt="" className="w-full rounded-[8px]" />
+            <div className="relative">
+              <img src={selectedCard} alt="" className="w-full rounded-[8px]" />
+              <p className="user-card-name absolute top-[140px] smallerDevice:top-[93px] bonusDevice:top-[125px] left-[15px] text-[20px] smallDevice:text-[15px] smallDevice:top-[110px] smallerDevice:text-[15px] mediumDevice:top-[140px]">
+                {userData.firstName} {userData.lastName}
+              </p>
+            </div>
           ) : (
             // Only display the loading spinner if selectedCard is not null
-            userId && (
+            userData && (
               <div className="flex items-center justify-center max-w-[500px] mx-auto">
                 <ThreeCircles
                   height={50}
@@ -168,6 +178,7 @@ const CardDesign = ({ userId }) => {
         showCardDetails={showCardDetails}
         setShowCardDetails={setShowCardDetails}
         selectedCard={selectedCard}
+        userData={userData}
       />
     </section>
   );
