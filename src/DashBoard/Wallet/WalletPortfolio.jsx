@@ -127,7 +127,7 @@ const WalletPortfolio = ({ userData }) => {
                   alt=""
                   className="w-full rounded-[8px]"
                 />
-                <p className="user-card-name absolute top-[140px] smallerDevice:top-[93px] bonusDevice:top-[125px] left-[15px] text-[20px] smallDevice:text-[15px] smallDevice:top-[110px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
+                <p className="user-card-name absolute top-[140px] smallerDevice:top-[100px] bonusDevice:top-[120px] left-[15px] text-[20px] smallDevice:text-[15px] smallDevice:top-[130px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
                   {userData.firstName} {userData.lastName}
                 </p>
               </div>
@@ -169,7 +169,7 @@ const WalletPortfolio = ({ userData }) => {
           </div>
         </NavLink>
 
-        <NavLink to="/wallet-swapcoin">
+        <NavLink to="/wallet-swapcoin" className={`smallerDevice:hidden smallDevice:hidden mediumDevice:block`}>
           <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
             <i className="fa-solid fa-shuffle aboveBonusDevice:text-[15px]"></i>
             <p className="aboveBonusDevice:text-[20px]">Swap</p>
