@@ -10,6 +10,7 @@ const WalletPortfolio = ({ userData }) => {
     const countryRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [countryDropDown, setCountryDropDown] = useState(false);
+  const [transactionModal, setTransactionModal] = useState(false)
   const [country, setCountry] = useState({
     code: "USD",
     symbol: "$",
@@ -152,7 +153,14 @@ const WalletPortfolio = ({ userData }) => {
       <div className="flex justify-evenly my-[30px] pt-[40px] pb-[35px] border-t-[1px] border-b-[1px] border-[rgb(50,56,63)] bg-[rgb(28,33,39)] sticky top-[50px]">
         <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
           <i className="fa-solid fa-arrow-right aboveBonusDevice:text-[15px]"></i>
-          <p className="aboveBonusDevice:text-[20px]">Send</p>
+          <p
+            className="aboveBonusDevice:text-[20px]"
+            onClick={() => {
+              setTransactionModal(true);
+            }}
+          >
+            Send
+          </p>
         </div>
 
         <NavLink to="/wallet-buy">
@@ -169,12 +177,73 @@ const WalletPortfolio = ({ userData }) => {
           </div>
         </NavLink>
 
-        <NavLink to="/wallet-swapcoin" className={`smallerDevice:hidden smallDevice:hidden mediumDevice:block`}>
+        <NavLink
+          to="/wallet-swapcoin"
+          className={`smallerDevice:hidden smallDevice:hidden mediumDevice:block`}
+        >
           <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
             <i className="fa-solid fa-shuffle aboveBonusDevice:text-[15px]"></i>
             <p className="aboveBonusDevice:text-[20px]">Swap</p>
           </div>
         </NavLink>
+      </div>
+
+      <div
+        className={`${
+          transactionModal ? "bottom-[0px] largeDevice:top-[43%]" : "bottom-[999px] largeDevice:top-[100%]"
+        } bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s]`}
+      >
+        <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[20px]">
+          <div className="flex justify-end pr-[10px]">
+            <i
+              className="fa-solid fa-x cursor-pointer"
+              onClick={() => {
+                setTransactionModal(false);
+              }}
+            ></i>
+          </div>
+          <p className="font-[600] text-center">Send Money</p>
+        </div>
+
+        <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[10px] w-[90%] mx-auto">
+          <div>
+            <p className="font-[600] text-[14px] mb-[5px]">From</p>
+            <p>
+              Wallet Account {"("} {userData.accountNumber} {")"}
+            </p>
+          </div>
+        </div>
+
+        <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
+          <div>
+            <p className="font-[600] text-[14px] mb-[5px]">To</p>
+            <input
+              type="text"
+              placeholder="Acct Number"
+              className="w-full outline-none text-[18px] bg-transparent"
+            />
+          </div>
+        </div>
+
+        <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
+          <div>
+            <p className="font-[600] text-[14px] mb-[5px]">Enter Amount</p>
+            <div className="flex items-center gap-[2px] text-[18px]">
+              <p>$</p>
+              <input
+                type="text"
+                placeholder="Acct Number"
+                className="w-full outline-none text-[18px] bg-transparent"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center largeDevice:pr-[]">
+          <button className="bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%]">
+            Transfer
+          </button>
+        </div>
       </div>
     </section>
   );
