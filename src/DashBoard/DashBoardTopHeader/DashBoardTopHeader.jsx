@@ -99,7 +99,7 @@ const DashBoardTopHeader = ({
   return (
     <section>
       <nav className="fixed z-50">
-        <div className="bg-[rgb(28,33,39)] generalDevice:w-[100%] h-[70px] border-b-[1px] border-b-[rgb(125,139,151)] fixed largeDevice:left-[230px] largeDevice:right-0 flex items-center justify-between px-[15px]">
+        <div className="bg-[rgb(28,33,39)] generalDevice:w-[100%] h-[70px] border-b-[1px] border-b-[rgb(50,56,63)] fixed largeDevice:left-[230px] largeDevice:right-0 flex items-center justify-between px-[15px]">
           <div className="largeDevice:hidden mt-[15px]">
             <img src={coinvault} alt="" className="w-[130px] block pr-[10px]" />
           </div>

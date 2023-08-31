@@ -17,29 +17,6 @@ const CardDesign = ({ userData }) => {
   const [showCardDetails, setShowCardDetails] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  useEffect(() => {
-    async function fetchSelectedCard() {
-      try {
-        const response = await axios.get(
-          `https://coinvault.onrender.com/get-selected-card/${userData.userId}`
-        );
-
-        if (response.status === 200) {
-          setSelectedCard(response.data.selectedCard);
-        }
-        if (response.data.selectedCard === null) {
-          setSelectedCard(firstCard);
-        } else {
-          console.error("Failed to fetch selected card");
-        }
-      } catch (error) {
-        console.error("Error fetching selected card:", error);
-      }
-    }
-
-    fetchSelectedCard();
-  }, [userData]);
-
   const handleImageClick = async (imageSrc) => {
     try {
       setSelectedCard(imageSrc);
@@ -63,10 +40,30 @@ const CardDesign = ({ userData }) => {
     setShowCardDetails(false);
   };
 
-  const cardNumber = userData.cardNumber;
-  const formattedCardNumber = cardNumber
-    ? cardNumber.replace(/(.{4})/g, "$1 ")
-    : ""; // ! Adds a space every 4 characters
+  useEffect(() => {
+    async function fetchSelectedCard() {
+      try {
+        const response = await axios.get(
+          `https://coinvault.onrender.com/get-selected-card/${userData.userId}`
+        );
+
+        if (response.status === 200) {
+          setSelectedCard(response.data.selectedCard);
+        }
+        if (response.data.selectedCard === null) {
+          setSelectedCard(firstCard);
+        } else {
+          console.error("Failed to fetch selected card");
+        }
+      } catch (error) {
+        console.error("Error fetching selected card:", error);
+      }
+    }
+
+    fetchSelectedCard();
+  }, [userData]);
+
+  
 
   return (
     <section className="flex flex-col justify-center">
@@ -180,6 +177,7 @@ const CardDesign = ({ userData }) => {
         selectedCard={selectedCard}
         userData={userData}
       />
+      
     </section>
   );
 };
