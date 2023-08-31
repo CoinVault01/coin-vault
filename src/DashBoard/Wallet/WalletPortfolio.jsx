@@ -11,6 +11,7 @@ const WalletPortfolio = ({ userData }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [countryDropDown, setCountryDropDown] = useState(false);
   const [transactionModal, setTransactionModal] = useState(false)
+  const [convertedBalance, setConvertedBalance] = useState(null);
   const [country, setCountry] = useState({
     code: "USD",
     symbol: "$",
@@ -55,15 +56,34 @@ const WalletPortfolio = ({ userData }) => {
     };
   }, []);
 
-  const handleCountrySelect = (selectedCountry) => {
-    setCountry({
-      flag: selectedCountry.flag,
-      currency: selectedCountry.currency,
-      symbol: selectedCountry.symbol
-    });
-    setCountryDropDown(false);
-  };
+  const handleCountrySelect = async (selectedCountry) => {
+    // Make an API call to get the exchange rates
+    try {
+      const response = await axios.get(
+        `https://v6.exchangerate-api.com/v6/118f2d3db2852914a9aa886e/latest/USD`
+      );
 
+      if (response.status === 200) {
+        const exchangeRates = response.data.conversion_rates;
+        const selectedCountryRate = exchangeRates[selectedCountry.currency];
+
+        if (selectedCountryRate) {
+          const convertedAmount = userData.balance * selectedCountryRate;
+          setConvertedBalance(convertedAmount);
+          setCountry({
+            flag: selectedCountry.flag,
+            currency: selectedCountry.currency,
+            symbol: selectedCountry.symbol,
+          });
+          setCountryDropDown(false);
+        } else {
+          console.error("Exchange rate not found for selected country");
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching exchange rates:", error);
+    }
+  };
 
   return (
     <section>
@@ -74,7 +94,9 @@ const WalletPortfolio = ({ userData }) => {
             <div className="flex items-center gap-[20px]">
               <p className="text-[30px] font-[600]">
                 {country.symbol}
-                {userData.balance}
+                {convertedBalance !== null
+                  ? convertedBalance
+                  : userData.balance}
               </p>
               <div className="relative">
                 <div
@@ -94,12 +116,12 @@ const WalletPortfolio = ({ userData }) => {
                     countryDropDown ? "block" : "hidden"
                   } border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] w-[100px] absolute z-50`}
                 >
-                  <ul className="flex flex-col gap-[15px]">
+                  <ul className="flex flex-col py-[]">
                     {countryData.map((countries) => {
                       return (
                         <li
                           key={countries.code}
-                          className="flex items-center gap-[10px] pl-[5px] select-none cursor-pointer border-[rgb(42,48,55)] border-b-[1px] my-[5px]"
+                          className="flex items-center gap-[10px] pl-[5px] select-none cursor-pointer border-[rgb(42,48,55)] border-b-[1px]  h-[45px]"
                           onClick={() => handleCountrySelect(countries)}
                         >
                           <img
@@ -115,7 +137,7 @@ const WalletPortfolio = ({ userData }) => {
                 </div>
               </div>
             </div>
-            <p className="hidden aboveBonusDevice:block max-w-[300px] mt-[10px] text-[rgb(167,177,188)]">
+            <p className="hidden aboveBonusDevice:block max-w-[260px] mt-[10px] text-[rgb(167,177,188)]">
               This is the total value of all your assets at current prices
             </p>
           </div>
@@ -128,7 +150,7 @@ const WalletPortfolio = ({ userData }) => {
                   alt=""
                   className="w-full rounded-[8px]"
                 />
-                <p className="user-card-name absolute top-[140px] smallerDevice:top-[100px] bonusDevice:top-[120px] left-[15px] text-[20px] smallDevice:text-[15px] smallDevice:top-[130px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
+                <p className="user-card-name absolute top-[140px] smallerDevice:top-[100px] bonusDevice:top-[145px] left-[15px] text-[20px] smallDevice:text-[15px] semiSmallDevice:top-[125px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
                   {userData.firstName} {userData.lastName}
                 </p>
               </div>
@@ -151,16 +173,14 @@ const WalletPortfolio = ({ userData }) => {
       </div>
 
       <div className="flex justify-evenly my-[30px] pt-[40px] pb-[35px] border-t-[1px] border-b-[1px] border-[rgb(50,56,63)] bg-[rgb(28,33,39)] sticky top-[50px]">
-        <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
+        <div
+          className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]"
+          onClick={() => {
+            setTransactionModal(true);
+          }}
+        >
           <i className="fa-solid fa-arrow-right aboveBonusDevice:text-[15px]"></i>
-          <p
-            className="aboveBonusDevice:text-[20px]"
-            onClick={() => {
-              setTransactionModal(true);
-            }}
-          >
-            Send
-          </p>
+          <p className="aboveBonusDevice:text-[20px]">Send</p>
         </div>
 
         <NavLink to="/wallet-buy">
@@ -190,8 +210,10 @@ const WalletPortfolio = ({ userData }) => {
 
       <div
         className={`${
-          transactionModal ? "bottom-[0px] largeDevice:top-[43%]" : "bottom-[999px] largeDevice:top-[100%]"
-        } bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s]`}
+          transactionModal
+            ? "bottom-[0px] largeDevice:top-[43%]"
+            : "bottom-[999px] largeDevice:top-[100%]"
+        } bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s] overflow-y-auto`}
       >
         <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[20px]">
           <div className="flex justify-end pr-[10px]">
@@ -232,7 +254,22 @@ const WalletPortfolio = ({ userData }) => {
               <p>$</p>
               <input
                 type="text"
-                placeholder="Acct Number"
+                placeholder="Enter Amount"
+                className="w-full outline-none text-[18px] bg-transparent"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
+          <div>
+            <p className="font-[600] text-[14px] mb-[5px]">Equivalent To</p>
+            <div className="flex items-center gap-[2px] text-[18px]">
+              <p>{country.symbol}</p>
+              <input
+                type="text"
+                readOnly
+                placeholder="Equivalent To"
                 className="w-full outline-none text-[18px] bg-transparent"
               />
             </div>
