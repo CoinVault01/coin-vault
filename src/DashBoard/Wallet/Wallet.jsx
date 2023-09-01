@@ -34,7 +34,7 @@ const Wallet = () => {
       <div>
         <DashboardLayout />
         <div className="pt-[100px] largeDevice:ml-[230px]">
-          <WalletPortfolio userData={userData} />
+          <WalletPortfolio userData={userData} setUserData={setUserData} />
         </div>
       </div>
     </section>
