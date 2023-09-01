@@ -141,23 +141,3 @@ const Pin = ({ handleChange, handleNext, handlePrevious, user }) => {
 };
 
 export default Pin
-
-{/* <div>
-      <input
-      className='text-[black] w-[40px]'
-        type="text"
-        name="pin"
-        placeholder="PIN"
-        value={user.pin}
-        maxLength={1}
-        onChange={handleChange}
-        required
-      />
-      
-      <button type="button" onClick={handlePrevious}>
-        Previous
-      </button>
-      <button type="button" onClick={handleNext}>
-        Continue
-      </button>
-    </div> */}

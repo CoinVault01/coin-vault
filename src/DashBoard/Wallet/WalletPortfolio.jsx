@@ -5,13 +5,21 @@ import { ThreeCircles } from "react-loader-spinner";
 import { countryData } from "../../CoinDetailsPages/countryData";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import TransferPin from "./TransferPin";
 
 const WalletPortfolio = ({ userData }) => {
-    const countryRef = useRef(null);
+  const countryRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [countryDropDown, setCountryDropDown] = useState(false);
-  const [transactionModal, setTransactionModal] = useState(false)
+  const [transactionModal, setTransactionModal] = useState(false);
+  const [transactionPinModal, setTransactionPinModal] = useState(false)
   const [convertedBalance, setConvertedBalance] = useState(null);
+  const [equivalentAmount, setEquivalentAmount] = useState("");
+  const [exchangeRates, setExchangeRates] = useState({});
+  const [receiverAccountNumber, setReceiverAccountNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [pin, setPin] = useState("");
+  const [message, setMessage] = useState("");
   const [country, setCountry] = useState({
     code: "USD",
     symbol: "$",
@@ -56,8 +64,58 @@ const WalletPortfolio = ({ userData }) => {
     };
   }, []);
 
+  useEffect(() => {
+    async function fetchExchangeRates() {
+      try {
+        const response = await axios.get(
+          `https://v6.exchangerate-api.com/v6/118f2d3db2852914a9aa886e/latest/USD`
+        );
+        if (response.status === 200) {
+          setExchangeRates(response.data.conversion_rates);
+        }
+      } catch (error) {
+        console.error("Error fetching exchange rates:", error);
+      }
+    }
+    fetchExchangeRates();
+  }, []);
+
+  const handleEquivalentAmountUpdate = (inputValue, exchangeRate) => {
+    const convertedInputValue = parseFloat(inputValue.replace(/,/g, ""));
+    const equivalentConvertedAmount = convertedInputValue * exchangeRate;
+    const formattedEquivalentAmount = equivalentConvertedAmount.toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }
+    );
+    setAmount(inputValue);
+    setEquivalentAmount(formattedEquivalentAmount);
+  };
+
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    const cleanedValue = inputValue.replace(/[^0-9.]/g, ""); // Remove non-numeric characters except dot (.)
+
+    if (cleanedValue === "") {
+      setAmount("");
+      setEquivalentAmount("");
+    } else {
+      if (country.currency !== "USD") {
+        const exchangeRate = exchangeRates[country.currency];
+        if (exchangeRate) {
+          handleEquivalentAmountUpdate(cleanedValue, exchangeRate);
+        } else {
+          console.error("Exchange rate not found for selected country");
+        }
+      } else {
+        handleEquivalentAmountUpdate(cleanedValue, 1);
+      }
+    }
+  };
+
   const handleCountrySelect = async (selectedCountry) => {
-    // Make an API call to get the exchange rates
     try {
       const response = await axios.get(
         `https://v6.exchangerate-api.com/v6/118f2d3db2852914a9aa886e/latest/USD`
@@ -70,6 +128,11 @@ const WalletPortfolio = ({ userData }) => {
         if (selectedCountryRate) {
           const convertedAmount = userData.balance * selectedCountryRate;
           setConvertedBalance(convertedAmount);
+
+          // Recalculate the equivalent amount based on the new input value and country
+          const exchangeRate = exchangeRates[selectedCountry.currency];
+          handleEquivalentAmountUpdate(amount, exchangeRate);
+
           setCountry({
             flag: selectedCountry.flag,
             currency: selectedCountry.currency,
@@ -85,6 +148,29 @@ const WalletPortfolio = ({ userData }) => {
     }
   };
 
+  const handleTransfer = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token"); // Get the JWT token from localStorage
+      const response = await axios.post(
+        "https://coinvault.onrender.com/transfer-funds",
+        { receiverAccountNumber, amount, pin },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setMessage(response.data.message);
+      console.log(response.data.message);
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+      console.log(error.data.message);
+    }
+  };
+
+
+
+  
+
   return (
     <section>
       <div className="bg-[rgb(32,37,43)] rounded-[8px] w-[90%] mx-auto">
@@ -94,9 +180,12 @@ const WalletPortfolio = ({ userData }) => {
             <div className="flex items-center gap-[20px]">
               <p className="text-[30px] font-[600]">
                 {country.symbol}
-                {convertedBalance !== null
-                  ? convertedBalance
-                  : userData.balance}
+                {convertedBalance !== null && convertedBalance !== undefined
+                  ? convertedBalance.toLocaleString()
+                  : userData.balance !== null && userData.balance !== undefined
+                  ? userData.balance.toLocaleString()
+                  : "N/A"}{" "}
+                {/* Display "N/A" if values are not available */}
               </p>
               <div className="relative">
                 <div
@@ -150,7 +239,7 @@ const WalletPortfolio = ({ userData }) => {
                   alt=""
                   className="w-full rounded-[8px]"
                 />
-                <p className="user-card-name absolute top-[140px] smallerDevice:top-[100px] bonusDevice:top-[145px] left-[15px] text-[20px] smallDevice:text-[15px] semiSmallDevice:top-[125px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
+                <p className="user-card-name absolute top-[145px] smallerDevice:top-[100px] bonusDevice:top-[145px] left-[15px] text-[20px] smallDevice:text-[15px] semiSmallDevice:top-[125px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
                   {userData.firstName} {userData.lastName}
                 </p>
               </div>
@@ -213,7 +302,7 @@ const WalletPortfolio = ({ userData }) => {
           transactionModal
             ? "bottom-[0px] largeDevice:top-[43%]"
             : "bottom-[999px] largeDevice:top-[100%]"
-        } bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s] overflow-y-auto`}
+        } transaction-modal-container bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s] overflow-y-auto`}
       >
         <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[20px]">
           <div className="flex justify-end pr-[10px]">
@@ -243,6 +332,15 @@ const WalletPortfolio = ({ userData }) => {
               type="text"
               placeholder="Acct Number"
               className="w-full outline-none text-[18px] bg-transparent"
+              value={receiverAccountNumber}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                const cleanedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+                if (cleanedValue.length <= 10) {
+                  setReceiverAccountNumber(cleanedValue);
+                }
+              }}
             />
           </div>
         </div>
@@ -255,6 +353,8 @@ const WalletPortfolio = ({ userData }) => {
               <input
                 type="text"
                 placeholder="Enter Amount"
+                value={amount}
+                onChange={handleInputChange}
                 className="w-full outline-none text-[18px] bg-transparent"
               />
             </div>
@@ -268,6 +368,7 @@ const WalletPortfolio = ({ userData }) => {
               <p>{country.symbol}</p>
               <input
                 type="text"
+                value={equivalentAmount}
                 readOnly
                 placeholder="Equivalent To"
                 className="w-full outline-none text-[18px] bg-transparent"
@@ -277,9 +378,35 @@ const WalletPortfolio = ({ userData }) => {
         </div>
 
         <div className="flex justify-center largeDevice:pr-[]">
-          <button className="bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%]">
-            Transfer
+          <button
+            className="bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%]"
+            onClick={() => {
+              setTransactionPinModal(true);
+            }}
+          >
+            Continue
           </button>
+        </div>
+
+        <div
+          className={`${
+            transactionPinModal ? "block" : "hidden"
+          } bg-[rgba(0,0,0,0.3)] pt-[10px] generalDevice:pt-[10px] pb-[30px] fixed left-0 largeDevice:left-[230px] right-0 z-[999px] top-[29%] largeDevice:top-[43%] h-[100%]`}
+        >
+          <div className="flex justify-end pr-[10px] largeDevice:pr-[20px] mb-[100px] largeDevice:mb-[50px]">
+            <i
+              className="fa-solid fa-x cursor-pointer"
+              onClick={() => {
+                setTransactionPinModal(false);
+              }}
+            ></i>
+          </div>
+          <TransferPin
+            pin={pin}
+            setPin={setPin}
+            handleTransfer={handleTransfer}
+            message={message}
+          />
         </div>
       </div>
     </section>

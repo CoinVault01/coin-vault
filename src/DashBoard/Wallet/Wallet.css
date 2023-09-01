@@ -1,0 +1,28 @@
+/* For Firefox */
+.transaction-modal-container {
+    scrollbar-width: thin;
+    /* or auto or none */
+    scrollbar-color: #333 #ddd;
+    /* thumb color and track color */
+}
+
+/* For WebKit browsers */
+.transaction-modal-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.transaction-modal-container::-webkit-scrollbar-track {
+    background-color: #ddd;
+    border-radius: 20px;
+}
+
+.transaction-modal-container::-webkit-scrollbar-thumb {
+    background-color: rgb(116, 186, 247);
+    border: 1px solid #555;
+    border-radius: 20px;
+}
+
+/* Styling for the thumb when being hovered */
+.transaction-modal-container::-webkit-scrollbar-thumb:hover {
+    background-color: #333;
+}
