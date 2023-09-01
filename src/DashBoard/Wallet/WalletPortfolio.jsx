@@ -197,17 +197,8 @@ const WalletPortfolio = ({ userData }) => {
       <div className="bg-[rgb(32,37,43)] rounded-[8px] w-[90%] mx-auto">
         <div className="mobileDeviceOnly:max-w-[450px] mobileDeviceOnly:mx-auto mobileDeviceOnly:px-[20px] flex flex-col aboveBonusDevice:flex-row aboveBonusDevice:px-[20px]">
           <div className="largeDevice:w-[50%] mobileDeviceOnly:ml-[3rem] mt-[20px] largeDevice:pl-[20px]">
-            <h1 className="font-[600]">Total Balance</h1>
             <div className="flex items-center gap-[20px]">
-              <p className="text-[30px] font-[600]">
-                {country.symbol}
-                {convertedBalance !== null && convertedBalance !== undefined
-                  ? convertedBalance.toLocaleString()
-                  : userData.balance !== null && userData.balance !== undefined
-                  ? userData.balance.toLocaleString()
-                  : "N/A"}{" "}
-                {/* Display "N/A" if values are not available */}
-              </p>
+              <h1 className="font-[600]">Total Balance</h1>
               <div className="relative">
                 <div
                   className={`border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] flex items-center gap-[10px] p-[5px] cursor-pointer w-[100px]`}
@@ -246,6 +237,17 @@ const WalletPortfolio = ({ userData }) => {
                   </ul>
                 </div>
               </div>
+            </div>
+            <div className="flex items-center gap-[20px]">
+              <p className="text-[30px] font-[600]">
+                {country.symbol}
+                {convertedBalance !== null && convertedBalance !== undefined
+                  ? convertedBalance.toLocaleString()
+                  : userData.balance !== null && userData.balance !== undefined
+                  ? userData.balance.toLocaleString()
+                  : "N/A"}{" "}
+                {/* Display "N/A" if values are not available */}
+              </p>
             </div>
             <p className="hidden aboveBonusDevice:block max-w-[260px] mt-[10px] text-[rgb(167,177,188)]">
               This is the total value of all your assets at current prices
