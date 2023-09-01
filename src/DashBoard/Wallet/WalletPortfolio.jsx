@@ -153,19 +153,40 @@ const WalletPortfolio = ({ userData }) => {
 
     try {
       const token = localStorage.getItem("token"); // Get the JWT token from localStorage
+      const numericAmount = parseFloat(amount); // Convert the amount to a number
+      const newBalance = userData.balance + numericAmount; // Calculate the new balance as a number
+
       const response = await axios.post(
         "https://coinvault.onrender.com/transfer-funds",
-        { receiverAccountNumber, amount, pin },
+        {
+          receiverAccountNumber,
+          amount: numericAmount, // Send the amount as a number
+          pin,
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setMessage(response.data.message);
-      console.log(response.data.message);
+      if (response.status === 200) {
+        const responseData = response.data;
+
+        // Update the receiver's balance with the new numeric value
+        setConvertedBalance(newBalance);
+        setMessage(responseData.message);
+
+        // Clear the input fields and pin after a successful transfer
+        setReceiverAccountNumber("");
+        setAmount("");
+        setPin("");
+      } else {
+        setMessage("An error occurred. Please try again.");
+        console.log(response.data.message);
+      }
     } catch (error) {
       setMessage("An error occurred. Please try again.");
       console.log(error.data.message);
     }
   };
+
 
 
 
