@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import WalletPortfolio from "./WalletPortfolio";
 import axios from "axios";
+import "./Wallet.css"
 
 const Wallet = () => {
   const [userData, setUserData] = useState({});

@@ -20,7 +20,7 @@ const DashBoardSideNav = ({ showNav, setActiveLinkText, setShowNav }) => {
       <aside
         className={`${
           showNav ? "" : "generalDevice:right-[-100%]"
-        } bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed z-50 generalDevice:top-[70px] generalDevice:right-0 transition-all duration-[1s] ease-in-out`}
+        } side-bar-container bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed z-50 generalDevice:top-[70px] generalDevice:right-0 transition-all duration-[1s] ease-in-out`}
       >
         <div>
           <img
@@ -175,7 +175,7 @@ const DashBoardSideNav = ({ showNav, setActiveLinkText, setShowNav }) => {
                   className={`text-[18px] font-[600] font-[poppins] cursor-pointer  px-[5px] py-[3px] rounded-[8px] transition-all duration-[2s] ease-in-out largeDevice:hidden`}
                   onClick={() => {
                     setCloseLogout(true);
-                    setShowNav(false)
+                    setShowNav(false);
                   }}
                 >
                   Logout{" "}

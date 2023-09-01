@@ -2,3 +2,31 @@
     background: linear-gradient(to right, rgb(60, 51, 165), rgb(88, 54, 141), rgb(105, 56, 126), rgb(127, 59, 107), rgb(157, 62, 81));
 }
 
+/* For Firefox */
+.side-bar-container {
+    scrollbar-width: thin;
+    /* or auto or none */
+    scrollbar-color: #333 #ddd;
+    /* thumb color and track color */
+}
+
+/* For WebKit browsers */
+.side-bar-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.side-bar-container::-webkit-scrollbar-track {
+    background-color: #ddd;
+    border-radius: 10px;
+}
+
+.side-bar-container::-webkit-scrollbar-thumb {
+    background-color: rgb(116, 186, 247);
+    border: 1px solid #555;
+    border-radius: 10px;
+}
+
+/* Styling for the thumb when being hovered */
+.side-bar-container::-webkit-scrollbar-thumb:hover {
+    background-color: #333;
+}
