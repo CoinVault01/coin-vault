@@ -161,7 +161,7 @@ const WalletPortfolio = ({ userData, setUserData }) => {
     try {
       const token = localStorage.getItem("token"); // Get the JWT token from localStorage
       const numericAmount = parseFloat(amount); // Convert the amount to a number
-      const newBalance = userData.balance + numericAmount; // Calculate the new balance as a number
+      const newBalance = userData.balance - numericAmount; // Calculate the new balance as a number
 
       const response = await axios.post(
         "https://coinvault.onrender.com/transfer-funds",
@@ -226,6 +226,7 @@ const WalletPortfolio = ({ userData, setUserData }) => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <section>
