@@ -215,7 +215,7 @@ const WalletPortfolio = ({ userData }) => {
                   ref={countryRef}
                   className={`${
                     countryDropDown ? "block" : "hidden"
-                  } border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] w-[100px] absolute z-50`}
+                  } border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] w-[100px] absolute z-[999]`}
                 >
                   <ul className="flex flex-col py-[]">
                     {countryData.map((countries) => {
