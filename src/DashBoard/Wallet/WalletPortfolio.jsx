@@ -6,6 +6,10 @@ import { countryData } from "../../CoinDetailsPages/countryData";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import TransferPin from "./TransferPin";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {LongCard} from "../../Skeleton/Skeleton"
+
 
 const WalletPortfolio = ({ userData }) => {
   const countryRef = useRef(null);
@@ -20,6 +24,8 @@ const WalletPortfolio = ({ userData }) => {
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(true);
   const [country, setCountry] = useState({
     code: "USD",
     symbol: "$",
@@ -42,6 +48,7 @@ const WalletPortfolio = ({ userData }) => {
         } else {
           console.error("Failed to fetch selected card");
         }
+        setIsLoadingData(false);
       } catch (error) {
         console.error("Error fetching selected card:", error);
       }
@@ -150,6 +157,7 @@ const WalletPortfolio = ({ userData }) => {
 
   const handleTransfer = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const token = localStorage.getItem("token"); // Get the JWT token from localStorage
@@ -171,268 +179,309 @@ const WalletPortfolio = ({ userData }) => {
 
         // Update the receiver's balance with the new numeric value
         setConvertedBalance(newBalance);
-        setMessage(responseData.message);
+        toast.success(responseData.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
 
         // Clear the input fields and pin after a successful transfer
         setReceiverAccountNumber("");
         setAmount("");
         setPin("");
+        setEquivalentAmount("");
+        // Reload the browser page
+        window.location.reload();
       } else {
-        setMessage("An error occurred. Please try again.");
-        console.log(response.data.message);
+        toast.error(error.response.data.error, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     } catch (error) {
-      setMessage("An error occurred. Please try again.");
-      console.log(error.data.message);
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
 
-
-
-  
-
   return (
     <section>
-      <div className="bg-[rgb(32,37,43)] rounded-[8px] w-[90%] mx-auto">
-        <div className="mobileDeviceOnly:max-w-[450px] mobileDeviceOnly:mx-auto mobileDeviceOnly:px-[20px] flex flex-col aboveBonusDevice:flex-row aboveBonusDevice:px-[20px]">
-          <div className="largeDevice:w-[50%] mediumDevice:ml-[30px]  mt-[20px] largeDevice:pl-[20px]">
-            <div className="flex items-center gap-[20px]">
-              <h1 className="font-[600]">Total Balance</h1>
-              <div className="relative">
-                <div
-                  className={`border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] flex items-center gap-[10px] p-[5px] cursor-pointer w-[100px]`}
-                  onClick={() => {
-                    setCountryDropDown(true);
-                  }}
-                >
-                  <img src={country.flag} alt="" className="block w-[20px]" />
-                  <p>{country.currency}</p>
+      {isLoadingData ? (
+        <div className="w-[90%] mx-auto max-[800px]">
+          <LongCard />
+        </div>
+      ) : (
+        <div>
+          <ToastContainer hideProgressBar autoClose={3000} />
+          <div className="bg-[rgb(32,37,43)] rounded-[8px] w-[90%] mx-auto">
+            <div className="mobileDeviceOnly:max-w-[450px] mobileDeviceOnly:mx-auto mobileDeviceOnly:px-[20px] flex flex-col aboveBonusDevice:flex-row aboveBonusDevice:px-[20px]">
+              <div className="largeDevice:w-[50%] mediumDevice:ml-[30px]  mt-[20px] largeDevice:pl-[20px]">
+                <div className="flex items-center gap-[20px]">
+                  <h1 className="font-[600]">Total Balance</h1>
+                  <div className="relative">
+                    <div
+                      className={`border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] flex items-center gap-[10px] p-[5px] cursor-pointer w-[100px]`}
+                      onClick={() => {
+                        setCountryDropDown(true);
+                      }}
+                    >
+                      <img
+                        src={country.flag}
+                        alt=""
+                        className="block w-[20px]"
+                      />
+                      <p>{country.currency}</p>
 
-                  <i className="fa-solid fa-chevron-down"></i>
+                      <i className="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div
+                      ref={countryRef}
+                      className={`${
+                        countryDropDown ? "block" : "hidden"
+                      } border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] w-[100px] absolute z-[999]`}
+                    >
+                      <ul className="flex flex-col py-[]">
+                        {countryData.map((countries) => {
+                          return (
+                            <li
+                              key={countries.code}
+                              className="flex items-center gap-[10px] pl-[5px] select-none cursor-pointer border-[rgb(42,48,55)] border-b-[1px]  h-[45px]"
+                              onClick={() => handleCountrySelect(countries)}
+                            >
+                              <img
+                                src={countries.flag}
+                                alt={countries.name}
+                                className="w-[20px]"
+                              />
+                              <p className="font-[600]">{countries.currency}</p>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <div
-                  ref={countryRef}
-                  className={`${
-                    countryDropDown ? "block" : "hidden"
-                  } border-[rgb(42,48,55)] border-[1px]  rounded-[8px] bg-[rgb(28,33,39)] w-[100px] absolute z-[999]`}
-                >
-                  <ul className="flex flex-col py-[]">
-                    {countryData.map((countries) => {
-                      return (
-                        <li
-                          key={countries.code}
-                          className="flex items-center gap-[10px] pl-[5px] select-none cursor-pointer border-[rgb(42,48,55)] border-b-[1px]  h-[45px]"
-                          onClick={() => handleCountrySelect(countries)}
-                        >
-                          <img
-                            src={countries.flag}
-                            alt={countries.name}
-                            className="w-[20px]"
-                          />
-                          <p className="font-[600]">{countries.currency}</p>
-                        </li>
-                      );
-                    })}
-                  </ul>
+
+                <div className="flex items-center gap-[20px]">
+                  <p className="text-[30px] smallerDevice:text-[23px] bonusDevice:text-[25px] font-[600]">
+                    {country.symbol}
+                    {convertedBalance !== null && convertedBalance !== undefined
+                      ? convertedBalance.toLocaleString()
+                      : userData.balance !== null &&
+                        userData.balance !== undefined
+                      ? userData.balance.toLocaleString()
+                      : "N/A"}{" "}
+                    {/* Display "N/A" if values are not available */}
+                  </p>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-[20px]">
-              <p className="text-[30px] smallerDevice:text-[23px] bonusDevice:text-[25px] font-[600]">
-                {country.symbol}
-                {convertedBalance !== null && convertedBalance !== undefined
-                  ? convertedBalance.toLocaleString()
-                  : userData.balance !== null && userData.balance !== undefined
-                  ? userData.balance.toLocaleString()
-                  : "N/A"}{" "}
-                {/* Display "N/A" if values are not available */}
-              </p>
-            </div>
-            <p className="hidden aboveBonusDevice:block max-w-[260px] mt-[10px] text-[rgb(167,177,188)]">
-              This is the total value of all your assets at current prices
-            </p>
-          </div>
-
-          <div className="mt-[20px] mb-[40px] largeDevice:w-[50%] max-w-[350px] mx-auto cursor-pointer">
-            {selectedCard ? (
-              <div className="relative">
-                <img
-                  src={selectedCard}
-                  alt=""
-                  className="w-full rounded-[8px]"
-                />
-                <p className="user-card-name absolute top-[145px] smallerDevice:top-[100px] bonusDevice:top-[145px] left-[15px] text-[20px] smallDevice:text-[15px] semiSmallDevice:top-[125px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
-                  {userData.firstName} {userData.lastName}
+                <p className="aboveBonusDevice:block max-w-[260px] mt-[10px] text-[rgb(167,177,188)]">
+                  This is the total value of all your assets at current prices
                 </p>
               </div>
-            ) : (
-              // Only display the loading spinner if selectedCard is not null
-              userData && (
-                <div className="flex items-center justify-center max-w-[500px] mx-auto">
-                  <ThreeCircles
-                    height={50}
-                    width={50}
-                    color="rgb(160,210,254)"
-                    visible={true}
-                    ariaLabel="three-circles-rotating"
+
+              <div className="mt-[20px] mb-[40px] largeDevice:w-[50%] max-w-[350px] mx-auto cursor-pointer">
+                {selectedCard ? (
+                  <div className="relative">
+                    <img
+                      src={selectedCard}
+                      alt=""
+                      className="w-full rounded-[8px]"
+                    />
+                    <p className="user-card-name absolute top-[145px] smallerDevice:top-[100px] bonusDevice:top-[145px] left-[15px] text-[20px] smallDevice:text-[15px] semiSmallDevice:top-[125px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
+                      {userData.firstName} {userData.lastName}
+                    </p>
+                  </div>
+                ) : (
+                  // Only display the loading spinner if selectedCard is not null
+                  userData && (
+                    <div className="flex items-center justify-center max-w-[500px] mx-auto">
+                      <ThreeCircles
+                        height={50}
+                        width={50}
+                        color="rgb(160,210,254)"
+                        visible={true}
+                        ariaLabel="three-circles-rotating"
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-evenly my-[30px] pt-[40px] pb-[35px] border-t-[1px] border-b-[1px] border-[rgb(50,56,63)] bg-[rgb(28,33,39)] sticky top-[50px]">
+            <div
+              className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]"
+              onClick={() => {
+                setTransactionModal(true);
+              }}
+            >
+              <i className="fa-solid fa-arrow-right aboveBonusDevice:text-[15px]"></i>
+              <p className="aboveBonusDevice:text-[20px]">Send</p>
+            </div>
+
+            <NavLink to="/wallet-buy">
+              <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
+                <i className="fa-solid fa-money-check-dollar aboveBonusDevice:text-[15px]"></i>
+                <p className="aboveBonusDevice:text-[20px]">Buy</p>
+              </div>
+            </NavLink>
+
+            <NavLink to="/wallet-sell">
+              <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
+                <i className="fa-solid fa-money-bill aboveBonusDevice:text-[15px]"></i>
+                <p className="aboveBonusDevice:text-[20px]">Sell</p>
+              </div>
+            </NavLink>
+
+            <NavLink
+              to="/wallet-swapcoin"
+              className={`smallerDevice:hidden smallDevice:hidden mediumDevice:block`}
+            >
+              <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
+                <i className="fa-solid fa-shuffle aboveBonusDevice:text-[15px]"></i>
+                <p className="aboveBonusDevice:text-[20px]">Swap</p>
+              </div>
+            </NavLink>
+          </div>
+
+          <div
+            className={`${
+              transactionModal
+                ? "bottom-[0px] largeDevice:top-[43%]"
+                : "bottom-[999px] largeDevice:top-[100%]"
+            } transaction-modal-container bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s] generalDevice:z-50 overflow-y-auto`}
+          >
+            <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[20px]">
+              <div className="flex justify-end pr-[10px]">
+                <i
+                  className="fa-solid fa-x cursor-pointer"
+                  onClick={() => {
+                    setTransactionModal(false);
+                  }}
+                ></i>
+              </div>
+              <p className="font-[600] text-center">Send Money</p>
+            </div>
+
+            <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[10px] w-[90%] mx-auto">
+              <div>
+                <p className="font-[600] text-[14px] mb-[5px]">From</p>
+                <p>
+                  Wallet Account {"("} {userData.accountNumber} {")"}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
+              <div>
+                <p className="font-[600] text-[14px] mb-[5px]">To</p>
+                <input
+                  type="text"
+                  placeholder="Acct Number"
+                  className="w-full outline-none text-[18px] bg-transparent"
+                  value={receiverAccountNumber}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const cleanedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+                    if (cleanedValue.length <= 10) {
+                      setReceiverAccountNumber(cleanedValue);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
+              <div>
+                <p className="font-[600] text-[14px] mb-[5px]">Enter Amount</p>
+                <div className="flex items-center gap-[2px] text-[18px]">
+                  <p>$</p>
+                  <input
+                    type="text"
+                    placeholder="Enter Amount"
+                    value={amount}
+                    onChange={handleInputChange}
+                    className="w-full outline-none text-[18px] bg-transparent"
                   />
                 </div>
-              )
-            )}
-          </div>
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <div className="flex justify-evenly my-[30px] pt-[40px] pb-[35px] border-t-[1px] border-b-[1px] border-[rgb(50,56,63)] bg-[rgb(28,33,39)] sticky top-[50px]">
-        <div
-          className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]"
-          onClick={() => {
-            setTransactionModal(true);
-          }}
-        >
-          <i className="fa-solid fa-arrow-right aboveBonusDevice:text-[15px]"></i>
-          <p className="aboveBonusDevice:text-[20px]">Send</p>
-        </div>
+            <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
+              <div>
+                <p className="font-[600] text-[14px] mb-[5px]">Equivalent To</p>
+                <div className="flex items-center gap-[2px] text-[18px]">
+                  <p>{country.symbol}</p>
+                  <input
+                    type="text"
+                    value={equivalentAmount}
+                    readOnly
+                    placeholder="Equivalent To"
+                    className="w-full outline-none text-[18px] bg-transparent"
+                  />
+                </div>
+              </div>
+            </div>
 
-        <NavLink to="/wallet-buy">
-          <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
-            <i className="fa-solid fa-money-check-dollar aboveBonusDevice:text-[15px]"></i>
-            <p className="aboveBonusDevice:text-[20px]">Buy</p>
-          </div>
-        </NavLink>
+            <div className="flex justify-center largeDevice:pr-[]">
+              <button
+                className="bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%]"
+                onClick={() => {
+                  setTransactionPinModal(true);
+                }}
+              >
+                Continue
+              </button>
+            </div>
 
-        <NavLink to="/wallet-sell">
-          <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
-            <i className="fa-solid fa-money-bill aboveBonusDevice:text-[15px]"></i>
-            <p className="aboveBonusDevice:text-[20px]">Sell</p>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/wallet-swapcoin"
-          className={`smallerDevice:hidden smallDevice:hidden mediumDevice:block`}
-        >
-          <div className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]">
-            <i className="fa-solid fa-shuffle aboveBonusDevice:text-[15px]"></i>
-            <p className="aboveBonusDevice:text-[20px]">Swap</p>
-          </div>
-        </NavLink>
-      </div>
-
-      <div
-        className={`${
-          transactionModal
-            ? "bottom-[0px] largeDevice:top-[43%]"
-            : "bottom-[999px] largeDevice:top-[100%]"
-        } transaction-modal-container bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s] generalDevice:z-50 overflow-y-auto`}
-      >
-        <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[20px]">
-          <div className="flex justify-end pr-[10px]">
-            <i
-              className="fa-solid fa-x cursor-pointer"
-              onClick={() => {
-                setTransactionModal(false);
-              }}
-            ></i>
-          </div>
-          <p className="font-[600] text-center">Send Money</p>
-        </div>
-
-        <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[10px] w-[90%] mx-auto">
-          <div>
-            <p className="font-[600] text-[14px] mb-[5px]">From</p>
-            <p>
-              Wallet Account {"("} {userData.accountNumber} {")"}
-            </p>
-          </div>
-        </div>
-
-        <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
-          <div>
-            <p className="font-[600] text-[14px] mb-[5px]">To</p>
-            <input
-              type="text"
-              placeholder="Acct Number"
-              className="w-full outline-none text-[18px] bg-transparent"
-              value={receiverAccountNumber}
-              onChange={(e) => {
-                const inputValue = e.target.value;
-                const cleanedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-
-                if (cleanedValue.length <= 10) {
-                  setReceiverAccountNumber(cleanedValue);
-                }
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
-          <div>
-            <p className="font-[600] text-[14px] mb-[5px]">Enter Amount</p>
-            <div className="flex items-center gap-[2px] text-[18px]">
-              <p>$</p>
-              <input
-                type="text"
-                placeholder="Enter Amount"
-                value={amount}
-                onChange={handleInputChange}
-                className="w-full outline-none text-[18px] bg-transparent"
+            <div
+              className={`${
+                transactionPinModal ? "block" : "hidden"
+              } bg-[rgba(0,0,0,0.3)] pt-[10px] generalDevice:pt-[10px] pb-[30px] fixed left-0 largeDevice:left-[230px] right-0 z-[999px] top-[29%] largeDevice:top-[43%] h-[100%]`}
+            >
+              <div className="flex justify-end pr-[10px] largeDevice:pr-[20px] mb-[100px] largeDevice:mb-[50px]">
+                <i
+                  className="fa-solid fa-x cursor-pointer"
+                  onClick={() => {
+                    setTransactionPinModal(false);
+                  }}
+                ></i>
+              </div>
+              <TransferPin
+                pin={pin}
+                setPin={setPin}
+                handleTransfer={handleTransfer}
+                message={message}
+                isLoading={isLoading}
               />
             </div>
           </div>
         </div>
-
-        <div className="border-b-[1px] border-[rgb(50,56,63)] pt-[10px] mb-[20px] w-[90%] mx-auto">
-          <div>
-            <p className="font-[600] text-[14px] mb-[5px]">Equivalent To</p>
-            <div className="flex items-center gap-[2px] text-[18px]">
-              <p>{country.symbol}</p>
-              <input
-                type="text"
-                value={equivalentAmount}
-                readOnly
-                placeholder="Equivalent To"
-                className="w-full outline-none text-[18px] bg-transparent"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-center largeDevice:pr-[]">
-          <button
-            className="bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%]"
-            onClick={() => {
-              setTransactionPinModal(true);
-            }}
-          >
-            Continue
-          </button>
-        </div>
-
-        <div
-          className={`${
-            transactionPinModal ? "block" : "hidden"
-          } bg-[rgba(0,0,0,0.3)] pt-[10px] generalDevice:pt-[10px] pb-[30px] fixed left-0 largeDevice:left-[230px] right-0 z-[999px] top-[29%] largeDevice:top-[43%] h-[100%]`}
-        >
-          <div className="flex justify-end pr-[10px] largeDevice:pr-[20px] mb-[100px] largeDevice:mb-[50px]">
-            <i
-              className="fa-solid fa-x cursor-pointer"
-              onClick={() => {
-                setTransactionPinModal(false);
-              }}
-            ></i>
-          </div>
-          <TransferPin
-            pin={pin}
-            setPin={setPin}
-            handleTransfer={handleTransfer}
-            message={message}
-          />
-        </div>
-      </div>
+      )}
     </section>
   );
 };

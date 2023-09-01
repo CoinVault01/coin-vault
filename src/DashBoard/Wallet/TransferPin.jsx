@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PinInput from "react-pin-input";
+import { ThreeCircles } from "react-loader-spinner";
 
-const TransferPin = ({ pin, setPin, handleTransfer, message }) => {
+const TransferPin = ({ pin, setPin, handleTransfer, isLoading }) => {
   return (
     <section className="bg-[rgb(28,33,39)] w-[90%] mx-auto max-w-[500px] rounded-[10px] py-[40px]">
       <div>
@@ -42,10 +43,27 @@ const TransferPin = ({ pin, setPin, handleTransfer, message }) => {
           <button
             className="bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%]"
             onClick={handleTransfer}
+            disabled={isLoading}
           >
-            Transfer
+            {isLoading ? (
+              <div className="w-[30px] mx-auto">
+                <ThreeCircles
+                  height="25"
+                  width="25"
+                  color="rgb(160,210,254)"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="three-circles-rotating"
+                  outerCircleColor=""
+                  innerCircleColor=""
+                  middleCircleColor=""
+                />
+              </div>
+            ) : (
+              "Transfer"
+            )}
           </button>
-          <p>{message}</p>
         </div>
       </div>
     </section>
