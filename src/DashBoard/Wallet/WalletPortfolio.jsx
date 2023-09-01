@@ -326,7 +326,7 @@ const WalletPortfolio = ({ userData }) => {
           transactionModal
             ? "bottom-[0px] largeDevice:top-[43%]"
             : "bottom-[999px] largeDevice:top-[100%]"
-        } transaction-modal-container bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s] overflow-y-auto`}
+        } transaction-modal-container bg-[rgb(18,23,29)] fixed left-0 largeDevice:left-[230px] right-0  transition-all ease-in-out duration-[1s] generalDevice:z-50 overflow-y-auto`}
       >
         <div className="border-b-[1px] border-[rgb(50,56,63)] py-[10px] mb-[20px]">
           <div className="flex justify-end pr-[10px]">
