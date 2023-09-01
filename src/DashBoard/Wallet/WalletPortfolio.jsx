@@ -11,19 +11,18 @@ import "react-toastify/dist/ReactToastify.css";
 import {LongCard} from "../../Skeleton/Skeleton"
 
 
-const WalletPortfolio = ({ userData }) => {
+const WalletPortfolio = ({ userData, setUserData }) => {
   const countryRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [countryDropDown, setCountryDropDown] = useState(false);
   const [transactionModal, setTransactionModal] = useState(false);
-  const [transactionPinModal, setTransactionPinModal] = useState(false)
+  const [transactionPinModal, setTransactionPinModal] = useState(false);
   const [convertedBalance, setConvertedBalance] = useState(null);
   const [equivalentAmount, setEquivalentAmount] = useState("");
   const [exchangeRates, setExchangeRates] = useState({});
   const [receiverAccountNumber, setReceiverAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
-  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [country, setCountry] = useState({
@@ -195,8 +194,11 @@ const WalletPortfolio = ({ userData }) => {
         setAmount("");
         setPin("");
         setEquivalentAmount("");
-        // Reload the browser page
-        window.location.reload();
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        
       } else {
         toast.error(error.response.data.error, {
           position: "top-right",
@@ -224,7 +226,6 @@ const WalletPortfolio = ({ userData }) => {
       setIsLoading(false);
     }
   };
-
 
   return (
     <section>
@@ -475,7 +476,6 @@ const WalletPortfolio = ({ userData }) => {
                 pin={pin}
                 setPin={setPin}
                 handleTransfer={handleTransfer}
-                message={message}
                 isLoading={isLoading}
               />
             </div>
