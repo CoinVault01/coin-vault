@@ -196,7 +196,7 @@ const WalletPortfolio = ({ userData }) => {
     <section>
       <div className="bg-[rgb(32,37,43)] rounded-[8px] w-[90%] mx-auto">
         <div className="mobileDeviceOnly:max-w-[450px] mobileDeviceOnly:mx-auto mobileDeviceOnly:px-[20px] flex flex-col aboveBonusDevice:flex-row aboveBonusDevice:px-[20px]">
-          <div className="largeDevice:w-[50%] mobileDeviceOnly:ml-[3rem] mt-[20px] largeDevice:pl-[20px]">
+          <div className="largeDevice:w-[50%] mediumDevice:ml-[30px]  mt-[20px] largeDevice:pl-[20px]">
             <div className="flex items-center gap-[20px]">
               <h1 className="font-[600]">Total Balance</h1>
               <div className="relative">
@@ -238,8 +238,9 @@ const WalletPortfolio = ({ userData }) => {
                 </div>
               </div>
             </div>
+
             <div className="flex items-center gap-[20px]">
-              <p className="text-[30px] font-[600]">
+              <p className="text-[30px] smallerDevice:text-[23px] bonusDevice:text-[25px] font-[600]">
                 {country.symbol}
                 {convertedBalance !== null && convertedBalance !== undefined
                   ? convertedBalance.toLocaleString()
