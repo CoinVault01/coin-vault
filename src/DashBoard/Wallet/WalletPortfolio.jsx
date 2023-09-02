@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {LongCard} from "../../Skeleton/Skeleton"
 
 
-const WalletPortfolio = ({ userData, setUserData }) => {
+const WalletPortfolio = ({ userData }) => {
   const countryRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [countryDropDown, setCountryDropDown] = useState(false);
@@ -451,10 +451,18 @@ const WalletPortfolio = ({ userData, setUserData }) => {
 
             <div className="flex justify-center largeDevice:pr-[]">
               <button
-                className="bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%]"
+                className={`bg-[rgb(8,32,76)] rounded-[10px] py-[10px] mb-[20px] font-[600] block max-w-[500px] w-[90%] ${
+                  receiverAccountNumber === "" || amount === ""
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
                 onClick={() => {
-                  setTransactionPinModal(true);
+                  if (receiverAccountNumber !== "" && amount !== "") {
+                    setTransactionPinModal(true);
+                    setTransactionModal(false);
+                  }
                 }}
+                disabled={receiverAccountNumber === "" || amount === ""}
               >
                 Continue
               </button>
@@ -463,21 +471,15 @@ const WalletPortfolio = ({ userData, setUserData }) => {
             <div
               className={`${
                 transactionPinModal ? "block" : "hidden"
-              } bg-[rgba(0,0,0,0.3)] pt-[10px] generalDevice:pt-[10px] pb-[30px] fixed left-0 largeDevice:left-[230px] right-0 z-[999px] top-[29%] largeDevice:top-[43%] h-[100%]`}
+              } bg-[rgba(0,0,0,0.5)] pt-[100px] largeDevice:pt-[70px] fixed left-0 largeDevice:left-[230px] right-0 z-[999px] top-[29%] largeDevice:top-[43%] h-[100%]`}
             >
-              <div className="flex justify-end pr-[10px] largeDevice:pr-[20px] mb-[100px] largeDevice:mb-[50px]">
-                <i
-                  className="fa-solid fa-x cursor-pointer"
-                  onClick={() => {
-                    setTransactionPinModal(false);
-                  }}
-                ></i>
-              </div>
               <TransferPin
                 pin={pin}
                 setPin={setPin}
                 handleTransfer={handleTransfer}
                 isLoading={isLoading}
+                setTransactionPinModal={setTransactionPinModal}
+                setTransactionModal={setTransactionModal}
               />
             </div>
           </div>
