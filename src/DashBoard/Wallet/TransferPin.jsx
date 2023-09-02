@@ -2,10 +2,28 @@ import React, { useState } from "react";
 import PinInput from "react-pin-input";
 import { ThreeCircles } from "react-loader-spinner";
 
-const TransferPin = ({ pin, setPin, handleTransfer, isLoading }) => {
+const TransferPin = ({
+  pin,
+  setPin,
+  handleTransfer,
+  isLoading,
+  setTransactionPinModal,
+  setTransactionModal,
+  handleClearPin,
+}) => {
   return (
-    <section className="bg-[rgb(28,33,39)] w-[90%] mx-auto max-w-[500px] rounded-[10px] py-[40px]">
+    <section className="bg-[rgb(28,33,39)] w-[90%] mx-auto max-w-[500px] rounded-[10px] pt-[20px] pb-[40px]">
       <div>
+        <div className="flex justify-end pr-[20px] mb-[10px]">
+          <i
+            className="fa-solid fa-x cursor-pointer"
+            onClick={() => {
+              setTransactionPinModal(false);
+              setTransactionModal(true)
+              handleClearPin()
+            }}
+          ></i>
+        </div>
         <div className="ml-[15px]">
           <div className="mb-[20px]">
             <label

@@ -17,12 +17,7 @@
 }
 
 .transaction-modal-container::-webkit-scrollbar-thumb {
-    background-color: rgb(116, 186, 247);
+    background-color: #555;
     border: 1px solid #555;
     border-radius: 20px;
-}
-
-/* Styling for the thumb when being hovered */
-.transaction-modal-container::-webkit-scrollbar-thumb:hover {
-    background-color: #333;
 }

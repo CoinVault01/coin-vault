@@ -21,7 +21,7 @@
 }
 
 .side-bar-container::-webkit-scrollbar-thumb {
-    background-color: rgb(116, 186, 247);
+    background-color: #555;
     border: 1px solid #555;
     border-radius: 10px;
 }
