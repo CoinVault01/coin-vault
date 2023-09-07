@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import coinVault from "./Login-Image/coin-bg.png";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,52 +13,53 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const handleLogin = useCallback(
+    async (e) => {
+      e.preventDefault();
+      setIsLoading(true);
 
-    try {
-      const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/login",
-        {
-          userName,
-          password,
-        }
-      )
-      const { token } = response.data;
-      localStorage.setItem("token", token);
+      try {
+        const response = await axios.post(
+          "https://coinvault.onrender.com/v1/auth/login",
+          {
+            userName,
+            password,
+          }
+        );
+        const { token } = response.data;
+        localStorage.setItem("token", token);
 
+        toast.success("Login successful!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
 
-
-      toast.success("Login successful!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-
-      setTimeout(() => {
-        navigate("/wallet-home");
-      }, 2000);
-    } catch (error) {
-      toast.error(error.response.data.error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        setTimeout(() => {
+          navigate("/wallet-home");
+        }, 2000);
+      } catch (error) {
+        toast.error(error.response.data.error, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [userName, password, navigate]
+  );
 
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
