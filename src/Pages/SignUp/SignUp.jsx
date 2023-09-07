@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useCallback } from "react";
 import "../SignUp/SignUp.css";
 import axios from "axios";
 import coinVault from "./SignUp-Image/coin-bg.png";
@@ -11,8 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [user, setUser] = useState({
     userName: "",
@@ -31,62 +31,64 @@ const SignUp = () => {
     setStep(step - 1);
   };
 
-  const handleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      setIsLoading(true); // Set loading state to true
-
-      // Make the API request using supercool axios 😎
-      const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/signup",
-        user
-      );
-
-      // Display success message using Toastify
-      toast.success(response.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
+  const handleChange = useCallback(
+    (e) => {
+      setUser({
+        ...user,
+        [e.target.name]: e.target.value,
       });
+    },
+    [user]
+  );
 
-      // Save email and token in localStorage
-      localStorage.setItem("email", user.email);
-      localStorage.setItem("token", response.data.token);
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-      setTimeout(() => {
-        navigate("/verifyemail");
-      }, 3000);
-    } catch (error) {
-      // Display error message using Toastify
-      toast.error(error.response.data.error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } finally {
-      setIsLoading(false); // Set loading state back to false
-    }
-  };
+      try {
+        setIsLoading(true);
 
-  const renderComponent = () => {
+        const response = await axios.post(
+          "https://coinvault.onrender.com/v1/auth/signup",
+          user
+        );
+
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("token", response.data.token);
+
+        setTimeout(() => {
+          navigate("/verifyemail");
+        }, 3000);
+      } catch (error) {
+        toast.error(error.response.data.error, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [user, navigate]
+  );
+
+  const renderComponent = useCallback(() => {
     switch (step) {
       case 1:
         return (
@@ -127,7 +129,16 @@ const SignUp = () => {
       default:
         return null;
     }
-  };
+  }, [
+    step,
+    user,
+    handleChange,
+    handleNext,
+    handlePrevious,
+    handleSubmit,
+    isLoading,
+  ]);
+
 
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
