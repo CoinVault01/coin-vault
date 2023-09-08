@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
-import BuyCoinData from "./buyCoinData";
 import axios from "axios";
+import BuyCoinList from "./BuyCoinList";
+import { RotatingLines } from "react-loader-spinner";
 
 
 
@@ -38,7 +39,21 @@ const Buy = () => {
       <div>
         <DashboardLayout />
         <div className="pt-[100px] generalDevice:pt-[70px] largeDevice:ml-[230px]">
-          <BuyCoinData userData={userData} />
+          {loading ? (
+            <div className="w-[30px] mx-auto">
+              <RotatingLines
+                strokeColor="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="60"
+                visible={true}
+              />
+            </div>
+          ) : (
+            <div>
+              <BuyCoinList userData={userData} />
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@ import axios from "axios";
 import "../Buy-Assets/Buy.css";
 import { RotatingLines } from "react-loader-spinner";
 
-const BuyCoinData = ({ userData }) => {
+const BuyCoinList = ({ userData }) => {
   const [showGlowingBorder, setShowGlowingBorder] = useState(false);
   const [userCryptoData, setUserCryptoData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,6 +58,7 @@ const BuyCoinData = ({ userData }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
 
   return (
     <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[500px] largeDevice:ml-[40px] bg-[rgb(32,37,43)] largeDevice:rounded-[10px]">
@@ -142,4 +143,4 @@ const BuyCoinData = ({ userData }) => {
   );
 };
 
-export default BuyCoinData;
+export default BuyCoinList;
