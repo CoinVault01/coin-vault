@@ -89,7 +89,7 @@ const BuyCoinList = ({ userData }) => {
         </div>
       </div>
 
-      <div className="h-[500px]">
+      <div className="h-[100vh] largeDevice:h-[480px]">
         {loading ? (
           <div className="w-[30px] mx-auto">
             <RotatingLines
@@ -101,7 +101,7 @@ const BuyCoinList = ({ userData }) => {
             />
           </div>
         ) : (
-          <ul className="buy-coin-data h-[500px] overflow-y-auto">
+          <ul className="buy-coin-data h-[100%] overflow-y-auto">
             {displayCoins.map((crypto, index) => (
               <li
                 key={index}
