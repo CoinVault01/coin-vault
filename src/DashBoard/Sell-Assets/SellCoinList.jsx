@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import "../Buy-Assets/Buy.css";
+import "../Sell-Assets/Sell.css";
 import { RotatingLines } from "react-loader-spinner";
 
-const BuyCoinList = ({ userData }) => {
+const SellCoinList = ({ userData }) => {
   const [showGlowingBorder, setShowGlowingBorder] = useState(false);
   const [userCryptoData, setUserCryptoData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,6 @@ const BuyCoinList = ({ userData }) => {
           `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
         );
         setUserCryptoData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user crypto holdings:", error.message);
@@ -60,12 +59,11 @@ const BuyCoinList = ({ userData }) => {
     };
   }, []);
 
-
   return (
     <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[500px] largeDevice:ml-[40px] bg-[rgb(32,37,43)] largeDevice:rounded-[10px]">
       <div className="border-b-[1px] border-[rgb(46,52,59)] py-[10px] pl-[20px]">
         <h1 className="text-[rgb(165,177,189)] font-[600]">
-          Select Assets To Buy
+          Select Assets To Sell
         </h1>
       </div>
 
@@ -102,7 +100,7 @@ const BuyCoinList = ({ userData }) => {
             />
           </div>
         ) : (
-          <ul className="buy-coin-data h-[100%] overflow-y-auto">
+          <ul className="sell-coin-data h-[100%] overflow-y-auto">
             {displayCoins.map((crypto, index) => (
               <li
                 key={index}
@@ -144,4 +142,4 @@ const BuyCoinList = ({ userData }) => {
   );
 };
 
-export default BuyCoinList;
+export default SellCoinList;
