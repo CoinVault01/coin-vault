@@ -3,7 +3,7 @@ import React from 'react'
 const BuyCoinModal = () => {
   return (
     <section>
-      <div>BuyCoinModal</div>
+      <div>BuyCoinModal bus</div>
     </section>
   );
 }
