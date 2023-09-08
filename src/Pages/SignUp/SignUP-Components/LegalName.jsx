@@ -1,32 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const LegalName = ({
-  handleChange,
-  handleNext,
-  handlePrevious,
-  user,
-}) => {
+const LegalName = ({ handleChange, handleNext, handlePrevious, user }) => {
   const savedUserName = localStorage.getItem("userName");
-  
+
   useEffect(() => {
     // Load saved value from local storage on component mount
     const savedfirstName = localStorage.getItem("firstName");
     const savedlastName = localStorage.getItem("lastName");
 
-    if (savedfirstName) {
-      // Set the saved value in the component state
+    if (savedfirstName && savedlastName) {
+      // Set the saved values in the component state
       handleChange({
-        target: { name: "firstName", value: savedfirstName, lastName: "lastName", value: savedlastName },
+        target: { name: "firstName", value: savedfirstName },
+      });
+      handleChange({
+        target: { name: "lastName", value: savedlastName },
       });
     }
   }, []);
 
-  // Save the first name to local storage whenever it changes
+  // Save the first name and last name to local storage whenever they change
   useEffect(() => {
     localStorage.setItem("firstName", user.firstName);
     localStorage.setItem("lastName", user.lastName);
-  }, [user.firstName], [user.lastName]);
+  }, [user.firstName, user.lastName]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
