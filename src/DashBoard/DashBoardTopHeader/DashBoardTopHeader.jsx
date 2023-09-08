@@ -4,7 +4,7 @@ import coinvault from "./DashBoardTopHeader-Image/coin-bg.png";
 import axios from "axios";
 import "../DashBoardTopHeader/DashBoardTopHeader.css"
 import Logout from "../../Pages/LogOut/Logout";
-import { ThreeCircles } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const DashBoardTopHeader = ({
   showNav,
@@ -18,7 +18,6 @@ const DashBoardTopHeader = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [closeLogout, setCloseLogout] = useState(false);
-  const [userProfileData, setUserProfileData] = useState({});
 
   const handleLogout = () => {
     setCloseLogout(false);
@@ -132,17 +131,12 @@ const DashBoardTopHeader = ({
               <div className="flex items-center gap-[10px] bg-[rgb(18,23,29)]  rounded-t-[5px] w-[150px] rounded-b-[5px] py-[3px] cursor-pointer">
                 {!userData ? (
                   <div className="w-[30px] mx-auto">
-                    <ThreeCircles
-                      height="25"
-                      width="25"
-                      color="rgb(160,210,254)"
-                      wrapperStyle={{}}
-                      wrapperClass=""
+                    <RotatingLines
+                      strokeColor="grey"
+                      strokeWidth="5"
+                      animationDuration="0.75"
+                      width="20"
                       visible={true}
-                      ariaLabel="three-circles-rotating"
-                      outerCircleColor=""
-                      innerCircleColor=""
-                      middleCircleColor=""
                     />
                   </div>
                 ) : (
@@ -199,17 +193,12 @@ const DashBoardTopHeader = ({
             <NavLink to="/wallet-settings">
               {!userData ? (
                 <div className="w-[30px] mx-auto">
-                  <ThreeCircles
-                    height="25"
-                    width="25"
-                    color="rgb(160,210,254)"
-                    wrapperStyle={{}}
-                    wrapperClass=""
+                  <RotatingLines
+                    strokeColor="grey"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="20"
                     visible={true}
-                    ariaLabel="three-circles-rotating"
-                    outerCircleColor=""
-                    innerCircleColor=""
-                    middleCircleColor=""
                   />
                 </div>
               ) : (
