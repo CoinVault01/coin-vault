@@ -3,7 +3,7 @@ import axios from "axios";
 import "../Buy-Assets/Buy.css";
 import { RotatingLines } from "react-loader-spinner";
 
-const BuyCoinList = ({ userData }) => {
+const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   const [showGlowingBorder, setShowGlowingBorder] = useState(false);
   const [userCryptoData, setUserCryptoData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,9 +60,8 @@ const BuyCoinList = ({ userData }) => {
     };
   }, []);
 
-
   return (
-    <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[500px] largeDevice:ml-[40px] bg-[rgb(32,37,43)] largeDevice:rounded-[10px]">
+    <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[50%] bg-[rgb(32,37,43)] largeDevice:rounded-[10px]">
       <div className="border-b-[1px] border-[rgb(46,52,59)] py-[10px] pl-[20px]">
         <h1 className="text-[rgb(165,177,189)] font-[600]">
           Select Assets To Buy
@@ -108,7 +107,8 @@ const BuyCoinList = ({ userData }) => {
                 key={index}
                 className="flex justify-between border-b-[1px] border-[rgb(46,52,59)] py-[10px] px-[10px] cursor-pointer"
                 onClick={() => {
-                  setSearchQuery("");
+                  setSelectedCrypto(crypto); // Set the selected crypto
+                  setIsModalVisible(true);
                 }}
               >
                 <span className="flex items-center gap-[10px]">
@@ -125,14 +125,16 @@ const BuyCoinList = ({ userData }) => {
                   <span className="flex items-center gap-[10px]">
                     <p>
                       {Number(crypto.amount).toFixed(3)}{" "}
-                      <span className="text-[rgb(165,177,189)] font-[600] uppercase">
+                      <span className="font-[600] uppercase">
                         {crypto.symbol}
                       </span>
                     </p>
                   </span>
 
                   <span className="flex justify-end">
-                    <p>$ 0.00</p>
+                    <p className="text-[rgb(165,177,189)] font-[600]">
+                      ${Number(crypto.fiatValue).toFixed(3)}
+                    </p>
                   </span>
                 </span>
               </li>
