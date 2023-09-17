@@ -1,10 +1,99 @@
 import React, { useEffect, useState } from "react";
 import USD from "../Buy-Assets/Buy-Assets-Images/USD.png";
 import { ThreeCircles } from "react-loader-spinner";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 
 const BuyCoinModal = ({ selectedCrypto, userData }) => {
-  const [isLoading, setIsLoading] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
+   const [usdAmount, setUsdAmount] = useState("");
+   const [cryptoEquivalent, setCryptoEquivalent] = useState("");
+   const [cryptoPrice, setCryptoPrice] = useState(null);
+
+   useEffect(() => {
+     if (selectedCrypto) {
+       // Fetch the current price of the selected cryptocurrency from CoinGecko
+       axios
+         .get(
+           `https://api.coingecko.com/api/v3/simple/price?ids=${selectedCrypto.id}&vs_currencies=usd`
+         )
+         .then((response) => {
+           const price = response.data[selectedCrypto.id]?.usd;
+           if (price) {
+             setCryptoPrice(price);
+           }
+         })
+         .catch((error) => {
+           console.error("Error fetching cryptocurrency price:", error);
+         });
+     }
+   }, [selectedCrypto]);
+
+   const calculateCryptoEquivalent = () => {
+     if (!usdAmount || !cryptoPrice) {
+       setCryptoEquivalent("");
+       return;
+     }
+
+     const usdValue = parseFloat(usdAmount);
+     const cryptoValue = usdValue / cryptoPrice;
+
+     setCryptoEquivalent(cryptoValue.toFixed(3));
+   };
+
+   useEffect(() => {
+     calculateCryptoEquivalent();
+   }, [usdAmount, cryptoPrice]);
+
+   const handleUsdInputChange = (event) => {
+     setUsdAmount(event.target.value);
+   };
+
+   const handleBuyClick = async () => {
+     setIsLoading(true);
+
+     try {
+       // Send a POST request to the backend to buy cryptocurrency
+       const response = await axios.post(
+         "https://coinvault.onrender.com/v1/auth/buy-crypto",
+         {
+           coinSymbol: selectedCrypto.id,
+           amountToBuy: parseFloat(usdAmount),
+         },
+         {
+           headers: {
+             Authorization: `Bearer ${localStorage.getItem("token")}`,
+           },
+         }
+       );
+
+       // Handle the success response from the backend
+       console.log("Cryptocurrency purchased successfully:", response.data);
+
+       // Reset the form and loading state
+       setUsdAmount("");
+       setCryptoEquivalent("");
+     } catch (error) {
+       // Handle errors from the backend
+       console.error("Error buying cryptocurrency:", error);
+
+       if (error.response) {
+         // The request was made, but the server responded with a status code that falls out of the range of 2xx
+         console.log("Server response data:", error.response.data);
+         console.log("Server response status:", error.response.status);
+       } else if (error.request) {
+         // The request was made but no response was received
+         console.log("No response received:", error.request);
+       } else {
+         // Something happened in setting up the request that triggered an error
+         console.error("Error setting up the request:", error.message);
+       }
+     } finally {
+       // Reset the loading state
+       setIsLoading(false);
+     }
+   };
+
+
 
 
   return (
@@ -30,6 +119,8 @@ const BuyCoinModal = ({ selectedCrypto, userData }) => {
             <input
               type="text"
               className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
+              value={cryptoEquivalent}
+              readOnly
             />
           </div>
         </div>
@@ -50,6 +141,8 @@ const BuyCoinModal = ({ selectedCrypto, userData }) => {
             <input
               type="text"
               className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
+              value={usdAmount}
+              onChange={handleUsdInputChange}
             />
           </div>
 
@@ -67,6 +160,7 @@ const BuyCoinModal = ({ selectedCrypto, userData }) => {
         <button
           className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] mx-auto"
           disabled={isLoading}
+          onClick={handleBuyClick}
         >
           {isLoading ? (
             <div className="w-[30px] mx-auto">
