@@ -86,6 +86,10 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
         theme: "dark",
       });
 
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+
       // Reset the form and loading state
       setUsdAmount("");
       setCryptoEquivalent("");
@@ -180,7 +184,11 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
 
         <button
           className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] mx-auto"
-          disabled={isLoading}
+          disabled={isLoading || !usdAmount}
+          style={{
+            opacity: usdAmount ? 1 : 0.5,
+            cursor: usdAmount ? "pointer" : "not-allowed",
+          }}
           onClick={handleBuyClick}
         >
           {isLoading ? (
