@@ -26,6 +26,7 @@ const Buy = () => {
           }
         );
         setUserData(response.data);
+        
         setIsLoading(false); // Set loading state to false after data is fetched
       } catch (error) {
         console.error(error);
