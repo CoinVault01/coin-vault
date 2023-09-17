@@ -11,6 +11,20 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   const [filteredCoins, setFilteredCoins] = useState([]);
   const divRef = useRef(null);
 
+  function addCommasToNumber(numberString) {
+    // Split the string into integer and decimal parts
+    const [integerPart, decimalPart] = numberString.split(".");
+
+    // Add commas to the integer part
+    const numberWithCommas = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    // Combine integer and decimal parts, and add the decimal part if it exists
+    return decimalPart
+      ? numberWithCommas + "." + decimalPart
+      : numberWithCommas;
+  }
+
+
   useEffect(() => {
     const fetchUserCryptoData = async () => {
       try {
@@ -133,7 +147,7 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
 
                   <span className="flex justify-end">
                     <p className="text-[rgb(165,177,189)] font-[600]">
-                      ${Number(crypto.fiatValue).toFixed(3)}
+                      ${addCommasToNumber(Number(crypto.fiatValue).toFixed(3))}
                     </p>
                   </span>
                 </span>
