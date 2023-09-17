@@ -63,6 +63,7 @@ const Buy = () => {
               {isModalVisible && (
                 <BuyCoinModal
                   selectedCrypto={selectedCrypto}
+                  setIsModalVisible={setIsModalVisible}
                   userData={userData}
                 />
               )}
