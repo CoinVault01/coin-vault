@@ -121,6 +121,8 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
             className="fa-solid fa-xmark cursor-pointer"
             onClick={() => {
               setIsModalVisible(false);
+              setUsdAmount("");
+              setCryptoEquivalent("");
             }}
           ></i>
         </div>
