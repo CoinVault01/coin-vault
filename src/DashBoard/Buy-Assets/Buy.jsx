@@ -5,8 +5,6 @@ import BuyCoinList from "./BuyCoinList";
 import { RotatingLines } from "react-loader-spinner";
 import BuyCoinModal from "./BuyCoinModal";
 
-
-
 const Buy = () => {
   const [userData, setUserData] = useState({});
   const [loading, setIsLoading] = useState(true);

@@ -3,11 +3,14 @@ import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
 import SellCoinList from "./SellCoinList";
+import SellCoinModal from "./SellCoinModal";
 
 
 const Sell = () => {
   const [userData, setUserData] = useState({});
   const [loading, setIsLoading] = useState(true);
+  const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     // Fetch user data here using an API endpoint
@@ -49,8 +52,19 @@ const Sell = () => {
               />
             </div>
           ) : (
-            <div>
-              <SellCoinList userData={userData} />
+            <div className="largeDevice:flex gap-[40px] largeDevice:px-[40px]">
+              <SellCoinList
+                userData={userData}
+                setSelectedCrypto={setSelectedCrypto}
+                setIsModalVisible={setIsModalVisible}
+              />
+              {isModalVisible && (
+                <SellCoinModal
+                  selectedCrypto={selectedCrypto}
+                  setIsModalVisible={setIsModalVisible}
+                  userData={userData}
+                />
+              )}
             </div>
           )}
         </div>
