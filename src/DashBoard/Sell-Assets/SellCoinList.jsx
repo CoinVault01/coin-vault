@@ -124,7 +124,7 @@ const SellCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
                 }}
               >
                 <span className="flex items-center gap-[10px]">
-                  <img src={crypto.image} alt="" className="w-[35px]" />
+                  <img src={crypto.image} alt="" className="w-[35px] select-none" />
                   <span className="block">
                     <p className="font-[600] text-[15px]">{crypto.name}</p>
                     <p className="text-[rgb(165,177,189)] text-[13px] font-[600] uppercase">

@@ -136,7 +136,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
               <img
                 src={selectedCrypto ? selectedCrypto.image : ""}
                 alt=""
-                className="block w-[30px]"
+                className="block w-[30px] select-none"
               />
               <p className="uppercase font-[600]">
                 {selectedCrypto ? selectedCrypto.symbol : ""}
