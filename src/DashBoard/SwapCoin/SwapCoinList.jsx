@@ -3,13 +3,26 @@ import axios from "axios";
 import "../Sell-Assets/Sell.css";
 import { RotatingLines } from "react-loader-spinner";
 
-const SwapCoinList = ({ userData }) => {
+const SwapCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   const [showGlowingBorder, setShowGlowingBorder] = useState(false);
   const [userCryptoData, setUserCryptoData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
   const divRef = useRef(null);
+
+  function addCommasToNumber(numberString) {
+    // Split the string into integer and decimal parts
+    const [integerPart, decimalPart] = numberString.split(".");
+
+    // Add commas to the integer part
+    const numberWithCommas = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    // Combine integer and decimal parts, and add the decimal part if it exists
+    return decimalPart
+      ? numberWithCommas + "." + decimalPart
+      : numberWithCommas;
+  }
 
   useEffect(() => {
     const fetchUserCryptoData = async () => {
@@ -60,7 +73,7 @@ const SwapCoinList = ({ userData }) => {
   }, []);
 
   return (
-    <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[500px] largeDevice:ml-[40px] bg-[rgb(32,37,43)] largeDevice:rounded-[10px]">
+    <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[50%] bg-[rgb(32,37,43)] largeDevice:rounded-[10px]">
       <div className="border-b-[1px] border-[rgb(46,52,59)] py-[10px] pl-[20px]">
         <h1 className="text-[rgb(165,177,189)] font-[600]">
           Select Assets To Swap
@@ -106,11 +119,16 @@ const SwapCoinList = ({ userData }) => {
                 key={index}
                 className="flex justify-between border-b-[1px] border-[rgb(46,52,59)] py-[10px] px-[10px] cursor-pointer"
                 onClick={() => {
-                  setSearchQuery("");
+                  setSelectedCrypto(crypto); // Set the selected crypto
+                  setIsModalVisible(true);
                 }}
               >
                 <span className="flex items-center gap-[10px]">
-                  <img src={crypto.image} alt="" className="w-[35px]" />
+                  <img
+                    src={crypto.image}
+                    alt=""
+                    className="w-[35px] select-none"
+                  />
                   <span className="block">
                     <p className="font-[600] text-[15px]">{crypto.name}</p>
                     <p className="text-[rgb(165,177,189)] text-[13px] font-[600] uppercase">
@@ -122,7 +140,7 @@ const SwapCoinList = ({ userData }) => {
                 <span className="flex flex-col">
                   <span className="flex items-center gap-[10px]">
                     <p>
-                      {Number(crypto.amount).toFixed(3)}{" "}
+                      {Number(crypto.amount).toFixed(5)}{" "}
                       <span className="text-[rgb(165,177,189)] font-[600] uppercase">
                         {crypto.symbol}
                       </span>
@@ -130,7 +148,9 @@ const SwapCoinList = ({ userData }) => {
                   </span>
 
                   <span className="flex justify-end">
-                    <p>$ 0.00</p>
+                    <p className="text-[rgb(165,177,189)] font-[600]">
+                      ${addCommasToNumber(Number(crypto.fiatValue).toFixed(3))}
+                    </p>
                   </span>
                 </span>
               </li>

@@ -3,10 +3,13 @@ import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
 import SwapCoinList from "./SwapCoinList";
+import SwapCoinModal from "./SwapCoinModal";
 
 const SwapCoin = () => {
   const [userData, setUserData] = useState({});
   const [loading, setIsLoading] = useState(true);
+  const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     // Fetch user data here using an API endpoint
@@ -47,8 +50,19 @@ const SwapCoin = () => {
               />
             </div>
           ) : (
-            <div>
-              <SwapCoinList userData={userData} />
+            <div className="largeDevice:flex gap-[40px] largeDevice:px-[40px]">
+              <SwapCoinList
+                userData={userData}
+                setSelectedCrypto={setSelectedCrypto}
+                setIsModalVisible={setIsModalVisible}
+              />
+              {isModalVisible && (
+                <SwapCoinModal
+                  selectedCrypto={selectedCrypto}
+                  setIsModalVisible={setIsModalVisible}
+                  userData={userData}
+                />
+              )}
             </div>
           )}
         </div>
