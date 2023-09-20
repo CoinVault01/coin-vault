@@ -12,6 +12,8 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [isMaxClicked, setIsMaxClicked] = useState(false);
   const [selectedCryptoData, setSelectedCryptoData] = useState(null);
   const [listDropdown, setListDropdown] = useState(false)
+  const [searchInput, setSearchInput] = useState("");
+
 
    const handleCryptoItemClick = (crypto) => {
      setSelectedCryptoData(crypto);
@@ -246,22 +248,38 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
             <div
               className={`${
                 listDropdown ? "block" : "hidden"
-              } h-[210px] bg-[rgb(28,33,39)] rounded-[8px]`}
+              } h-[210px] bg-[rgb(28,33,39)] rounded-[8px] pt-[10px]`}
             >
+              <div className="w-[90%] mx-auto mb-[10px] bg-[rgb(32,37,43)]">
+                <input
+                  type="text"
+                  className="w-full bg-transparent pl-[5px] text-[18px] font-[600]"
+                  placeholder="Search Assets"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+              </div>
               <ul className="sell-coin-data h-[100%] overflow-y-auto">
-                {userCryptoData.map((crypto, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center gap-[10px] border-b-[1px] border-[rgb(46,52,59)] py-[10px] px-[10px] cursor-pointer"
-                    onClick={() => {
-                      handleCryptoItemClick(crypto);
-                      setListDropdown(false);
-                    }}
-                  >
-                    <img src={crypto.image} alt="" className="w-[35px]" />
-                    <p className="font-[600] text-[18px]">{crypto.name}</p>
-                  </li>
-                ))}
+                {userCryptoData
+                  .filter((crypto) =>
+                    crypto.name
+                      .toLowerCase()
+                      .includes(searchInput.toLowerCase())
+                  )
+                  .map((crypto, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center gap-[10px] border-b-[1px] border-[rgb(46,52,59)] py-[10px] px-[10px] cursor-pointer"
+                      onClick={() => {
+                        handleCryptoItemClick(crypto);
+                        setListDropdown(false);
+                        setSearchInput("")
+                      }}
+                    >
+                      <img src={crypto.image} alt="" className="w-[35px]" />
+                      <p className="font-[600] text-[18px]">{crypto.name}</p>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>

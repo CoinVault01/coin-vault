@@ -299,7 +299,7 @@ const WalletPortfolio = ({ userData }) => {
                   </p>
                 </div>
                 <p className="aboveBonusDevice:block max-w-[260px] mt-[10px] text-[rgb(167,177,188)]">
-                  This is the total value of all your assets at current prices
+                  This is the total value of all your wallet balance at current price
                 </p>
               </div>
 
@@ -333,7 +333,7 @@ const WalletPortfolio = ({ userData }) => {
             </div>
           </div>
 
-          <div className="flex justify-evenly my-[30px] pt-[40px] pb-[35px] border-t-[1px] border-b-[1px] border-[rgb(50,56,63)] bg-[rgb(28,33,39)] sticky top-[50px]">
+          <div className="flex justify-evenly my-[30px] pt-[40px] pb-[35px] border-t-[1px] border-b-[1px] border-[rgb(50,56,63)] bg-[rgb(28,33,39)]">
             <div
               className="bg-[rgb(32,37,43)] flex items-center gap-[10px] text-[15px] py-[10px] px-[20px] aboveBonusDevice:py-[10px] aboveBonusDevice:px-[40px] border-[1px] border-[rgb(38,41,50)] rounded-[8px] font-[600] cursor-pointer w-[100px] aboveBonusDevice:w-auto hover:bg-[rgb(18,23,29)]"
               onClick={() => {
