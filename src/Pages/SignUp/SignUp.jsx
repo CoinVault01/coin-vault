@@ -50,7 +50,10 @@ const SignUp = () => {
 
         const response = await axios.post(
           "https://coinvault.onrender.com/v1/auth/signup",
-          user
+          user,
+          {
+            withCredentials: true, // Send credentials (cookies) with the request
+          }
         );
 
         toast.success(response.data.message, {
