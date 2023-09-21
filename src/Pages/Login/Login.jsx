@@ -24,6 +24,9 @@ const Login = () => {
           {
             userName,
             password,
+          },
+          {
+            withCredentials: true, // Send credentials (cookies) with the request
           }
         );
         const { token } = response.data;
