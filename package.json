@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
+    "@yudiel/react-qr-scanner": "^1.1.10",
     "antd": "^5.9.2",
     "axios": "^1.4.0",
     "chart.js": "^4.3.2",

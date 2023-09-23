@@ -3,26 +3,12 @@ import { ThreeCircles } from "react-loader-spinner";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { QrScanner } from "@yudiel/react-qr-scanner";
 
 const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [receiverAddress, setReceiverAddress] = useState("");
   const [amountToSend, setAmountToSend] = useState("");
-   const [isCameraModalOpen, setIsCameraModalOpen] = useState(false);
-
-  const handleCameraIconClick = () => {
-    setIsCameraModalOpen(!isCameraModalOpen);
-  };
-
-  // Function to handle capturing an image from the camera (you need to implement this)
-  const handleCaptureImage = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      // Implement image capture logic using the camera stream
-    } catch (error) {
-      console.error("Error accessing the camera:", error);
-    }
-  };
 
   const handleSendCoin = async () => {
     setIsLoading(true);
@@ -86,15 +72,10 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   return (
     <section>
       <ToastContainer hideProgressBar autoClose={3000} />
-
-      {isCameraModalOpen && (
-        <div className="camera-modal">
-          {/* Add camera preview here */}
-          <button onClick={handleCaptureImage}>Capture Image</button>
-          {/* Add close button or any other UI elements */}
-        </div>
-      )}
-
+      <QrScanner
+        onDecode={(result) => console.log(result)}
+        onError={(error) => console.log(error?.message)}
+      />
       <div className="w-[90%] mx-auto pt-[10px]">
         <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] mb-[10px]">
           <i
@@ -131,10 +112,7 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
               onChange={(e) => setReceiverAddress(e.target.value)}
             />
 
-            <div
-              className="flex items-center bg-[rgb(75,172,211)] rounded-[8px] py-[5px] px-[15px] font-[600] text-[20px]"
-              onClick={handleCameraIconClick}
-            >
+            <div className="flex items-center bg-[rgb(75,172,211)] rounded-[8px] py-[5px] px-[15px] font-[600] text-[20px]">
               <i className="fa-solid fa-camera"></i>
             </div>
           </div>
