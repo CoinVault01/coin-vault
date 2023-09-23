@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import { QRCode } from "antd";
 
 const ReceiveCoinModal = ({ selectedCryptoData }) => {
   return (
     <section>
-      <p>{selectedCryptoData && selectedCryptoData.address}</p>
+      <QRCode value={selectedCryptoData && selectedCryptoData.address} />
+      {/* <p>{selectedCryptoData && selectedCryptoData.address}</p> */}
     </section>
   );
 };
 
-export default ReceiveCoinModal
+export default ReceiveCoinModal;
