@@ -3,22 +3,24 @@ import { ThreeCircles } from "react-loader-spinner";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import QrReader from "react-qr-scanner";
 
 const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [receiverAddress, setReceiverAddress] = useState("");
   const [amountToSend, setAmountToSend] = useState("");
-  const [showQRScanner, setShowQRScanner] = useState(false);
-  const videoRef = useRef(null);
+   const [isCameraModalOpen, setIsCameraModalOpen] = useState(false);
 
-  // Function to handle QR code scanning
-  const handleQRScan = (data) => {
-    if (data) {
-      // Set the scanned data as the receiver address
-      setReceiverAddress(data);
-      // Close the QR scanner
-      setShowQRScanner(false);
+  const handleCameraIconClick = () => {
+    setIsCameraModalOpen(!isCameraModalOpen);
+  };
+
+  // Function to handle capturing an image from the camera (you need to implement this)
+  const handleCaptureImage = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Implement image capture logic using the camera stream
+    } catch (error) {
+      console.error("Error accessing the camera:", error);
     }
   };
 
@@ -85,20 +87,14 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
     <section>
       <ToastContainer hideProgressBar autoClose={3000} />
 
-      {showQRScanner && (
-        <div className="qr-scanner">
-          <QrReader
-            delay={300}
-            onError={(err) => console.error(err)}
-            onScan={handleQRScan}
-            videoConstraints={{
-              facingMode: "environment", // Use the rear camera if available
-            }}
-            ref={videoRef}
-          />
+      {isCameraModalOpen && (
+        <div className="camera-modal">
+          {/* Add camera preview here */}
+          <button onClick={handleCaptureImage}>Capture Image</button>
+          {/* Add close button or any other UI elements */}
         </div>
       )}
-      
+
       <div className="w-[90%] mx-auto pt-[10px]">
         <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] mb-[10px]">
           <i
@@ -137,12 +133,9 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
 
             <div
               className="flex items-center bg-[rgb(75,172,211)] rounded-[8px] py-[5px] px-[15px] font-[600] text-[20px]"
-              onClick={() => {
-                setShowQRScanner(true);
-                setShowQRScanner(false);
-              }}
+              onClick={handleCameraIconClick}
             >
-              <i class="fa-solid fa-qrcode"></i>
+              <i className="fa-solid fa-camera"></i>
             </div>
           </div>
         </div>
