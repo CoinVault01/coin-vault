@@ -1,15 +1,18 @@
 import React from "react";
 import { QRCode } from "antd";
 
-const ReceiveCoinModal = ({ selectedCryptoData }) => {
+const ReceiveCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   return (
     <section>
       <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] py-[10px] px-[20px]">
         <i
           className="fa-solid fa-xmark cursor-pointer"
-          
+          onClick={() => {
+            setIsModalVisible(false);
+          }}
         ></i>
       </div>
+
       <div className="flex flex-col justify-center items-center mt-[40px] mb-[20px] bg-[rgba(244,244,244,0.86)] rounded-[8px] w-[280px] mx-auto py-[40px]">
         <div className="mb-[10px]">
           <QRCode value={selectedCryptoData && selectedCryptoData.address} />
