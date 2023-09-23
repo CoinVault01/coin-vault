@@ -4,8 +4,26 @@ import { QRCode } from "antd";
 const ReceiveCoinModal = ({ selectedCryptoData }) => {
   return (
     <section>
-      <QRCode value={selectedCryptoData && selectedCryptoData.address} />
-      {/* <p>{selectedCryptoData && selectedCryptoData.address}</p> */}
+      <div className="flex flex-col justify-center items-center mt-[40px] mb-[20px] bg-[rgba(244,244,244,0.86)] rounded-[8px] w-[280px] mx-auto py-[40px]">
+        <div className="mb-[10px]">
+          <QRCode value={selectedCryptoData && selectedCryptoData.address} />
+        </div>
+
+        <div className="text-[black] font-[600]">
+          <p>{selectedCryptoData && selectedCryptoData.address}</p>
+        </div>
+      </div>
+
+      <div className="text-center">
+        <p>
+          Send only <span className="font-[600]">{selectedCryptoData && selectedCryptoData.name}</span>{" "}
+          <span>(</span>
+          <span className="font-[600] uppercase">
+            {selectedCryptoData && selectedCryptoData.symbol}
+          </span>
+          <span>)</span> to this address.
+        </p>
+      </div>
     </section>
   );
 };
