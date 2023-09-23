@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-const WalletCoinList = ({ userCryptoData }) => {
+const WalletCoinList = ({
+  userCryptoData,
+  setSelectedCryptoData,
+  setIsModalVisible,
+}) => {
   const [sortBy, setSortBy] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState("Alphabet");
   const [sortedData, setSortedData] = useState([]);
@@ -97,6 +101,10 @@ const WalletCoinList = ({ userCryptoData }) => {
             <li
               key={index}
               className="flex items-center justify-between cursor-pointer w-full px-[18px] border-b-[1px] border-[rgb(46,52,59)]"
+              onClick={() => {
+                setSelectedCryptoData(crypto);
+                setIsModalVisible(true);
+              }}
             >
               <span className="flex items-center gap-[5px] py-[15px] w-[40%]">
                 <img

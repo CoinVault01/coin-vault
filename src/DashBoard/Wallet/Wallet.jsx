@@ -4,11 +4,14 @@ import WalletPortfolio from "./WalletPortfolio";
 import axios from "axios";
 import "./Wallet.css"
 import WalletCoinList from "./WalletCoinList";
+import TransferCoinModal from "./TransferCoinModal";
 
 const Wallet = () => {
   const [userData, setUserData] = useState({});
   const [userCryptoData, setUserCryptoData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCryptoData, setSelectedCryptoData] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     // Fetch user data here using an API endpoint
@@ -57,7 +60,17 @@ const Wallet = () => {
         <div className="pt-[100px] largeDevice:ml-[230px]">
           <WalletPortfolio userData={userData} setUserData={setUserData} />
           <div className="largeDevice:flex gap-[40px] largeDevice:px-[40px]">
-            <WalletCoinList userCryptoData={userCryptoData} />
+            <WalletCoinList
+              userCryptoData={userCryptoData}
+              setSelectedCryptoData={setSelectedCryptoData}
+              setIsModalVisible={setIsModalVisible}
+            />
+            {isModalVisible && (
+              <TransferCoinModal
+                selectedCryptoData={selectedCryptoData}
+                setIsModalVisible={setIsModalVisible}
+              />
+            )}
           </div>
         </div>
       </div>
