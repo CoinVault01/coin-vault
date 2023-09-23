@@ -84,6 +84,21 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   return (
     <section>
       <ToastContainer hideProgressBar autoClose={3000} />
+
+      {showQRScanner && (
+        <div className="qr-scanner">
+          <QrReader
+            delay={300}
+            onError={(err) => console.error(err)}
+            onScan={handleQRScan}
+            videoConstraints={{
+              facingMode: "environment", // Use the rear camera if available
+            }}
+            ref={videoRef}
+          />
+        </div>
+      )}
+      
       <div className="w-[90%] mx-auto pt-[10px]">
         <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] mb-[10px]">
           <i
@@ -196,20 +211,6 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
           )}
         </button>
       </div>
-
-      {showQRScanner && (
-        <div className="qr-scanner">
-          <QrReader
-            delay={300}
-            onError={(err) => console.error(err)}
-            onScan={handleQRScan}
-            videoConstraints={{
-              facingMode: { exact: "environment" }, // Use the rear camera if available
-            }}
-            ref={videoRef}
-          />
-        </div>
-      )}
     </section>
   );
 };
