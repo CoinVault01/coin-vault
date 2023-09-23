@@ -122,7 +122,10 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
 
             <div
               className="flex items-center bg-[rgb(75,172,211)] rounded-[8px] py-[5px] px-[15px] font-[600] text-[20px]"
-              onClick={() => setShowQRScanner(true)}
+              onClick={() => {
+                setShowQRScanner(true);
+                setShowQRScanner(false);
+              }}
             >
               <i class="fa-solid fa-qrcode"></i>
             </div>
@@ -201,16 +204,10 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
             onError={(err) => console.error(err)}
             onScan={handleQRScan}
             videoConstraints={{
-              facingMode: "environment", // Use the rear camera if available
+              facingMode: { exact: "environment" }, // Use the rear camera if available
             }}
             ref={videoRef}
           />
-          <button
-            className="close-qr-scanner"
-            onClick={() => setShowQRScanner(false)}
-          >
-            Close Scanner
-          </button>
         </div>
       )}
     </section>
