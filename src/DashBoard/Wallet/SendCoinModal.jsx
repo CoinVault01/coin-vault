@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { QrScanner } from "@yudiel/react-qr-scanner";
+import "./Wallet.css";
 
 const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -86,8 +87,16 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
       <div
         className={`${
           qrScannerVisible ? "block" : "hidden"
-        } largeDevice:hidden `}
+        } largeDevice:hidden`}
       >
+        <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] p-[10px]">
+          <i
+            className="fa-solid fa-xmark cursor-pointer"
+            onClick={() => {
+              setQrScannerVisible(false);
+            }}
+          ></i>
+        </div>
         <QrScanner
           onDecode={handleQrCodeDecode} // Update the callback
           onError={(error) => console.log(error?.message)}
