@@ -9,6 +9,7 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [receiverAddress, setReceiverAddress] = useState("");
   const [amountToSend, setAmountToSend] = useState("");
+  const [qrScannerVisible, setQrScannerVisible] = useState(false);
 
   const handleSendCoin = async () => {
     setIsLoading(true);
@@ -69,14 +70,35 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
     }
   };
 
+  const toggleQrScanner = () => {
+    setQrScannerVisible(!qrScannerVisible); // Toggle QR scanner visibility
+  };
+
+  // Update the receiverAddress state when QR code is decoded
+  const handleQrCodeDecode = (result) => {
+    setReceiverAddress(result);
+    setQrScannerVisible(false); // Hide the QR scanner after successful scan
+  };
+
   return (
     <section>
       <ToastContainer hideProgressBar autoClose={3000} />
-      <QrScanner
-        onDecode={(result) => console.log(result)}
-        onError={(error) => console.log(error?.message)}
-      />
-      <div className="w-[90%] mx-auto pt-[10px]">
+      <div
+        className={`${
+          qrScannerVisible ? "block" : "hidden"
+        } largeDevice:hidden `}
+      >
+        <QrScanner
+          onDecode={handleQrCodeDecode} // Update the callback
+          onError={(error) => console.log(error?.message)}
+        />
+      </div>
+
+      <div
+        className={`${
+          qrScannerVisible ? "hidden" : "block"
+        } w-[90%] mx-auto pt-[10px]`}
+      >
         <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] mb-[10px]">
           <i
             className="fa-solid fa-xmark cursor-pointer"
@@ -112,7 +134,10 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
               onChange={(e) => setReceiverAddress(e.target.value)}
             />
 
-            <div className="flex items-center bg-[rgb(75,172,211)] rounded-[8px] py-[5px] px-[15px] font-[600] text-[20px]">
+            <div
+              className="flex items-center bg-[rgb(75,172,211)] rounded-[8px] py-[5px] px-[15px] font-[600] text-[20px] largeDevice:hidden"
+              onClick={toggleQrScanner}
+            >
               <i className="fa-solid fa-camera"></i>
             </div>
           </div>
