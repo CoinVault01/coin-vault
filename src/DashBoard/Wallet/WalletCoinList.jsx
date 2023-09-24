@@ -8,6 +8,7 @@ const WalletCoinList = ({
   const [sortBy, setSortBy] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState("Alphabet");
   const [sortedData, setSortedData] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     // Create a copy of userCryptoData to avoid mutating the original data
@@ -25,6 +26,12 @@ const WalletCoinList = ({
     setSortedData(dataCopy);
   }, [selectedSortOption, userCryptoData]);
 
+  // Function to filter data based on search input
+  const filteredData = sortedData.filter((crypto) =>
+    crypto.name.toLowerCase().includes(searchInput.toLowerCase())
+    
+  );
+
   const handleSortOptionClick = (option) => {
     setSelectedSortOption(option);
     setSortBy(false);
@@ -32,7 +39,7 @@ const WalletCoinList = ({
 
   return (
     <section className="border-[1px] border-[rgb(46,52,59)] largeDevice:w-[50%] w-[90%] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
-      <div className="flex justify-between  px-[18px] py-[30px]">
+      <div className="flex justify-between  px-[18px] pt-[30px]">
         <div className="mt-[5px]">
           <p className="font-[600] text-[20px]">Your Assets</p>
         </div>
@@ -82,13 +89,30 @@ const WalletCoinList = ({
         </div>
       </div>
 
+      <div className="pt-[20px] pb-[30px] ">
+        <div
+          className={`flex items-center gap-[10px] bg-[rgb(28,33,39)]  rounded-[20px] h-[45px] mx-[20px]`}
+        >
+          <i className="fa-solid fa-magnifying-glass pl-[5px]"></i>
+          <input
+            type="text"
+            className="border-none outline-none w-[90%] bg-[rgb(28,33,39)]  h-[37px]"
+            placeholder="Search for assets"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </div>
+      </div>
+
       <div className="">
         <ul className="flex items-center justify-between border-b-[1px] border-[rgb(46,52,59)] px-[18px] pb-[10px]">
-          <li className="w-[37%] text-[rgb(165,177,189)] font-[600]">Name</li>
-          <li className="w-[21%] text-[rgb(165,177,189)] font-[600]">
+          <li className="w-[37%] generalDevice:w-[36%] text-[rgb(165,177,189)] font-[600]">
+            Name
+          </li>
+          <li className="w-[21%] generalDevice:w-[23%] text-[rgb(165,177,189)] font-[600]">
             Balance
           </li>
-          <li className="w-[21%] text-[rgb(165,177,189)] font-[600]">
+          <li className="w-[21%] generalDevice:w-[23%] text-[rgb(165,177,189)] font-[600]">
             Fiat Value
           </li>
           <li className="mobileDeviceOnly:hidden w-[21%] text-[rgb(165,177,189)] font-[600]">
@@ -97,7 +121,7 @@ const WalletCoinList = ({
         </ul>
 
         <ul className="sell-coin-data h-[500px] overflow-y-auto">
-          {sortedData.map((crypto, index) => (
+          {filteredData.map((crypto, index) => (
             <li
               key={index}
               className="flex items-center justify-between cursor-pointer w-full px-[18px] border-b-[1px] border-[rgb(46,52,59)]"
