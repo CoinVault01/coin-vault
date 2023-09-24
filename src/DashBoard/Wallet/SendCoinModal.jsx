@@ -11,6 +11,7 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   const [receiverAddress, setReceiverAddress] = useState("");
   const [amountToSend, setAmountToSend] = useState("");
   const [qrScannerVisible, setQrScannerVisible] = useState(false);
+  const [isMaxClicked, setIsMaxClicked] = useState(false);
 
   const handleSendCoin = async () => {
     setIsLoading(true);
@@ -81,6 +82,14 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
     setQrScannerVisible(false); // Hide the QR scanner after successful scan
   };
 
+  const handleMaxClick = () => {
+    // Set the input value to the available balance
+    if (selectedCryptoData) {
+      setAmountToSend(selectedCryptoData.amount.toString());
+    }
+    setIsMaxClicked(true);
+  };
+
   return (
     <section>
       <ToastContainer hideProgressBar autoClose={3000} />
@@ -147,7 +156,7 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
               className="flex items-center bg-[rgb(75,172,211)] rounded-[8px] py-[5px] px-[15px] font-[600] text-[20px] largeDevice:hidden"
               onClick={toggleQrScanner}
             >
-              <i className="fa-solid fa-camera"></i>
+              <i className="fa-solid fa-qrcode"></i>
             </div>
           </div>
         </div>
@@ -168,7 +177,10 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
               onChange={(e) => setAmountToSend(e.target.value)}
             />
 
-            <div className="flex items-center bg-[rgb(51,55,61)] rounded-[8px] py-[5px] px-[8px] font-[600]">
+            <div
+              className="flex items-center bg-[rgb(51,55,61)] rounded-[8px] py-[5px] px-[8px] font-[600]"
+              onClick={handleMaxClick}
+            >
               <p>Max</p>
             </div>
           </div>
