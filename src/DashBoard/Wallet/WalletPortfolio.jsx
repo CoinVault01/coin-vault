@@ -230,11 +230,7 @@ const WalletPortfolio = ({ userData }) => {
 
   return (
     <section>
-      {isLoadingData ? (
-        <div className="w-[90%] mx-auto max-[800px]">
-          <LongCard />
-        </div>
-      ) : (
+      
         <div>
           <ToastContainer hideProgressBar autoClose={3000} />
           <div className="bg-[rgb(32,37,43)] rounded-[8px] w-[90%] mx-auto">
@@ -484,7 +480,7 @@ const WalletPortfolio = ({ userData }) => {
             </div>
           </div>
         </div>
-      )}
+      
     </section>
   );
 };
