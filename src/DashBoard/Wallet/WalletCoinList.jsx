@@ -41,7 +41,7 @@ const WalletCoinList = ({
     <section className="border-[1px] border-[rgb(46,52,59)] largeDevice:w-[50%] w-[90%] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
       <div className="flex justify-between  px-[18px] pt-[30px]">
         <div className="mt-[5px]">
-          <p className="font-[600] text-[20px]">Your Assets</p>
+          <p className="font-[600] text-[20px]">Assets</p>
         </div>
 
         <div className="flex gap-[5px]">
@@ -105,14 +105,14 @@ const WalletCoinList = ({
       </div>
 
       <div className="">
-        <ul className="flex items-center justify-between border-b-[1px] border-[rgb(46,52,59)] px-[18px] pb-[10px]">
+        <ul className="flex items-center justify-between border-b-[1px] border-[rgb(46,52,59)] px-[18px] pb-[20px]">
           <li className="w-[37%] generalDevice:w-[36%] text-[rgb(165,177,189)] font-[600]">
             Name
           </li>
-          <li className="w-[21%] generalDevice:w-[23%] text-[rgb(165,177,189)] font-[600]">
+          <li className="w-[21%] generalDevice:w-[24%] text-[rgb(165,177,189)] font-[600]">
             Balance
           </li>
-          <li className="w-[21%] generalDevice:w-[23%] text-[rgb(165,177,189)] font-[600]">
+          <li className="w-[21%] generalDevice:w-[24%] text-[rgb(165,177,189)] font-[600]">
             Fiat Value
           </li>
           <li className="mobileDeviceOnly:hidden w-[21%] text-[rgb(165,177,189)] font-[600]">
@@ -124,7 +124,7 @@ const WalletCoinList = ({
           {filteredData.map((crypto, index) => (
             <li
               key={index}
-              className="flex items-center justify-between cursor-pointer w-full px-[18px] border-b-[1px] border-[rgb(46,52,59)]"
+              className="flex items-center justify-between cursor-pointer w-full pl-[10px] border-b-[1px] border-[rgb(46,52,59)]"
               onClick={() => {
                 setSelectedCryptoData(crypto);
                 setIsModalVisible(true);
