@@ -123,7 +123,7 @@ const HomeComponent = () => {
         {userData && (
           <div>
             <h1 className="roboto capitalize text-[20px] largeDevice:text-[25px] mb-[5px] smallerDevice:text-[15px]">
-              {greeting}, {userData.firstName} {userData.lastName}!
+              {greeting}, {userData.firstName} {userData.lastName} !
             </h1>
 
             <p className="text-[rgb(167,177,188)] font-[poppins] generalDevice:mb-[40px] mb-[80px]">
