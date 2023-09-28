@@ -142,8 +142,12 @@ const WalletCoinList = ({
               <span className="block w-[20%]">{crypto.amount.toFixed(2)}</span>
 
               <span className="block w-[20%]">
-                ${crypto.fiatValue.toFixed(2)}
+                $
+                {crypto.fiatValue
+                  .toFixed(2)
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               </span>
+
               <span
                 className="block w-[20%] mobileDeviceOnly:hidden"
                 style={{
