@@ -24,7 +24,7 @@ const Transactions = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
@@ -39,7 +39,7 @@ const Transactions = () => {
         <div className="pt-[100px] pb-[50px] largeDevice:ml-[230px]">
           <div className="largeDevice:flex gap-[40px] largeDevice:px-[40px]">
             {loading ? (
-              <div className="pt-[100px] h-[100vh] mx-auto">
+              <div className="pt-[100px] h-[100vh] flex justify-center mx-auto">
                 <div className="w-[30px]">
                   <RotatingLines
                     strokeColor="grey"
