@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {screens: {
         "mobileDeviceOnly": {"min": "300px", "max": "799px"},
+        "mobileDeviceLesserThan500": {"min": "300px", "max": "499px"},
         "smallerDevice": {"min": "300px", "max": "399px"},
         "smallDevice": {"min": "350px", "max": "1000px"},
         "semiSmallDevice": {"min": "351px", "max": "399px"},
