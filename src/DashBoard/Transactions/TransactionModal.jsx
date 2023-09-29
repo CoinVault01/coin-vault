@@ -97,7 +97,7 @@ const TransactionModal = ({ userData }) => {
 
 
   return (
-    <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] h-[570px] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
+    <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] h-[630px] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
       <div>
         <div>
           <div>
@@ -114,7 +114,7 @@ const TransactionModal = ({ userData }) => {
           </div>
 
           {totalPages > 1 && (
-            <div className="flex justify-center mt-[20px]">
+            <div className="flex justify-center my-[10px]">
               <button
                 onClick={handleClickPrev}
                 disabled={currentPage === 1}
