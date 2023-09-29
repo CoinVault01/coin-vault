@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { RotatingLines } from "react-loader-spinner";
 
 const TransactionModal = ({ userData }) => {
   const [transactionHistory, setTransactionHistory] = useState([]);
@@ -65,9 +66,7 @@ const TransactionModal = ({ userData }) => {
           </span>
 
           <span className="hidden mobileDeviceLesserThan500:block mobileDeviceLesserThan500:my-[10px] text-[rgb(171,171,171)]">
-            <span className="text-[white] font-[600]">
-              Transaction ID:
-            </span>{" "}
+            <span className="text-[white] font-[600]">Transaction ID:</span>{" "}
             {transaction._id}
           </span>
 
@@ -75,56 +74,64 @@ const TransactionModal = ({ userData }) => {
             {new Date(transaction.date).toLocaleString()}
           </span>
 
-          <span className="w-[31%] generalDevice:hidden">
+          <span className="w-[31%] generalDevice:hidden text-[rgb(171,171,171)]">
             {transaction._id}
           </span>
         </li>
       ));
   };
 
+  if (transactionHistory.length === 0) {
+    return (
+      <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] h-[550px] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
+        <div className="flex justify-center items-center pt-[240px]">
+          <p className="text-[rgb(171,171,171)] font-[600]">
+            No Transaction Yet
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   
 
 
   return (
-    <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
+    <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] h-[550px] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
       <div>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
+        <div>
           <div>
-            <div>
-              <ul className="flex gap-[10px] generalDevice:justify-between px-[10px] py-[10px] mobileDeviceLesserThan500:hidden">
-                <li className="w-[18%] generalDevice:w-[20%]">Status</li>
-                <li className="w-[38%] generalDevice:w-[45%]">Message</li>
-                <li className="w-[14%] generalDevice:w-[20%]">Date</li>
-                <li className="w-[31%] generalDevice:hidden">Transaction ID</li>
-              </ul>
-            </div>
-
-            <div className="h-[550px] mediumDevice:h-[450px] largeDevice:h-[450px]">
-              <ul className="h-full overflow-y-auto">{renderTransactions()}</ul>
-            </div>
-
-            {totalPages > 1 && (
-              <div className="flex justify-center my-[10px]">
-                <button
-                  onClick={handleClickPrev}
-                  disabled={currentPage === 1}
-                  className="mr-2 px-[30px] py-2 bg-blue-500 text-white rounded"
-                >
-                  Prev
-                </button>
-                <button
-                  onClick={handleClickNext}
-                  disabled={currentPage === totalPages}
-                  className="ml-2 px-[30px] py-2 bg-blue-500 text-white rounded"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            <ul className="flex gap-[10px] generalDevice:justify-between px-[10px] py-[10px] mobileDeviceLesserThan500:hidden">
+              <li className="w-[18%] generalDevice:w-[20%]">Status</li>
+              <li className="w-[38%] generalDevice:w-[45%]">Message</li>
+              <li className="w-[14%] generalDevice:w-[20%]">Date</li>
+              <li className="w-[31%] generalDevice:hidden">Transaction ID</li>
+            </ul>
           </div>
-        )}
+
+          <div className="h-[550px] mediumDevice:h-[450px] largeDevice:h-[450px]">
+            <ul className="h-full overflow-y-auto">{renderTransactions()}</ul>
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex justify-center my-[10px]">
+              <button
+                onClick={handleClickPrev}
+                disabled={currentPage === 1}
+                className="mr-2 px-[30px] py-2 bg-blue-500 text-white rounded"
+              >
+                Prev
+              </button>
+              <button
+                onClick={handleClickNext}
+                disabled={currentPage === totalPages}
+                className="ml-2 px-[30px] py-2 bg-blue-500 text-white rounded"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

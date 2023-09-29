@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import TransactionModal from "./TransactionModal";
 import axios from "axios";
+import { RotatingLines } from "react-loader-spinner";
 
 const Transactions = () => {
   const [userData, setUserData] = useState({});
@@ -22,6 +23,8 @@ const Transactions = () => {
         setUserData(response.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -35,7 +38,23 @@ const Transactions = () => {
         <DashboardLayout />
         <div className="pt-[100px] pb-[50px] largeDevice:ml-[230px]">
           <div className="largeDevice:flex gap-[40px] largeDevice:px-[40px]">
-            <TransactionModal userData={userData} />
+            {loading ? (
+              <div className="pt-[100px] h-[100vh] mx-auto">
+                <div className="w-[30px]">
+                  <RotatingLines
+                    strokeColor="grey"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="60"
+                    visible={true}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="w-[100%]">
+                <TransactionModal userData={userData} />
+              </div>
+            )}
           </div>
         </div>
       </div>
