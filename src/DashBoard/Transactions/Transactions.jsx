@@ -24,7 +24,7 @@ const Transactions = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
 
