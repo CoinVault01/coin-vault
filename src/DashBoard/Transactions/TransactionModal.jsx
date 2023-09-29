@@ -101,7 +101,7 @@ const TransactionModal = ({ userData }) => {
       <div>
         <div>
           <div>
-            <ul className="flex gap-[10px] generalDevice:justify-between px-[10px] py-[10px] mobileDeviceLesserThan500:hidden">
+            <ul className="flex gap-[10px] generalDevice:justify-between px-[10px] py-[20px] mobileDeviceLesserThan500:hidden">
               <li className="w-[18%] generalDevice:w-[20%]">Status</li>
               <li className="w-[38%] generalDevice:w-[45%]">Message</li>
               <li className="w-[14%] generalDevice:w-[20%]">Date</li>
@@ -118,14 +118,14 @@ const TransactionModal = ({ userData }) => {
               <button
                 onClick={handleClickPrev}
                 disabled={currentPage === 1}
-                className="mr-2 px-[30px] py-2 bg-blue-500 text-white rounded"
+                className="mr-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
               >
                 Prev
               </button>
               <button
                 onClick={handleClickNext}
                 disabled={currentPage === totalPages}
-                className="ml-2 px-[30px] py-2 bg-blue-500 text-white rounded"
+                className="ml-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
               >
                 Next
               </button>
