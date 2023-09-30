@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import coinvault from "./DashBoardTopHeader-Image/coin-bg.png";
 import axios from "axios";
-import "../DashBoardTopHeader/DashBoardTopHeader.css"
+import "../DashBoardTopHeader/DashBoardTopHeader.css";
 import Logout from "../../Pages/LogOut/Logout";
 import { RotatingLines } from "react-loader-spinner";
 
@@ -18,12 +18,14 @@ const DashBoardTopHeader = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [closeLogout, setCloseLogout] = useState(false);
+  const [toggleNotification, setToggleNotification] = useState(false);
+  const [transactionHistory, setTransactionHistory] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const handleLogout = () => {
     setCloseLogout(false);
   };
-
-  
 
   // Handle click outside the div to hide it
   useEffect(() => {
@@ -94,6 +96,68 @@ const DashBoardTopHeader = ({
     setTimeout(() => {
       window.location.reload();
     }, 500); // You can adjust the delay as needed.
+  };
+
+  useEffect(() => {
+    const fetchTransactionHistory = async () => {
+      try {
+        const response = await axios.get(
+          `https://coinvault.onrender.com/v1/auth/transaction-history/${userData.userId}`
+        );
+        setTransactionHistory(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching transaction history:", error.message);
+      }
+    };
+
+    fetchTransactionHistory();
+  }, [userData]);
+
+  const totalPages = Math.ceil(transactionHistory.length / itemsPerPage);
+
+  const handleClickNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handleClickPrev = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const renderTransactions = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    // Reverse the order of transactions to display the most recent ones first
+    const reversedTransactions = [...transactionHistory].reverse();
+
+    return reversedTransactions
+      .slice(startIndex, endIndex)
+      .map((transaction) => (
+        <li
+          key={transaction._id}
+          className="border-[1px] border-[rgb(46,52,59)] w-[85%] mx-auto mt-[20px] rounded-[10px] p-[10px]"
+          style={{ color: transaction.status === "failed" ? "red" : "green" }}
+        >
+          <span
+            className={`${
+              transaction.status === "failed"
+                ? "text-red-500"
+                : "text-green-500"
+            } block mb-[5px] capitalize`}
+          >
+            {transaction.status}
+          </span>
+
+          <span className="text-[rgb(171,171,171)] block mb-[5px]">
+            {transaction.message}
+          </span>
+
+          <span className="block mb-[5px]">
+            {new Date(transaction.date).toLocaleString()}
+          </span>
+        </li>
+      ));
   };
 
   return (
@@ -167,10 +231,19 @@ const DashBoardTopHeader = ({
               </div>
             </NavLink>
 
-            <div className="cursor-pointer mt-[8px]">
+            <div
+              className="cursor-pointer mt-[8px] relative"
+              onClick={() => {
+                setToggleNotification(!toggleNotification);
+              }}
+            >
               <abbr title="Notification">
                 <i className="fa-regular fa-bell text-[20px]"></i>
               </abbr>
+
+              <div className="absolute top-[-5px] left-[16px]">
+                <p className="text-[11px]">0</p>
+              </div>
             </div>
 
             <div
@@ -221,10 +294,19 @@ const DashBoardTopHeader = ({
               )}
             </NavLink>
 
-            <div className="cursor-pointer">
+            <div
+              className="cursor-pointer relative"
+              onClick={() => {
+                setToggleNotification(!toggleNotification);
+              }}
+            >
               <abbr title="Notification">
                 <i className="fa-regular fa-bell"></i>
               </abbr>
+
+              <div className="absolute top-[-5px] left-[12px]">
+                <p className="text-[11px]">0</p>
+              </div>
             </div>
 
             <div className="cursor-pointer text-[20px] relative mr-[10px]">
@@ -304,6 +386,47 @@ const DashBoardTopHeader = ({
               </p>
             )}
           </div>
+        </div>
+
+        <div
+          className={`${
+            toggleNotification ? "block" : "hidden"
+          } fixed top-[69px] w-[100%] aboveBonusDevice:w-[500px] h-[100%] aboveBonusDevice:h-[500px] border-[1px] border-[rgb(125,139,151)] aboveBonusDevice:rounded-t-[0px] aboveBonusDevice:rounded-b-[10px] rounded-t-[15px] aboveBonusDevice:right-[15px] bg-[rgb(28,33,39)]`}
+        >
+          {transactionHistory.length === 0 ? (
+            <div className="flex justify-center items-center pt-[240px]">
+              <p className="text-[rgb(171,171,171)] font-[600]">
+                No Notification Yet
+              </p>
+            </div>
+          ) : (
+            <div>
+              <div className="h-[500px] aboveBonusDevice:h-[430px] mb-[20px]">
+                <ul className="h-full overflow-y-auto side-bar-container">
+                  {renderTransactions()}
+                </ul>
+              </div>
+
+              {totalPages > 1 && (
+                <div className="flex justify-center my-[10px]">
+                  <button
+                    onClick={handleClickPrev}
+                    disabled={currentPage === 1}
+                    className="mr-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
+                  >
+                    Prev
+                  </button>
+                  <button
+                    onClick={handleClickNext}
+                    disabled={currentPage === totalPages}
+                    className="ml-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </nav>
 
