@@ -20,6 +20,7 @@ const DashBoardTopHeader = ({
   const [closeLogout, setCloseLogout] = useState(false);
   const [toggleNotification, setToggleNotification] = useState(false);
   const [transactionHistory, setTransactionHistory] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -99,20 +100,42 @@ const DashBoardTopHeader = ({
   };
 
   useEffect(() => {
-    const fetchTransactionHistory = async () => {
+    const fetchNotificationHistory = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/v1/auth/transaction-history/${userData.userId}`
+          `https://coinvault.onrender.com/v1/auth/notifications/${userData.userId}`
         );
         setTransactionHistory(response.data);
         console.log(response.data);
+
+        // Calculate the unread count
+        const unread = response.data.filter(
+          (notification) => notification.status === "unread"
+        ).length;
+        setUnreadCount(unread);
       } catch (error) {
         console.error("Error fetching transaction history:", error.message);
       }
     };
 
-    fetchTransactionHistory();
+    fetchNotificationHistory();
   }, [userData]);
+
+  const handleClickNotification = () => {
+    // Send a PUT request to mark all notifications as read
+    axios
+      .put(
+        `https://coinvault.onrender.com/v1/auth/notifications/mark-as-read/${userData.userId}`
+      )
+      .then(() => {
+        // After marking as read, set unreadCount to 0
+        setUnreadCount(0);
+        setToggleNotification(!toggleNotification)
+      })
+      .catch((error) => {
+        console.error("Error marking notifications as read:", error);
+      });
+  };
 
   const totalPages = Math.ceil(transactionHistory.length / itemsPerPage);
 
@@ -141,19 +164,25 @@ const DashBoardTopHeader = ({
         >
           <span
             className={`${
-              transaction.status === "failed"
+              transaction.messageStatus === "failed"
                 ? "text-red-500"
                 : "text-green-500"
             } block mb-[5px] capitalize`}
           >
-            {transaction.status}
+            {transaction.messageStatus}
           </span>
 
           <span className="text-[rgb(171,171,171)] block mb-[5px]">
             {transaction.message}
           </span>
 
-          <span className="block mb-[5px]">
+          <span
+            className={`${
+              transaction.messageStatus === "failed"
+                ? "text-red-500"
+                : "text-green-500"
+            } block mb-[5px]`}
+          >
             {new Date(transaction.date).toLocaleString()}
           </span>
         </li>
@@ -233,17 +262,17 @@ const DashBoardTopHeader = ({
 
             <div
               className="cursor-pointer mt-[8px] relative"
-              onClick={() => {
-                setToggleNotification(!toggleNotification);
-              }}
+              onClick={handleClickNotification}
             >
               <abbr title="Notification">
                 <i className="fa-regular fa-bell text-[20px]"></i>
               </abbr>
 
-              <div className="absolute top-[-5px] left-[16px]">
-                <p className="text-[11px]">0</p>
-              </div>
+              {unreadCount > 0 && (
+                <div className="absolute top-[-5px] left-[16px]">
+                  <p className="text-[11px]">{unreadCount}</p>
+                </div>
+              )}
             </div>
 
             <div
@@ -296,17 +325,17 @@ const DashBoardTopHeader = ({
 
             <div
               className="cursor-pointer relative"
-              onClick={() => {
-                setToggleNotification(!toggleNotification);
-              }}
+              onClick={handleClickNotification}
             >
               <abbr title="Notification">
                 <i className="fa-regular fa-bell"></i>
               </abbr>
 
-              <div className="absolute top-[-5px] left-[12px]">
-                <p className="text-[11px]">0</p>
-              </div>
+              {unreadCount > 0 && (
+                <div className="absolute top-[-5px] left-[12px]">
+                  <p className="text-[11px]">{unreadCount}</p>
+                </div>
+              )}
             </div>
 
             <div className="cursor-pointer text-[20px] relative mr-[10px]">
