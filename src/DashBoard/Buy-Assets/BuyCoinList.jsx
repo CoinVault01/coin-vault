@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { io } from "socket.io-client";
 import "../Buy-Assets/Buy.css";
 import { RotatingLines } from "react-loader-spinner";
+
+const socket = io("http://localhost:5173");
 
 const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   const [showGlowingBorder, setShowGlowingBorder] = useState(false);
@@ -32,7 +35,6 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
           `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
         );
         setUserCryptoData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user crypto holdings:", error.message);
@@ -40,7 +42,20 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
       }
     };
 
+    const handleWebSocketEvent = (data) => {
+      // Update userCryptoData when a WebSocket event is received
+      setUserCryptoData(data.userCryptoData);
+    };
+
     fetchUserCryptoData();
+
+    // Listen for 'userCryptoData' event from the WebSocket
+    socket.on("userCryptoData", handleWebSocketEvent);
+
+    // Cleanup: remove the WebSocket event listener
+    return () => {
+      socket.off("userCryptoData", handleWebSocketEvent);
+    };
   }, [userData]);
 
   useEffect(() => {
