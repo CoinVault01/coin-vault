@@ -130,7 +130,7 @@ const DashBoardTopHeader = ({
       .then(() => {
         // After marking as read, set unreadCount to 0
         setUnreadCount(0);
-        setToggleNotification(!toggleNotification)
+        setToggleNotification(false)
       })
       .catch((error) => {
         console.error("Error marking notifications as read:", error);
@@ -262,7 +262,10 @@ const DashBoardTopHeader = ({
 
             <div
               className="cursor-pointer mt-[8px] relative"
-              onClick={handleClickNotification}
+              onClick={() => {
+                setToggleNotification(true);
+                setUnreadCount(0);
+              }}
             >
               <abbr title="Notification">
                 <i className="fa-regular fa-bell text-[20px]"></i>
@@ -325,7 +328,10 @@ const DashBoardTopHeader = ({
 
             <div
               className="cursor-pointer relative"
-              onClick={handleClickNotification}
+              onClick={() => {
+                setToggleNotification(true)
+                setUnreadCount(0);
+              }}
             >
               <abbr title="Notification">
                 <i className="fa-regular fa-bell"></i>
@@ -422,6 +428,12 @@ const DashBoardTopHeader = ({
             toggleNotification ? "block" : "hidden"
           } fixed top-[69px] w-[100%] aboveBonusDevice:w-[500px] h-[100%] aboveBonusDevice:h-[500px] border-[1px] border-[rgb(125,139,151)] aboveBonusDevice:rounded-t-[0px] aboveBonusDevice:rounded-b-[10px] rounded-t-[15px] aboveBonusDevice:right-[15px] bg-[rgb(28,33,39)]`}
         >
+          <div
+            className="flex justify-end px-[20px] pt-[20px] pb-[10px] text-[25px] text-[rgb(131,207,237)]"
+            onClick={handleClickNotification}
+          >
+            <i className="fa-solid fa-xmark font-[600] pr-[5px] cursor-pointer"></i>
+          </div>
           {transactionHistory.length === 0 ? (
             <div className="flex justify-center items-center pt-[240px]">
               <p className="text-[rgb(171,171,171)] font-[600]">
