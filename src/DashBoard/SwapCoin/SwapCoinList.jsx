@@ -27,10 +27,26 @@ const SwapCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   useEffect(() => {
     const fetchUserCryptoData = async () => {
       try {
+        // Check if userCryptoData is already in the cache
+        const cachedUserCryptoData = JSON.parse(
+          localStorage.getItem("userCryptoData")
+        );
+
+        if (cachedUserCryptoData) {
+          setUserCryptoData(cachedUserCryptoData);
+          setLoading(false);
+          return;
+        }
+
         const response = await axios.get(
           `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
         );
+
         setUserCryptoData(response.data);
+
+        // Cache the fetched userCryptoData
+        localStorage.setItem("userCryptoData", JSON.stringify(response.data));
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user crypto holdings:", error.message);
@@ -39,6 +55,18 @@ const SwapCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
     };
 
     fetchUserCryptoData();
+
+    // Clear userData from local storage on page refresh
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("userCryptoData");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      // Remove the event listener when the component is unmounted
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [userData]);
 
   useEffect(() => {

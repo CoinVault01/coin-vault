@@ -9,6 +9,8 @@ const Logout = ({ closeLogout, handleLogout }) => {
   const handleUserLogout = () => {
     // Clear the token from local storage (replace 'yourTokenKey' with the actual key used to store the token)
     localStorage.removeItem("token");
+    localStorage.removeItem("userCryptoData")
+    localStorage.removeItem("userData");
 
     // Navigate the user to the login page
     navigate("/login"); // Replace '/login' with the actual login page route

@@ -185,6 +185,7 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
               className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
               value={inputValue}
               onChange={handleInputChange}
+              placeholder="Input amount to swap"
             />
 
             <div
@@ -242,6 +243,7 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
                 className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
                 value={equivalentCryptoValue}
                 readOnly
+                placeholder="You Get"
               />
             </div>
 

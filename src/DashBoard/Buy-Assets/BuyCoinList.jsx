@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
 import "../Buy-Assets/Buy.css";
 import { RotatingLines } from "react-loader-spinner";
-
-const socket = io("http://localhost:5173");
 
 const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   const [showGlowingBorder, setShowGlowingBorder] = useState(false);
@@ -31,10 +28,26 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   useEffect(() => {
     const fetchUserCryptoData = async () => {
       try {
+        // Check if userCryptoData is already in the cache
+        const cachedUserCryptoData = JSON.parse(
+          localStorage.getItem("userCryptoData")
+        );
+
+        if (cachedUserCryptoData) {
+          setUserCryptoData(cachedUserCryptoData);
+          setLoading(false);
+          return;
+        }
+
         const response = await axios.get(
           `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
         );
+
         setUserCryptoData(response.data);
+
+        // Cache the fetched userCryptoData
+        localStorage.setItem("userCryptoData", JSON.stringify(response.data));
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user crypto holdings:", error.message);
@@ -42,19 +55,18 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
       }
     };
 
-    const handleWebSocketEvent = (data) => {
-      // Update userCryptoData when a WebSocket event is received
-      setUserCryptoData(data.userCryptoData);
-    };
-
     fetchUserCryptoData();
 
-    // Listen for 'userCryptoData' event from the WebSocket
-    socket.on("userCryptoData", handleWebSocketEvent);
+    // Clear userData from local storage on page refresh
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("userCryptoData");
+    };
 
-    // Cleanup: remove the WebSocket event listener
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
-      socket.off("userCryptoData", handleWebSocketEvent);
+      // Remove the event listener when the component is unmounted
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [userData]);
 
