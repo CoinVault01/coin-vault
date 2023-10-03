@@ -12,9 +12,17 @@ const SwapCoin = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    // Fetch user data here using an API endpoint
     const fetchUserData = async () => {
       try {
+        // Check if userData is already in the cache
+        const cachedUserData = JSON.parse(localStorage.getItem("userData"));
+
+        if (cachedUserData) {
+          setUserData(cachedUserData);
+          setIsLoading(false);
+          return;
+        }
+
         const response = await axios.get(
           "https://coinvault.onrender.com/v1/auth/user",
           {
@@ -23,11 +31,16 @@ const SwapCoin = () => {
             },
           }
         );
+
         setUserData(response.data);
-        setIsLoading(false); // Set loading state to false after data is fetched
+
+        // Cache the fetched userData
+        localStorage.setItem("userData", JSON.stringify(response.data));
+
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
-        setIsLoading(false); // Set loading state to false even if there's an error
+        setIsLoading(false);
       }
     };
 

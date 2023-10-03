@@ -27,10 +27,26 @@ const SellCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
   useEffect(() => {
     const fetchUserCryptoData = async () => {
       try {
+        // Check if userCryptoData is already in the cache
+        const cachedUserCryptoData = JSON.parse(
+          localStorage.getItem("userCryptoData")
+        );
+
+        if (cachedUserCryptoData) {
+          setUserCryptoData(cachedUserCryptoData);
+          setLoading(false);
+          return;
+        }
+
         const response = await axios.get(
           `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
         );
+
         setUserCryptoData(response.data);
+
+        // Cache the fetched userCryptoData
+        localStorage.setItem("userCryptoData", JSON.stringify(response.data));
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user crypto holdings:", error.message);
@@ -39,6 +55,18 @@ const SellCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
     };
 
     fetchUserCryptoData();
+
+    // Clear userData from local storage on page refresh
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("userCryptoData");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      // Remove the event listener when the component is unmounted
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [userData]);
 
   useEffect(() => {
@@ -136,7 +164,7 @@ const SellCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
                 <span className="flex flex-col">
                   <span className="flex items-center gap-[10px]">
                     <p>
-                      {Number(crypto.amount).toFixed(5)}{" "}
+                      {Number(crypto.amount).toFixed(3)}{" "}
                       <span className="text-[rgb(165,177,189)] font-[600] uppercase">
                         {crypto.symbol}
                       </span>

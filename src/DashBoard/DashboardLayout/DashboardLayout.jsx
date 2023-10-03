@@ -2,25 +2,30 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashBoardSideNav from "../DashBoardSideNav/DashBoardSideNav";
 import DashBoardTopHeader from "../DashBoardTopHeader/DashBoardTopHeader";
-import { useLocation } from "react-router-dom"; // Import useLocation hook
+import { useLocation } from "react-router-dom";
 
 const DashboardLayout = () => {
   const [userData, setUserData] = useState(null);
   const [showNav, setShowNav] = useState(false);
-  const [activeLinkText, setActiveLinkText] = useState(""); // Initialize with the default value
-  const location = useLocation(); // Get the current location using useLocation
+  const [activeLinkText, setActiveLinkText] = useState("");
+  const location = useLocation(); 
 
    useEffect(() => {
-     // Fetch user data from the backend using the JWT token
      const fetchUserData = async () => {
        try {
          const token = localStorage.getItem("token");
          if (!token) {
-           // Redirect to login if token not found
            return;
          }
 
-         // Make the API request to fetch user data
+         // Check if userData is already in the cache
+         const cachedUserData = JSON.parse(localStorage.getItem("userData"));
+
+         if (cachedUserData) {
+           setUserData(cachedUserData);
+           return;
+         }
+
          const response = await axios.get(
            "https://coinvault.onrender.com/v1/auth/user",
            {
@@ -30,6 +35,9 @@ const DashboardLayout = () => {
            }
          );
 
+         // Cache the fetched userData
+         localStorage.setItem("userData", JSON.stringify(response.data));
+
          setUserData(response.data);
        } catch (error) {
          console.error("Error fetching user data:", error);
@@ -37,6 +45,18 @@ const DashboardLayout = () => {
      };
 
      fetchUserData();
+
+     // Clear userData from local storage on page refresh
+     const handleBeforeUnload = () => {
+       localStorage.removeItem("userData");
+     };
+
+     window.addEventListener("beforeunload", handleBeforeUnload);
+
+     return () => {
+       // Remove the event listener when the component is unmounted
+       window.removeEventListener("beforeunload", handleBeforeUnload);
+     };
    }, []);
 
   // Function to toggle the showNav state

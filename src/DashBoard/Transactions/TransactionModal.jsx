@@ -81,58 +81,51 @@ const TransactionModal = ({ userData }) => {
       ));
   };
 
-  if (transactionHistory.length === 0) {
-    return (
-      <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] h-[550px] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
+  return (
+    <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] h-[630px] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
+      {transactionHistory.length === 0 ? (
         <div className="flex justify-center items-center pt-[240px]">
           <p className="text-[rgb(171,171,171)] font-[600]">
             No Transaction Yet
           </p>
         </div>
-      </section>
-    );
-  }
-
-  
-
-
-  return (
-    <section className="border-[1px] border-[rgb(46,52,59)] w-[90%] largeDevice:w-[100%] h-[630px] generalDevice:mx-auto rounded-[10px] bg-[rgb(32,37,43)]">
-      <div>
+      ) : (
         <div>
           <div>
-            <ul className="flex gap-[10px] generalDevice:justify-between px-[10px] py-[20px] mobileDeviceLesserThan500:hidden">
-              <li className="w-[18%] generalDevice:w-[20%]">Status</li>
-              <li className="w-[38%] generalDevice:w-[45%]">Message</li>
-              <li className="w-[14%] generalDevice:w-[20%]">Date</li>
-              <li className="w-[31%] generalDevice:hidden">Transaction ID</li>
-            </ul>
-          </div>
-
-          <div className="h-[550px] mediumDevice:h-[450px] largeDevice:h-[450px]">
-            <ul className="h-full overflow-y-auto">{renderTransactions()}</ul>
-          </div>
-
-          {totalPages > 1 && (
-            <div className="flex justify-center my-[10px]">
-              <button
-                onClick={handleClickPrev}
-                disabled={currentPage === 1}
-                className="mr-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
-              >
-                Prev
-              </button>
-              <button
-                onClick={handleClickNext}
-                disabled={currentPage === totalPages}
-                className="ml-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
-              >
-                Next
-              </button>
+            <div>
+              <ul className="flex gap-[10px] generalDevice:justify-between px-[10px] py-[20px] mobileDeviceLesserThan500:hidden">
+                <li className="w-[18%] generalDevice:w-[20%]">Status</li>
+                <li className="w-[38%] generalDevice:w-[45%]">Message</li>
+                <li className="w-[14%] generalDevice:w-[20%]">Date</li>
+                <li className="w-[31%] generalDevice:hidden">Transaction ID</li>
+              </ul>
             </div>
-          )}
+
+            <div className="h-[550px] mediumDevice:h-[450px] largeDevice:h-[450px]">
+              <ul className="h-full overflow-y-auto">{renderTransactions()}</ul>
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex justify-center my-[10px]">
+                <button
+                  onClick={handleClickPrev}
+                  disabled={currentPage === 1}
+                  className="mr-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
+                >
+                  Prev
+                </button>
+                <button
+                  onClick={handleClickNext}
+                  disabled={currentPage === totalPages}
+                  className="ml-2 px-[30px] py-2 bg-blue-500 text-white rounded cursor-pointer"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };

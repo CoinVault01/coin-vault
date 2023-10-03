@@ -9,9 +9,17 @@ const Cards = () => {
 
 
   useEffect(() => {
-    // Fetch user data here using an API endpoint
     const fetchUserData = async () => {
       try {
+        // Check if userData is already in the cache
+        const cachedUserData = JSON.parse(localStorage.getItem("userData"));
+
+        if (cachedUserData) {
+          setUserData(cachedUserData);
+          setIsLoading(false);
+          return;
+        }
+
         const response = await axios.get(
           "https://coinvault.onrender.com/v1/auth/user",
           {
@@ -20,10 +28,16 @@ const Cards = () => {
             },
           }
         );
+
         setUserData(response.data);
-        console.log(response.data);
+
+        // Cache the fetched userData
+        localStorage.setItem("userData", JSON.stringify(response.data));
+
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
 

@@ -148,6 +148,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
               className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
               value={cryptoEquivalent}
               readOnly
+              placeholder="You Get"
             />
           </div>
         </div>
@@ -170,6 +171,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
               className="h-[100%] w-[100%] block bg-[rgb(28,33,39)] border-none outline-none rounded-[8px] pl-[10px] font-[600]"
               value={usdAmount}
               onChange={handleUsdInputChange}
+              placeholder="Input amount to buy"
             />
           </div>
 
