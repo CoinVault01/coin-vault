@@ -9,7 +9,7 @@ const EmailPassword = ({
   user,
   isLoading,
 }) => {
-  const savedfirstName = localStorage.getItem("firstName");
+  const savedfirstName = sessionStorage.getItem("firstName");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 

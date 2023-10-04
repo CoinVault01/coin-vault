@@ -67,8 +67,8 @@ const SignUp = () => {
           theme: "dark",
         });
 
-        localStorage.setItem("email", user.email);
-        localStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("email", user.email);
+        sessionStorage.setItem("token", response.data.token);
 
         setTimeout(() => {
           navigate("/verifyemail");

@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const LegalName = ({ handleChange, handleNext, handlePrevious, user }) => {
-  const savedUserName = localStorage.getItem("userName");
+  const savedUserName = sessionStorage.getItem("userName");
 
   useEffect(() => {
     // Load saved value from local storage on component mount
-    const savedfirstName = localStorage.getItem("firstName");
-    const savedlastName = localStorage.getItem("lastName");
+    const savedfirstName = sessionStorage.getItem("firstName");
+    const savedlastName = sessionStorage.getItem("lastName");
 
     if (savedfirstName && savedlastName) {
       // Set the saved values in the component state
@@ -22,8 +22,8 @@ const LegalName = ({ handleChange, handleNext, handlePrevious, user }) => {
 
   // Save the first name and last name to local storage whenever they change
   useEffect(() => {
-    localStorage.setItem("firstName", user.firstName);
-    localStorage.setItem("lastName", user.lastName);
+    sessionStorage.setItem("firstName", user.firstName);
+    sessionStorage.setItem("lastName", user.lastName);
   }, [user.firstName, user.lastName]);
 
   const handleInputChange = (event) => {
@@ -33,7 +33,7 @@ const LegalName = ({ handleChange, handleNext, handlePrevious, user }) => {
     const regex = /^[a-zA-Z\s]*$/;
     if (!value || regex.test(value)) {
       handleChange(event);
-      localStorage.setItem(name, value); // Save the value to local storage
+      sessionStorage.setItem(name, value); // Save the value to local storage
     }
   };
 

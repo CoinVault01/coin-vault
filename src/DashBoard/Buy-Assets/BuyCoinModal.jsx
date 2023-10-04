@@ -67,7 +67,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
         }
       );

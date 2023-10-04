@@ -29,7 +29,7 @@ const CoinDetails = () => {
 
        const fetchUserData = async () => {
          try {
-           const token = localStorage.getItem("token");
+           const token = sessionStorage.getItem("token");
            if (!token) {
              // Redirect to login if token not found
              return;

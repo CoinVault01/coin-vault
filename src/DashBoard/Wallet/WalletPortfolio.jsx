@@ -159,7 +159,7 @@ const WalletPortfolio = ({ userData }) => {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem("token"); // Get the JWT token from localStorage
+      const token = sessionStorage.getItem("token"); // Get the JWT token from sessionStorage
       const numericAmount = parseFloat(amount); // Convert the amount to a number
       const newBalance = userData.balance - numericAmount; // Calculate the new balance as a number
 

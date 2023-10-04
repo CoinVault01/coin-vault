@@ -17,7 +17,7 @@ const ProfileSettings = () => {
     // Fetch user data from the backend using the JWT token
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (!token) {
           // Redirect to login if token not found
           return;

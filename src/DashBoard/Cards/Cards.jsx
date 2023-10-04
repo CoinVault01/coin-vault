@@ -12,7 +12,7 @@ const Cards = () => {
     const fetchUserData = async () => {
       try {
         // Check if userData is already in the cache
-        const cachedUserData = JSON.parse(localStorage.getItem("userData"));
+        const cachedUserData = JSON.parse(sessionStorage.getItem("userData"));
 
         if (cachedUserData) {
           setUserData(cachedUserData);
@@ -24,7 +24,7 @@ const Cards = () => {
           "https://coinvault.onrender.com/v1/auth/user",
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
           }
         );
@@ -32,7 +32,7 @@ const Cards = () => {
         setUserData(response.data);
 
         // Cache the fetched userData
-        localStorage.setItem("userData", JSON.stringify(response.data));
+        sessionStorage.setItem("userData", JSON.stringify(response.data));
 
         setIsLoading(false);
       } catch (error) {
