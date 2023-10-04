@@ -447,7 +447,7 @@ const DashBoardTopHeader = ({
             </div>
           ) : (
             <div>
-              <div className="h-[500px] aboveBonusDevice:h-[430px] mb-[20px]">
+              <div className="h-[470px] aboveBonusDevice:h-[350px] mb-[20px]">
                 <ul className="h-full overflow-y-auto side-bar-container">
                   {renderTransactions()}
                 </ul>
