@@ -440,7 +440,7 @@ const DashBoardTopHeader = ({
             </div>
           </div>
           {transactionHistory.length === 0 ? (
-            <div className="flex justify-center items-center pt-[240px]">
+            <div className="flex justify-center items-center pt-[200px] aboveBonusDevice:pt-[160px]">
               <p className="text-[rgb(171,171,171)] font-[600]">
                 No Notification Yet
               </p>

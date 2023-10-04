@@ -90,6 +90,9 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
     setIsMaxClicked(true);
   };
 
+  const isInputsEmpty =
+    receiverAddress.trim() === "" || amountToSend.trim() === "";
+
   return (
     <section>
       <ToastContainer hideProgressBar autoClose={3000} />
@@ -200,7 +203,11 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
 
         <button
           className="form-btn block w-[100%] font-[600] py-[10px] mb-[20px] rounded-[8px] mx-auto"
-          disabled={isLoading}
+          disabled={isLoading || isInputsEmpty}
+          style={{
+            opacity: isInputsEmpty ? 0.5 : 1,
+            cursor: isInputsEmpty ? "not-allowed" : "pointer",
+          }}
           onClick={handleSendCoin}
         >
           {isLoading ? (
