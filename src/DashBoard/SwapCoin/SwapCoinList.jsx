@@ -168,7 +168,7 @@ const SwapCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
                 <span className="flex flex-col">
                   <span className="flex items-center gap-[10px]">
                     <p>
-                      {Number(crypto.amount).toFixed(5)}{" "}
+                      {Number(crypto.amount).toFixed(3)}{" "}
                       <span className="text-[rgb(165,177,189)] font-[600] uppercase">
                         {crypto.symbol}
                       </span>
