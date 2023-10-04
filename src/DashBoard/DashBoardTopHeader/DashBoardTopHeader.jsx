@@ -130,7 +130,6 @@ const DashBoardTopHeader = ({
       .then(() => {
         // After marking as read, set unreadCount to 0
         setUnreadCount(0);
-        setToggleNotification(false)
       })
       .catch((error) => {
         console.error("Error marking notifications as read:", error);
@@ -264,7 +263,6 @@ const DashBoardTopHeader = ({
               className="cursor-pointer mt-[8px] relative"
               onClick={() => {
                 setToggleNotification(true);
-                setUnreadCount(0);
               }}
             >
               <abbr title="Notification">
@@ -329,8 +327,7 @@ const DashBoardTopHeader = ({
             <div
               className="cursor-pointer relative"
               onClick={() => {
-                setToggleNotification(true)
-                setUnreadCount(0);
+                setToggleNotification(true);
               }}
             >
               <abbr title="Notification">
@@ -428,11 +425,19 @@ const DashBoardTopHeader = ({
             toggleNotification ? "block" : "hidden"
           } fixed top-[69px] w-[100%] aboveBonusDevice:w-[500px] h-[100%] aboveBonusDevice:h-[500px] border-[1px] border-[rgb(125,139,151)] aboveBonusDevice:rounded-t-[0px] aboveBonusDevice:rounded-b-[10px] rounded-t-[15px] aboveBonusDevice:right-[15px] bg-[rgb(28,33,39)]`}
         >
-          <div
-            className="flex justify-end px-[20px] pt-[20px] pb-[10px] text-[25px] text-[rgb(131,207,237)]"
-            onClick={handleClickNotification}
-          >
-            <i className="fa-solid fa-xmark font-[600] pr-[5px] cursor-pointer"></i>
+          <div className="flex justify-between items-center px-[20px] pt-[20px] pb-[10px]">
+            <div
+              className="text-[18px] cursor-pointer"
+              onClick={handleClickNotification}
+            >
+              <p>Mark as read</p>
+            </div>
+
+            <div className="text-[20px] text-[rgb(131,207,237)]" onClick={() => {
+              setToggleNotification(false);
+            }}>
+              <i className="fa-solid fa-xmark font-[600] pr-[5px] cursor-pointer"></i>
+            </div>
           </div>
           {transactionHistory.length === 0 ? (
             <div className="flex justify-center items-center pt-[240px]">
