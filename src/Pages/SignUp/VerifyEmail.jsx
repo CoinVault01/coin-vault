@@ -9,7 +9,7 @@ import { ThreeCircles } from "react-loader-spinner";
 
 
 const VerifyEmail = () => {
-  const savedEmail = localStorage.getItem("email");
+  const savedEmail = sessionStorage.getItem("email");
   const navigate = useNavigate();
   const [verificationCode, setVerificationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,8 +17,8 @@ const VerifyEmail = () => {
   const [countdown, setCountdown] = useState(120); // Countdown timer in seconds
   let timer = null;
   useEffect(() => {
-    const countdownTimer = localStorage.getItem("countdownTimer");
-    const savedTime = parseInt(localStorage.getItem("savedTime"), 10);
+    const countdownTimer = sessionStorage.getItem("countdownTimer");
+    const savedTime = parseInt(sessionStorage.getItem("savedTime"), 10);
     const currentTime = Math.floor(Date.now() / 1000);
     const elapsedTime = currentTime - savedTime;
     if (countdownTimer && elapsedTime < countdown) {
@@ -33,14 +33,14 @@ const VerifyEmail = () => {
   }, []);
   const startCountdown = () => {
     const startTime = Math.floor(Date.now() / 1000);
-    localStorage.setItem("savedTime", startTime.toString());
+    sessionStorage.setItem("savedTime", startTime.toString());
     timer = setInterval(() => {
       setCountdown((prevCountdown) => {
         const newCountdown = prevCountdown - 1;
-        localStorage.setItem("countdownTimer", newCountdown.toString());
+        sessionStorage.setItem("countdownTimer", newCountdown.toString());
         if (newCountdown <= 0) {
           clearInterval(timer);
-          localStorage.removeItem("countdownTimer");
+          sessionStorage.removeItem("countdownTimer");
         }
         return newCountdown;
       });
@@ -56,13 +56,13 @@ const VerifyEmail = () => {
       const data = response.data;
       if (response.status === 200) {
         // Clear the data from local storage
-        localStorage.removeItem("firstName");
-        localStorage.removeItem("lastName");
-        localStorage.removeItem("email");
-        localStorage.removeItem("username");
+        sessionStorage.removeItem("firstName");
+        sessionStorage.removeItem("lastName");
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("username");
 
         const { token } = response.data;
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
 
         toast.success(data.message, {
           // Toast success message

@@ -6,7 +6,7 @@ const UserName = ({ handleChange, handleNext, user }) => {
 
   useEffect(() => {
     // Load saved value from local storage on component mount
-    const savedUserName = localStorage.getItem("userName");
+    const savedUserName = sessionStorage.getItem("userName");
 
     if (savedUserName) {
       // Set the saved value in the component state
@@ -23,7 +23,7 @@ const UserName = ({ handleChange, handleNext, user }) => {
     const regex = /^[a-zA-Z0-9\s]*$/;
     if (!value || regex.test(value)) {
       handleChange(event);
-      localStorage.setItem(name, value); // Save the value to local storage
+      sessionStorage.setItem(name, value); // Save the value to local storage
     }
   };
 

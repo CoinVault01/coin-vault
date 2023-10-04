@@ -4,13 +4,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ProtectedRoutes = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     // Check if the token is valid and not expired
     if (token === null || !isValidToken(token)) {
       // Clear the token from local storage
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       // Show a toast message
       toast.warn("User timeout. Please login.", {
         position: "top-right",

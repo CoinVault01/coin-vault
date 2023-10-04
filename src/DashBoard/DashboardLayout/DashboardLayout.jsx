@@ -13,13 +13,13 @@ const DashboardLayout = () => {
    useEffect(() => {
      const fetchUserData = async () => {
        try {
-         const token = localStorage.getItem("token");
+         const token = sessionStorage.getItem("token");
          if (!token) {
            return;
          }
 
          // Check if userData is already in the cache
-         const cachedUserData = JSON.parse(localStorage.getItem("userData"));
+         const cachedUserData = JSON.parse(sessionStorage.getItem("userData"));
 
          if (cachedUserData) {
            setUserData(cachedUserData);
@@ -36,7 +36,7 @@ const DashboardLayout = () => {
          );
 
          // Cache the fetched userData
-         localStorage.setItem("userData", JSON.stringify(response.data));
+         sessionStorage.setItem("userData", JSON.stringify(response.data));
 
          setUserData(response.data);
        } catch (error) {
@@ -48,7 +48,7 @@ const DashboardLayout = () => {
 
      // Clear userData from local storage on page refresh
      const handleBeforeUnload = () => {
-       localStorage.removeItem("userData");
+       sessionStorage.removeItem("userData");
      };
 
      window.addEventListener("beforeunload", handleBeforeUnload);

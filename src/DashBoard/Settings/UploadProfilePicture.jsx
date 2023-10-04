@@ -18,7 +18,7 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
           "https://coinvault.onrender.com/v1/auth/user",
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
           }
         );
@@ -105,7 +105,7 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
         `https://coinvault.onrender.com/delete-profile-image/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
         }
       );

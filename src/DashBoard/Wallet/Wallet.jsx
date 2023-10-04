@@ -22,7 +22,7 @@ const Wallet = () => {
           "https://coinvault.onrender.com/v1/auth/user",
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
           }
         );

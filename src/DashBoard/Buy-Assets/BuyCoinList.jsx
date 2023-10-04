@@ -30,7 +30,7 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
       try {
         // Check if userCryptoData is already in the cache
         const cachedUserCryptoData = JSON.parse(
-          localStorage.getItem("userCryptoData")
+          sessionStorage.getItem("userCryptoData")
         );
 
         if (cachedUserCryptoData) {
@@ -46,7 +46,7 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
         setUserCryptoData(response.data);
 
         // Cache the fetched userCryptoData
-        localStorage.setItem("userCryptoData", JSON.stringify(response.data));
+        sessionStorage.setItem("userCryptoData", JSON.stringify(response.data));
 
         setLoading(false);
       } catch (error) {
@@ -59,7 +59,7 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
 
     // Clear userData from local storage on page refresh
     const handleBeforeUnload = () => {
-      localStorage.removeItem("userCryptoData");
+      sessionStorage.removeItem("userCryptoData");
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);

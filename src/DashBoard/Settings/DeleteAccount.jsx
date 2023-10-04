@@ -21,7 +21,7 @@ const DeleteAccount = ({deleteModal, setDeleteModal}) => {
           "https://coinvault.onrender.com/v1/auth/user",
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
           }
         );
@@ -49,7 +49,7 @@ const DeleteAccount = ({deleteModal, setDeleteModal}) => {
           `https://coinvault.onrender.com/delete-account/${userData.userId}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
           }
         );

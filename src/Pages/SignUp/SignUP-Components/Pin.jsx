@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PinInput from "react-pin-input";
 
 const Pin = ({ handleChange, handleNext, handlePrevious, user }) => {
-  const savedfirstName = localStorage.getItem("firstName");
+  const savedfirstName = sessionStorage.getItem("firstName");
   const [pinValue, setPinValue] = useState("");
   const [confirmPinValue, setConfirmPinValue] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
