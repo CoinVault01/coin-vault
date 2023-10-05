@@ -4,12 +4,15 @@ import { ThreeCircles } from "react-loader-spinner";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import BuyStatusModal from "./BuyStatusModal";
 
 const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [usdAmount, setUsdAmount] = useState("");
   const [cryptoEquivalent, setCryptoEquivalent] = useState("");
   const [cryptoPrice, setCryptoPrice] = useState(null);
+  const [buySuccess, setBuySuccess] = useState(false);
+
 
   useEffect(() => {
     if (selectedCrypto) {
@@ -75,24 +78,9 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
       // Handle the success response from the backend
       console.log("Cryptocurrency purchased successfully:", response.data);
 
-      toast.success(`${selectedCrypto.name} purchased successfully`, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-
-      // Reset the form and loading state
-      setUsdAmount("");
-      setCryptoEquivalent("");
+      // Set buySuccess to true
+      setBuySuccess(true);
+      
     } catch (error) {
       // Handle errors from the backend
       console.error("Error buying cryptocurrency:", error);
@@ -215,6 +203,15 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
           )}
         </button>
       </div>
+
+      {buySuccess && (
+        <BuyStatusModal
+          selectedCrypto={selectedCrypto}
+          cryptoEquivalent={cryptoEquivalent}
+          setCryptoEquivalent={setCryptoEquivalent}
+          setUsdAmount={setUsdAmount}
+        />
+      )}
     </section>
   );
 };

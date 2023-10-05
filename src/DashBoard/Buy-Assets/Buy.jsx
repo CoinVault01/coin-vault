@@ -76,6 +76,7 @@ const Buy = () => {
                   setIsModalVisible={setIsModalVisible}
                   userData={userData}
                 />
+                
               )}
             </div>
           )}

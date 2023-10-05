@@ -251,7 +251,15 @@ const DashBoardTopHeader = ({
                 )}
 
                 <div className="flex items-center gap-[20px]">
-                  <p className="capitalize font-[poppins]">
+                  <p
+                    className="capitalize font-[poppins]"
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: "100px",
+                    }}
+                  >
                     {userData && userData.firstName}....
                   </p>
                   <i className="fa-solid fa-chevron-right"></i>
@@ -433,9 +441,12 @@ const DashBoardTopHeader = ({
               <p>Mark as read</p>
             </div>
 
-            <div className="text-[20px] text-[rgb(131,207,237)]" onClick={() => {
-              setToggleNotification(false);
-            }}>
+            <div
+              className="text-[20px] text-[rgb(131,207,237)]"
+              onClick={() => {
+                setToggleNotification(false);
+              }}
+            >
               <i className="fa-solid fa-xmark font-[600] pr-[5px] cursor-pointer"></i>
             </div>
           </div>
