@@ -77,25 +77,29 @@ const UserName = ({ handleChange, handleNext, user }) => {
             />
           </div>
 
-          <div className="flex gap-[10px] ml-[15px] mt-[15px]">
-            <input
-              type="checkbox"
-              name="checkbox"
-              id="checkbox"
-              className=""
-              checked={isChecked}
-              onChange={handleCheckboxChange}
-            />
-            <p className="font-[600]">
-              I agree to CoinVault's{" "}
-              <Link
-                to="/termsandconditions"
-                target="_blank"
-                className="text-[rgb(160,210,254)]"
-              >
-                Terms & conditions
-              </Link>
-            </p>
+          <div className="flex items-center gap-[10px] ml-[15px] mt-[15px]">
+            <div>
+              <input
+                type="checkbox"
+                name="checkbox"
+                id="checkbox"
+                className=""
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
+            </div>
+            <div>
+              <p className="font-[600] text-[16px] smallerDevice:text-[12px]">
+                I agree to CoinVault's{" "}
+                <Link
+                  to="/termsandconditions"
+                  target="_blank"
+                  className="text-[rgb(160,210,254)]"
+                >
+                  Terms & conditions
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

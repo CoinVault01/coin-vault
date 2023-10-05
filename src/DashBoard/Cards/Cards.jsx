@@ -16,7 +16,6 @@ const Cards = () => {
 
         if (cachedUserData) {
           setUserData(cachedUserData);
-          setIsLoading(false);
           return;
         }
 
@@ -33,11 +32,8 @@ const Cards = () => {
 
         // Cache the fetched userData
         sessionStorage.setItem("userData", JSON.stringify(response.data));
-
-        setIsLoading(false);
       } catch (error) {
-        console.error(error);
-        setIsLoading(false);
+        console.error(error)
       }
     };
 
