@@ -210,6 +210,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
           cryptoEquivalent={cryptoEquivalent}
           setCryptoEquivalent={setCryptoEquivalent}
           setUsdAmount={setUsdAmount}
+          userData={userData}
         />
       )}
     </section>

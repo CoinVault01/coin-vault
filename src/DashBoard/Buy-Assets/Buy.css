@@ -31,3 +31,19 @@
 .buy-coin-data::-webkit-scrollbar-thumb:hover {
     background-color: #333;
 }
+
+/* Add this style to your CSS file */
+@media print {
+    .hidden-for-print {
+        display: block !important;
+        /* Important to override the 'hidden' class */
+    }
+
+    /* Add any other styles needed for printing here */
+}
+
+@media screen {
+    .hidden-for-print {
+        display: none;
+    }
+}
