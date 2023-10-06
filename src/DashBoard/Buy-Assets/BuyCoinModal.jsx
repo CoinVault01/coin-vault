@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BuyStatusModal from "./BuyStatusModal";
+import BuyFailedModal from "./BuyFailedModal";
 
 const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +13,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [cryptoEquivalent, setCryptoEquivalent] = useState("");
   const [cryptoPrice, setCryptoPrice] = useState(null);
   const [buySuccess, setBuySuccess] = useState(false);
+  const [buyFailed, setBuyFailed] = useState(false);
 
 
   useEffect(() => {
@@ -84,16 +86,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     } catch (error) {
       // Handle errors from the backend
       console.error("Error buying cryptocurrency:", error);
-      toast.error(error.response.data.error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      setBuyFailed(true)
     } finally {
       // Reset the loading state
       setIsLoading(false);
@@ -206,6 +199,16 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
 
       {buySuccess && (
         <BuyStatusModal
+          selectedCrypto={selectedCrypto}
+          cryptoEquivalent={cryptoEquivalent}
+          setCryptoEquivalent={setCryptoEquivalent}
+          setUsdAmount={setUsdAmount}
+          userData={userData}
+        />
+      )}
+
+      {buyFailed && (
+        <BuyFailedModal
           selectedCrypto={selectedCrypto}
           cryptoEquivalent={cryptoEquivalent}
           setCryptoEquivalent={setCryptoEquivalent}
