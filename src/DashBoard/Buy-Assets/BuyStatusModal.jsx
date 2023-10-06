@@ -149,7 +149,7 @@ const BuyStatusModal = ({
             >
               Print
             </Button>,
-            <Button key="buy" className="" onClick={handleCloseModal}>
+            <Button key="buy" className="text-[white] largeDevice:text-black" onClick={handleCloseModal}>
               Close
             </Button>,
           ]}

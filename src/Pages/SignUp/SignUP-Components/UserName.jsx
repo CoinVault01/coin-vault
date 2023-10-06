@@ -83,7 +83,7 @@ const UserName = ({ handleChange, handleNext, user }) => {
                 type="checkbox"
                 name="checkbox"
                 id="checkbox"
-                className=""
+                className="block mt-[2px]"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
               />
