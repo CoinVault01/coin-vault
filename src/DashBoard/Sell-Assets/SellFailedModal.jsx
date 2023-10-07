@@ -1,24 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Result } from "antd";
+import { Button, Result, Typography } from "antd";
 import { useReactToPrint } from "react-to-print";
 import CoinVault from "../../Pages/LandingPage/Nav/NavImage/coin-bg.png";
 
-const BuyStatusModal = ({
+const SellFailedModal = ({
   selectedCrypto,
-  cryptoEquivalent,
-  setUsdAmount,
-  setCryptoEquivalent,
-  userData
+  inputValue,
+  setUsdValue,
+  setInputValue,
+  userData,
 }) => {
   const [closeModal, setCloseModal] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState("");
   const componentRef = useRef();
 
   const handleCloseModal = () => {
-    setCryptoEquivalent("");
-    setUsdAmount("");
+    setInputValue("");
+    setUsdValue("");
     setCloseModal(true);
-    window.location.reload();
   };
 
   const handlePrint = useReactToPrint({
@@ -60,19 +59,19 @@ const BuyStatusModal = ({
     >
       <div className="pt-[50px]">
         <Result
-          status="success"
+          status="error"
           title={
             <span className="text-[white] largeDevice:text-[black]">
-              Successful
+              Failed
             </span>
           }
           subTitle={
             <div className="text-[white] largeDevice:text-[black]">
               <p>
-                Your Purchase of {cryptoEquivalent}{" "}
-                {selectedCrypto ? selectedCrypto.name : ""} was successful.{" "}
-                {cryptoEquivalent} {selectedCrypto ? selectedCrypto.name : ""}{" "}
-                have been added to your wallet
+                Unable to sell {inputValue}{" "}
+                {selectedCrypto ? selectedCrypto.name : ""}. Ensure that you
+                have enough {selectedCrypto ? selectedCrypto.name : ""} in your
+                account to cover the sale
               </p>
 
               <div
@@ -90,12 +89,11 @@ const BuyStatusModal = ({
 
                   <div className="uppercase text-center font-[600] text-white">
                     <p>
-                      {selectedCrypto ? selectedCrypto.symbol : ""} received
+                      Unable to sell {selectedCrypto ? selectedCrypto.symbol : ""}
                     </p>
 
                     <p>
-                      {cryptoEquivalent}{" "}
-                      {selectedCrypto ? selectedCrypto.symbol : ""}
+                      {inputValue} {selectedCrypto ? selectedCrypto.symbol : ""}
                     </p>
                   </div>
                 </div>
@@ -112,7 +110,7 @@ const BuyStatusModal = ({
                   <div className="flex justify-between px-[20px] py-[10px] font-[600] text-[17px] text-[rgb(152,177,189)] capitalize border-[1px] border-dotted border-l-0 border-r-0 border-[rgb(46,52,59)]">
                     <p className="">Description</p>
 
-                    <p>Purchased</p>
+                    <p>Transaction not successful</p>
                   </div>
 
                   <div className="flex justify-between px-[20px] py-[10px] font-[600] text-[17px] text-[rgb(152,177,189)] capitalize border-[1px] border-dotted border-l-0 border-r-0 border-[rgb(46,52,59)]">
@@ -124,7 +122,7 @@ const BuyStatusModal = ({
                   <div className="flex justify-between px-[20px] py-[10px] font-[600] text-[17px] text-[rgb(152,177,189)] capitalize border-[1px] border-dotted border-l-0 border-r-0 border-[rgb(46,52,59)]">
                     <p className="">Status</p>
 
-                    <p>Successful</p>
+                    <p>Failed</p>
                   </div>
 
                   <div className="flex justify-between px-[20px] py-[10px] font-[600] text-[17px] text-[rgb(152,177,189)] capitalize border-[1px] border-dotted border-l-0 border-r-0 border-[rgb(46,52,59)]">
@@ -149,14 +147,18 @@ const BuyStatusModal = ({
             >
               Print
             </Button>,
-            <Button key="buy" className="text-[white] largeDevice:text-black" onClick={handleCloseModal}>
+            <Button
+              key="buy"
+              className="text-[white] largeDevice:text-black"
+              onClick={handleCloseModal}
+            >
               Close
             </Button>,
           ]}
-        />
+        ></Result>
       </div>
     </section>
   );
 };
 
-export default BuyStatusModal;
+export default SellFailedModal;

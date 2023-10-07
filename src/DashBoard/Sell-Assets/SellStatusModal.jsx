@@ -3,20 +3,20 @@ import { Button, Result } from "antd";
 import { useReactToPrint } from "react-to-print";
 import CoinVault from "../../Pages/LandingPage/Nav/NavImage/coin-bg.png";
 
-const BuyStatusModal = ({
+const SellStatusModal = ({
   selectedCrypto,
-  cryptoEquivalent,
-  setUsdAmount,
-  setCryptoEquivalent,
-  userData
+  inputValue,
+  setUsdValue,
+  setInputValue,
+  userData,
 }) => {
   const [closeModal, setCloseModal] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState("");
   const componentRef = useRef();
 
   const handleCloseModal = () => {
-    setCryptoEquivalent("");
-    setUsdAmount("");
+    setInputValue("");
+    setUsdValue("");
     setCloseModal(true);
     window.location.reload();
   };
@@ -69,10 +69,10 @@ const BuyStatusModal = ({
           subTitle={
             <div className="text-[white] largeDevice:text-[black]">
               <p>
-                Your Purchase of {cryptoEquivalent}{" "}
-                {selectedCrypto ? selectedCrypto.name : ""} was successful.{" "}
-                {cryptoEquivalent} {selectedCrypto ? selectedCrypto.name : ""}{" "}
-                have been added to your wallet
+                You sold {inputValue}{" "}
+                {selectedCrypto ? selectedCrypto.name : ""}.{" "}
+                {inputValue} {selectedCrypto ? selectedCrypto.name : ""}{" "}
+                have been deducted from your wallet
               </p>
 
               <div
@@ -90,11 +90,11 @@ const BuyStatusModal = ({
 
                   <div className="uppercase text-center font-[600] text-white">
                     <p>
-                      {selectedCrypto ? selectedCrypto.symbol : ""} received
+                      {selectedCrypto ? selectedCrypto.symbol : ""} sold
                     </p>
 
                     <p>
-                      {cryptoEquivalent}{" "}
+                      {inputValue}{" "}
                       {selectedCrypto ? selectedCrypto.symbol : ""}
                     </p>
                   </div>
@@ -112,7 +112,7 @@ const BuyStatusModal = ({
                   <div className="flex justify-between px-[20px] py-[10px] font-[600] text-[17px] text-[rgb(152,177,189)] capitalize border-[1px] border-dotted border-l-0 border-r-0 border-[rgb(46,52,59)]">
                     <p className="">Description</p>
 
-                    <p>Purchased</p>
+                    <p>Sold</p>
                   </div>
 
                   <div className="flex justify-between px-[20px] py-[10px] font-[600] text-[17px] text-[rgb(152,177,189)] capitalize border-[1px] border-dotted border-l-0 border-r-0 border-[rgb(46,52,59)]">
@@ -149,7 +149,11 @@ const BuyStatusModal = ({
             >
               Print
             </Button>,
-            <Button key="buy" className="text-[white] largeDevice:text-black" onClick={handleCloseModal}>
+            <Button
+              key="buy"
+              className="text-[white] largeDevice:text-black"
+              onClick={handleCloseModal}
+            >
               Close
             </Button>,
           ]}
@@ -159,4 +163,4 @@ const BuyStatusModal = ({
   );
 };
 
-export default BuyStatusModal;
+export default SellStatusModal;
