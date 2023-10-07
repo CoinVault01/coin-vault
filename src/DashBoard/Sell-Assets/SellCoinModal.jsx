@@ -4,12 +4,16 @@ import { ThreeCircles } from "react-loader-spinner";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SellStatusModal from "./SellStatusModal";
+import SellFailedModal from "./SellFailedModal";
 
 const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [usdValue, setUsdValue] = useState("");
   const [isMaxClicked, setIsMaxClicked] = useState(false);
+  const [sellSuccess, setSellSuccess] = useState(false);
+  const [sellFailed, setSellFailed] = useState(false);
 
   // Function to format a number with commas
   const formatNumberWithCommas = (number) => {
@@ -76,37 +80,12 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
       // Handle the success response from the backend
       console.log("Cryptocurrency sold successfully:", response.data);
 
-      toast.success(`${selectedCrypto.name} sold successfully`, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      setSellSuccess(true);
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-
-      // Reset the form and loading state
-      setInputValue("");
-      setUsdValue("");
     } catch (error) {
       // Handle errors from the backend
       console.error("Error selling cryptocurrency:", error);
-      toast.error(error.response.data.error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      setSellFailed(true);
     } finally {
       // Reset the loading state
       setIsLoading(false);
@@ -122,8 +101,8 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
             className="fa-solid fa-xmark cursor-pointer"
             onClick={() => {
               setIsModalVisible(false);
-              setInputValue("")
-              setUsdValue("")
+              setInputValue("");
+              setUsdValue("");
             }}
           ></i>
         </div>
@@ -189,7 +168,9 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
               <span className="text-[rgb(165,177,189)]">
                 Available Balance:
               </span>{" "}
-              <span>{selectedCrypto ? selectedCrypto.amount.toFixed(3) : ""}</span>{" "}
+              <span>
+                {selectedCrypto ? selectedCrypto.amount.toFixed(3) : ""}
+              </span>{" "}
               <span className="uppercase font-[600]">
                 {selectedCrypto ? selectedCrypto.symbol : ""}
               </span>
@@ -226,6 +207,26 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
           )}
         </button>
       </div>
+
+      {sellSuccess && (
+        <SellStatusModal
+          userData={userData}
+          inputValue={inputValue}
+          selectedCrypto={selectedCrypto}
+          setInputValue={setInputValue}
+          setUsdValue={setUsdValue}
+        />
+      )}
+
+      {sellFailed && (
+        <SellFailedModal
+          userData={userData}
+          inputValue={inputValue}
+          selectedCrypto={selectedCrypto}
+          setInputValue={setInputValue}
+          setUsdValue={setUsdValue}
+        />
+      )}
     </section>
   );
 };
