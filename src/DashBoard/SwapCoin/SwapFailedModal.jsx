@@ -3,69 +3,72 @@ import { Button, Result } from "antd";
 import { useReactToPrint } from "react-to-print";
 import CoinVault from "../../Pages/LandingPage/Nav/NavImage/coin-bg.png";
 
-const SellFailedModal = ({
+const SwapFailedModal = ({
   selectedCrypto,
   selectedCryptoData,
   inputValue,
-  setUsdValue,
+  setEquivalentCryptoValue,
   setInputValue,
   userData,
 }) => {
-  const [closeModal, setCloseModal] = useState(false);
-  const [currentDateTime, setCurrentDateTime] = useState("");
-  const componentRef = useRef();
+    const [closeModal, setCloseModal] = useState(false);
+    const [currentDateTime, setCurrentDateTime] = useState("");
+    const componentRef = useRef();
 
-  const handleCloseModal = () => {
-    setInputValue("");
-    setUsdValue("");
-    setCloseModal(true);
-  };
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  useEffect(() => {
-    const updateDateTime = () => {
-      const now = new Date();
-      const formattedDateTime = `${
-        now.getMonth() + 1
-      }/${now.getDate()}/${now.getFullYear()}, ${formatAMPM(now)}`;
-      setCurrentDateTime(formattedDateTime);
+    const handleCloseModal = () => {
+      setInputValue("");
+      setEquivalentCryptoValue("");
+      setCloseModal(true);
     };
 
-    const formatAMPM = (date) => {
-      let hours = date.getHours();
-      let minutes = date.getMinutes();
-      let seconds = date.getSeconds();
-      const ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12;
-      hours = hours || 12; // 12-hour clock format
-      minutes = minutes < 10 ? `0${minutes}` : minutes;
-      seconds = seconds < 10 ? `0${seconds}` : seconds;
-      return `${hours}:${minutes}:${seconds} ${ampm}`;
-    };
+    const handlePrint = useReactToPrint({
+      content: () => componentRef.current,
+    });
 
-    updateDateTime(); // Initial call to set the date and time
-    const intervalId = setInterval(updateDateTime, 1000); // Update every second
+    useEffect(() => {
+      const updateDateTime = () => {
+        const now = new Date();
+        const formattedDateTime = `${
+          now.getMonth() + 1
+        }/${now.getDate()}/${now.getFullYear()}, ${formatAMPM(now)}`;
+        setCurrentDateTime(formattedDateTime);
+      };
 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
-  }, []);
+      const formatAMPM = (date) => {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        const ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12;
+        hours = hours || 12; // 12-hour clock format
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+        return `${hours}:${minutes}:${seconds} ${ampm}`;
+      };
 
-  // Conditionally set the error message based on the inputValue
-  const errorMessage =
-    inputValue === "0" ? (
-      <p>
-        Unable to sell {inputValue} {selectedCrypto ? selectedCrypto.name : ""}.
-        Please input a valid amount.
-      </p>
-    ) : (
-      <p>
-        Unable to sell {inputValue} {selectedCrypto ? selectedCrypto.name : ""}.
-        Ensure that you have enough {selectedCrypto ? selectedCrypto.name : ""}{" "}
-        in your wallet to cover the sale.
-      </p>
-    );
+      updateDateTime(); // Initial call to set the date and time
+      const intervalId = setInterval(updateDateTime, 1000); // Update every second
+
+      return () => clearInterval(intervalId); // Cleanup on component unmount
+    }, []);
+
+    // Conditionally set the error message based on the inputValue
+    const errorMessage =
+      inputValue === "0" ? (
+        <p>
+          Unable to swap {inputValue}{" "}
+          {selectedCrypto ? selectedCrypto.name : ""}. Please input a valid
+          amount.
+        </p>
+      ) : (
+        <p>
+          Unable to swap {inputValue}{" "}
+          {selectedCrypto ? selectedCrypto.name : ""}. Ensure that you have
+          enough {selectedCrypto ? selectedCrypto.name : ""} {" "}
+        in your wallet to be able to swap to {selectedCryptoData.name}.
+        </p>
+      );
+
 
   return (
     <section
@@ -83,9 +86,7 @@ const SellFailedModal = ({
           }
           subTitle={
             <div className="text-[white] largeDevice:text-[black]">
-              <p>
-                {errorMessage}
-              </p>
+              <p>{errorMessage}</p>
 
               <div
                 className="py-[20px] bg-[rgb(32,37,43)] border-[1px] border-[rgb(46,52,59)] rounded-[10px] hidden-for-print h-[100vh]"
@@ -102,8 +103,9 @@ const SellFailedModal = ({
 
                   <div className="uppercase text-center font-[600] text-white">
                     <p>
-                      Unable to sell{" "}
-                      {selectedCrypto ? selectedCrypto.symbol : ""}
+                      Unable to swap{" "}
+                      {selectedCrypto ? selectedCrypto.symbol : ""} to{" "}
+                      {selectedCryptoData ? selectedCryptoData.symbol : ""}
                     </p>
 
                     <p>
@@ -175,4 +177,4 @@ const SellFailedModal = ({
   );
 };
 
-export default SellFailedModal;
+export default SwapFailedModal;
