@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Result, Typography } from "antd";
+import { Button, Result } from "antd";
 import { useReactToPrint } from "react-to-print";
 import CoinVault from "../../Pages/LandingPage/Nav/NavImage/coin-bg.png";
 
@@ -51,6 +51,21 @@ const SellFailedModal = ({
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, []);
 
+  // Conditionally set the error message based on the inputValue
+  const errorMessage =
+    inputValue === "0" ? (
+      <p>
+        Unable to sell {inputValue} {selectedCrypto ? selectedCrypto.name : ""}.
+        Please input a valid amount.
+      </p>
+    ) : (
+      <p>
+        Unable to sell {inputValue} {selectedCrypto ? selectedCrypto.name : ""}.
+        Ensure that you have enough {selectedCrypto ? selectedCrypto.name : ""}{" "}
+        in your wallet to cover the sale.
+      </p>
+    );
+
   return (
     <section
       className={`${
@@ -68,10 +83,7 @@ const SellFailedModal = ({
           subTitle={
             <div className="text-[white] largeDevice:text-[black]">
               <p>
-                Unable to sell {inputValue}{" "}
-                {selectedCrypto ? selectedCrypto.name : ""}. Ensure that you
-                have enough {selectedCrypto ? selectedCrypto.name : ""} in your
-                account to cover the sale
+                {errorMessage}
               </p>
 
               <div
@@ -89,7 +101,8 @@ const SellFailedModal = ({
 
                   <div className="uppercase text-center font-[600] text-white">
                     <p>
-                      Unable to sell {selectedCrypto ? selectedCrypto.symbol : ""}
+                      Unable to sell{" "}
+                      {selectedCrypto ? selectedCrypto.symbol : ""}
                     </p>
 
                     <p>
