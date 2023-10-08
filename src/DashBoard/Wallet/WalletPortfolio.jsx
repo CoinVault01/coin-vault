@@ -307,7 +307,7 @@ const WalletPortfolio = ({ userData }) => {
                       alt=""
                       className="w-full rounded-[8px]"
                     />
-                    <p className="user-card-name absolute top-[145px] smallerDevice:top-[100px] bonusDevice:top-[145px] left-[15px] text-[20px] smallDevice:text-[15px] semiSmallDevice:top-[125px] smallerDevice:text-[15px] mediumDevice:top-[148px]">
+                    <p className="user-card-name absolute top-[145px] smallerDevice:top-[100px] bonusDevice:top-[145px] left-[15px] text-[20px] smallDevice:text-[15px] semiSmallDevice:top-[125px] smallerDevice:text-[15px] mediumDevice:top-[148px] capitalize font-[600]">
                       {userData.firstName} {userData.lastName}
                     </p>
                   </div>
