@@ -58,7 +58,7 @@ const CardModal = ({
 
             <div className="flex justify-between items-center border-b-[1px] border-[rgb(50,56,63)] pb-[10px] px-[20px] mb-[20px] text-[rgb(165,177,189)] font-[600] smallerDevice:text-[13px]">
               <h3>Account Name</h3>
-              <p>
+              <p className="capitalize">
                 {userData.firstName} {userData.lastName}
               </p>
             </div>

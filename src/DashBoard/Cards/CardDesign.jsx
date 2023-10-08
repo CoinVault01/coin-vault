@@ -76,7 +76,7 @@ const CardDesign = ({ userData }) => {
           {selectedCard ? (
             <div className="relative">
               <img src={selectedCard} alt="" className="w-full rounded-[8px]" />
-              <p className="user-card-name absolute top-[140px] smallerDevice:top-[93px] bonusDevice:top-[125px] left-[15px] text-[20px] smallDevice:text-[15px] smallDevice:top-[110px] smallerDevice:text-[15px] mediumDevice:top-[140px]">
+              <p className="user-card-name absolute top-[145px] smallerDevice:top-[93px] bonusDevice:top-[130px] left-[15px] text-[20px] smallDevice:text-[15px] smallDevice:top-[110px] smallerDevice:text-[15px] mediumDevice:top-[145px] capitalize font-[600]">
                 {userData.firstName} {userData.lastName}
               </p>
             </div>
