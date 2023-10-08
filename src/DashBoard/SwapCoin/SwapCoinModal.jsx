@@ -3,6 +3,8 @@ import { ThreeCircles } from "react-loader-spinner";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SwapFailedModal from "./SwapFailedModal";
+import SwapStatusModal from "./SwapStatusModal";
 
 const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -114,37 +116,12 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
       // Handle the success response from the backend
       console.log("Cryptocurrency sold successfully:", response.data);
 
-      toast.success(`${selectedCrypto.name} swapped successfully`, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      setSwapSuccess(true)
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-
-      // Reset the form and loading state
-      setInputValue("");
-      setUsdValue("");
     } catch (error) {
       // Handle errors from the backend
       console.error("Error swaping cryptocurrency:", error);
-      toast.error(error.response.data.error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      setSwapFailed(true)
     } finally {
       // Reset the loading state
       setIsLoading(false);
@@ -153,7 +130,6 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
 
   return (
     <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[50%] bg-[rgb(32,37,43)] largeDevice:rounded-[10px] generalDevice:fixed top-[70px] w-full">
-      <ToastContainer hideProgressBar autoClose={3000} />
       <div className="w-[90%] mx-auto pt-[10px]">
         <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] mb-[10px] largeDevice:hidden">
           <i
@@ -277,7 +253,7 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
                       onClick={() => {
                         handleCryptoItemClick(crypto);
                         setListDropdown(false);
-                        setSearchInput("")
+                        setSearchInput("");
                       }}
                     >
                       <img src={crypto.image} alt="" className="w-[35px]" />
@@ -327,6 +303,29 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
           )}
         </button>
       </div>
+
+      {swapSuccess && (
+        <SwapStatusModal
+          userData={userData}
+          inputValue={inputValue}
+          selectedCrypto={selectedCrypto}
+          selectedCryptoData={selectedCryptoData}
+          setInputValue={setInputValue}
+          equivalentCryptoValue={equivalentCryptoValue}
+          setEquivalentCryptoValue={setEquivalentCryptoValue}
+        />
+      )}
+
+      {swapFailed && (
+        <SwapFailedModal
+          userData={userData}
+          inputValue={inputValue}
+          selectedCrypto={selectedCrypto}
+          selectedCryptoData={selectedCryptoData}
+          setInputValue={setInputValue}
+          setEquivalentCryptoValue={setEquivalentCryptoValue}
+        />
+      )}
     </section>
   );
 };

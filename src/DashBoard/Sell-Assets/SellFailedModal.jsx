@@ -5,6 +5,7 @@ import CoinVault from "../../Pages/LandingPage/Nav/NavImage/coin-bg.png";
 
 const SellFailedModal = ({
   selectedCrypto,
+  selectedCryptoData,
   inputValue,
   setUsdValue,
   setInputValue,

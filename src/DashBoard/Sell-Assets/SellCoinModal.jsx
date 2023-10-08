@@ -94,7 +94,6 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
 
   return (
     <section className="border-[1px] border-[rgb(46,52,59)] h-[100%] largeDevice:w-[50%] bg-[rgb(32,37,43)] largeDevice:rounded-[10px] generalDevice:fixed top-[70px] w-full">
-      <ToastContainer hideProgressBar autoClose={3000} />
       <div className="w-[90%] mx-auto pt-[10px]">
         <div className="flex justify-end text-[25px] text-[rgb(133,209,240)] mb-[10px] largeDevice:hidden">
           <i
