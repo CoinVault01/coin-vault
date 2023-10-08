@@ -13,6 +13,8 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [selectedCryptoData, setSelectedCryptoData] = useState(null);
   const [listDropdown, setListDropdown] = useState(false)
   const [searchInput, setSearchInput] = useState("");
+  const [swapSuccess, setSwapSuccess] = useState(false);
+  const [swapFailed, setSwapFailed] = useState(false);
 
 
    const handleCryptoItemClick = (crypto) => {
