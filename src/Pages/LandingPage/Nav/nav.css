@@ -18,6 +18,10 @@
     width: 100%;
 }
 
+.active .animated-text::after {
+    width: 0;
+}
+
 .header-btn {
     transition: all 2.5s ease-in-out;
 }

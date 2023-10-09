@@ -1,15 +1,24 @@
 import React from 'react'
 import coinVault from "./Footer-Image/coin-bg.png";
-import { Link } from "react-scroll";
+import { Link as LinkScroll } from "react-scroll";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  // Get the current year
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="" id="footer">
       <div className="flex justify-center relative border-t-[1px] border-[rgba(255,255,255,0.2)] w-[90%] mx-auto mb-[40px]">
         <div className="rounded-full border-[1px] border-[rgba(255,255,255,0.2)] inline-block px-[20px] py-[15px] hover:bg-[rgb(0,180,224)] transition-all duration-500 ease-in-out cursor-pointer absolute bottom-[-25px] bg-[rgb(3,11,21)]">
-          <Link to="SectionOne" smooth={true} duration={500} offset={-100}>
+          <LinkScroll
+            to="SectionOne"
+            smooth={true}
+            duration={500}
+            offset={-100}
+          >
             <i className="fa-solid fa-arrow-up text-[20px]"></i>
-          </Link>
+          </LinkScroll>
         </div>
       </div>
 
@@ -62,27 +71,27 @@ const Footer = () => {
           <h1 className="mb-[20px] font-[600] text-[23px]">USEFUL LINKS</h1>
 
           <div className="flex flex-col">
-            <Link to="SectionOne" smooth={true} duration={500} offset={-100}>
+            <Link to="/signup">
               <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
-                Home
+                Get Started
               </p>
             </Link>
 
-            <Link to="SectionTwo" smooth={true} duration={500} offset={-50}>
+            <Link to="/termsandconditions">
               <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
-                About Us
+                Terms and Conditions
               </p>
             </Link>
 
-            <Link to="SectionThree" smooth={true} duration={500} offset={-50}>
+            <Link to="/forgotpassword">
               <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
-                Why Choose Us
+                Forgot Password
               </p>
             </Link>
 
-            <Link to="SectionFour" smooth={true} duration={500} offset={-100}>
+            <Link to="/login">
               <p className="animated-text font-[600] cursor-pointer text-[rgba(255,255,255,0.5)] hover:text-[white] inline-block mb-[10px] transition-all duration-500 ease-in-out pb-[5px]">
-                Contact Us
+                Login
               </p>
             </Link>
           </div>
@@ -91,7 +100,7 @@ const Footer = () => {
 
       <div className="border-t-[1px] border-[rgba(255,255,255,0.2)] w-[90%] mx-auto">
         <p className="py-[40px] text-center font-[600]">
-          Copyright © 2023. All Rights Reserved CoinVault
+          Copyright © {currentYear}. All Rights Reserved CoinVault
         </p>
       </div>
     </footer>
