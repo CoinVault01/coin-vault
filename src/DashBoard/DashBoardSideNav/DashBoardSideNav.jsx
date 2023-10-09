@@ -172,7 +172,7 @@ const DashBoardSideNav = ({ showNav, setActiveLinkText, setShowNav }) => {
                 </NavLink>
 
                 <li
-                  className={`text-[18px] font-[600] font-[poppins] cursor-pointer  px-[5px] py-[3px] rounded-[8px] transition-all duration-[2s] ease-in-out largeDevice:hidden`}
+                  className={`text-[18px] font-[600] font-[poppins] cursor-pointer  px-[5px] py-[10px] rounded-[8px] transition-all duration-[2s] ease-in-out largeDevice:hidden`}
                   onClick={() => {
                     setCloseLogout(true);
                     setShowNav(false);
