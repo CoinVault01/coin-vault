@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react'
 import "../SectionFour/SectionFour.css";
 import contactImage from "../SectionFour/SectionFour-Image/Contact-Image.png";
 import emailjs from "@emailjs/browser";
+import { ThreeCircles } from "react-loader-spinner";
 
 const SectionFour = () => {
     const form = useRef();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleNameChange = (event) => {
       setName(event.target.value);
@@ -23,6 +25,7 @@ const SectionFour = () => {
 
     const sendEmail = (e) => {
       e.preventDefault();
+      setLoading(true); // Set loading to true when the form is submitted
       emailjs
         .sendForm(
           "service_xs5fofa",
@@ -40,12 +43,15 @@ const SectionFour = () => {
           (error) => {
             console.log(error.text);
           }
-        );
+        )
+        .finally(() => {
+          setLoading(false); // Reset loading to false when the operation is completed
+        });
     };
 
 
   return (
-    <section className="mb-[80px]" id='SectionFour'>
+    <section className="mb-[80px]" id="SectionFour">
       <div className="flex justify-center">
         <div className="relative py-[15px] inline-block">
           <h1 className="SectionThree-header uppercase font-[600]">Contact</h1>
@@ -131,6 +137,7 @@ const SectionFour = () => {
               className="form-input bg-[rgb(11,29,51)] border-[rgba(255,255,255,0.2)] border-[1px] h-[50px] w-[100%] rounded-t-[5px] rounded-b-[5px] text-[18px] font-[600] text-[white] pl-[20px] capitalize"
               value={name}
               onChange={handleNameChange}
+              required
             />
           </div>
 
@@ -163,8 +170,30 @@ const SectionFour = () => {
           className="hero-btn rounded-full border-[2px] border-[rgb(0,180,224)] py-[10px] px-[20px] mx-auto w-[200px] text-[20px] capitalize block bg-[rgb(11,29,51)]"
           type="submit"
           value="send"
+          disabled={!name || !email || !message}
+          style={{
+            opacity: !name || !email || !message ? 0.5 : 1,
+            cursor: !name || !email || !message ? "not-allowed" : "pointer",
+          }}
         >
-          send message
+          {loading ? (
+            <div className="w-[30px] mx-auto">
+              <ThreeCircles
+                height="25"
+                width="25"
+                color="rgb(160,210,254)"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="three-circles-rotating"
+                outerCircleColor=""
+                innerCircleColor=""
+                middleCircleColor=""
+              />
+            </div>
+          ) : (
+            "send message"
+          )}
         </button>
       </form>
     </section>

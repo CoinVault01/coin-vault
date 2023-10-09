@@ -4,7 +4,7 @@ import coinVault from "./NavImage/coin-bg.png";
 import { Link as LinkScroll } from "react-scroll";
 import { Link } from "react-router-dom";
 
-const Nav = () => {
+const Nav = ({ activeSection, setActiveSection }) => {
   const [closeNav, setCloseNav] = useState(false);
   const closenav2 = useRef(null);
   const [showNavbar, setShowNavbar] = useState(false);
@@ -84,15 +84,17 @@ const Nav = () => {
                   duration={500}
                   offset={-100}
                   onClick={() => {
+                    setActiveSection("SectionOne");
                     handleLinkClick(active[0].id);
                   }}
+                  className={activeSection === "SectionOne" ? "active" : ""}
                 >
                   <li
                     className={`${
-                      active[0].isOpen
+                      activeSection === "SectionOne"
                         ? "border-b-[3px] border-[rgb(0,180,224)]"
-                        : "animated-text"
-                    } h-[60px]`}
+                        : ""
+                    } animated-text h-[60px]`}
                   >
                     Home
                   </li>
@@ -104,15 +106,17 @@ const Nav = () => {
                   duration={500}
                   offset={-50}
                   onClick={() => {
+                    setActiveSection("SectionTwo");
                     handleLinkClick(active[1].id);
                   }}
+                  className={activeSection === "SectionTwo" ? "active" : ""}
                 >
                   <li
                     className={`${
-                      active[1].isOpen
+                      activeSection === "SectionTwo"
                         ? "border-b-[3px] border-[rgb(0,180,224)]"
-                        : "animated-text"
-                    } h-[60px]`}
+                        : ""
+                    } animated-text h-[60px]`}
                   >
                     About Us
                   </li>
@@ -124,15 +128,17 @@ const Nav = () => {
                   duration={500}
                   offset={-50}
                   onClick={() => {
+                    setActiveSection("SectionThree");
                     handleLinkClick(active[2].id);
                   }}
+                  className={activeSection === "SectionThree" ? "active" : ""}
                 >
                   <li
                     className={`${
-                      active[2].isOpen
+                      activeSection === "SectionThree"
                         ? "border-b-[3px] border-[rgb(0,180,224)]"
-                        : "animated-text"
-                    } h-[60px]`}
+                        : ""
+                    } animated-text h-[60px]`}
                   >
                     Why choose us
                   </li>
@@ -144,15 +150,17 @@ const Nav = () => {
                   duration={500}
                   offset={-50}
                   onClick={() => {
+                    setActiveSection("SectionFour");
                     handleLinkClick(active[3].id);
                   }}
+                  className={activeSection === "SectionFour" ? "active" : ""}
                 >
                   <li
                     className={`${
-                      active[3].isOpen
+                      activeSection === "SectionFour"
                         ? "border-b-[3px] border-[rgb(0,180,224)]"
-                        : "animated-text"
-                    } h-[60px]`}
+                        : ""
+                    } animated-text h-[60px]`}
                   >
                     Contact us
                   </li>
@@ -264,14 +272,28 @@ const Nav = () => {
                     setCloseNav(false);
                   }}
                 >
-                  <li className="pl-[40px] py-[20px] cursor-pointer border-t-[1px] border-[rgba(255,255,255,0.2)] border-b-[1px]">
+                  <li className="pl-[40px] pt-[20px] cursor-pointer border-t-[1px] border-[rgba(255,255,255,0.2)]">
                     Contact us
                   </li>
                 </LinkScroll>
+
+                <Link
+                  to="/login"
+                  smooth={true}
+                  duration={500}
+                  offset={-50}
+                  onClick={() => {
+                    setCloseNav(false);
+                  }}
+                >
+                  <li className="pl-[40px] py-[20px] cursor-pointer border-t-[1px] border-[rgba(255,255,255,0.2)] border-b-[1px]">
+                    Login
+                  </li>
+                </Link>
               </ul>
             </div>
 
-            <div className="flex justify-center smallerDevice:gap-[10px] gap-[15px] my-[40px]">
+            <div className="flex justify-center smallerDevice:gap-[10px] gap-[15px] my-[30px]">
               <div className="hover:bg-[rgb(0,180,224)] flex justify-center items-center py-[10px] px-[10px] border-[1px] border-[rgba(255,255,255,0.2)] text-[white] cursor-pointer transition-all duration-[1s] ease-in-out">
                 <a
                   href="https://web.facebook.com/adegoke.gabriel.526"
