@@ -3,10 +3,8 @@ import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import CardDesign from "./CardDesign";
 import axios from "axios";
 
-
 const Cards = () => {
   const [userData, setUserData] = useState({});
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,7 +18,7 @@ const Cards = () => {
         }
 
         const response = await axios.get(
-          "https://coinvault.onrender.com/v1/auth/user",
+          "https://coinvault-backend.vercel.app/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -33,13 +31,12 @@ const Cards = () => {
         // Cache the fetched userData
         sessionStorage.setItem("userData", JSON.stringify(response.data));
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     };
 
     fetchUserData();
   }, []);
-
 
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">

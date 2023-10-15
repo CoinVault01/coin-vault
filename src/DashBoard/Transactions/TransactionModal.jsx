@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 
 const TransactionModal = ({ userData }) => {
@@ -12,12 +12,12 @@ const TransactionModal = ({ userData }) => {
     const fetchTransactionHistory = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/v1/auth/transaction-history/${userData.userId}`
+          `https://coinvault-backend.vercel.app/v1/auth/transaction-history/${userData.userId}`
         );
         setTransactionHistory(response.data);
         console.log(response.data);
       } catch (error) {
-        console.error("Error fetching transaction history:", error.message);
+        console.log("Error fetching transaction history:", error.message);
       } finally {
         setLoading(false);
       }
@@ -130,4 +130,4 @@ const TransactionModal = ({ userData }) => {
   );
 };
 
-export default TransactionModal
+export default TransactionModal;

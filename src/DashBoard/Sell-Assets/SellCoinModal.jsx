@@ -65,7 +65,7 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/sell-crypto",
+        "https://coinvault-backend.vercel.app/v1/auth/sell-crypto",
         {
           coinSymbol: selectedCrypto.id,
           amountToSell: parseFloat(inputValue),
@@ -81,7 +81,6 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
       console.log("Cryptocurrency sold successfully:", response.data);
 
       setSellSuccess(true);
-
     } catch (error) {
       // Handle errors from the backend
       console.error("Error selling cryptocurrency:", error);

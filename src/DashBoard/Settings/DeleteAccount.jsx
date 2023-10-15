@@ -6,8 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThreeCircles } from "react-loader-spinner";
 
-const DeleteAccount = ({deleteModal, setDeleteModal}) => {
-  const navigate = useNavigate()
+const DeleteAccount = ({ deleteModal, setDeleteModal }) => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [isValidInput, setIsValidInput] = useState(false);
@@ -18,7 +18,7 @@ const DeleteAccount = ({deleteModal, setDeleteModal}) => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "https://coinvault.onrender.com/v1/auth/user",
+          "https://coinvault-backend.vercel.app/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -46,7 +46,7 @@ const DeleteAccount = ({deleteModal, setDeleteModal}) => {
         setIsDeleting(true);
 
         const response = await axios.delete(
-          `https://coinvault.onrender.com/delete-account/${userData.userId}`,
+          `https://coinvault-backend.vercel.app/delete-account/${userData.userId}`,
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -60,7 +60,7 @@ const DeleteAccount = ({deleteModal, setDeleteModal}) => {
         setIsDeleting(false);
         setDeleteModal(false);
 
-        navigate("/")
+        navigate("/");
       } catch (error) {
         console.error(error.response.data);
         toast.error("Failed to delete account", {

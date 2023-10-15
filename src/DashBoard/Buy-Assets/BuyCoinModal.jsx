@@ -15,7 +15,6 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [buySuccess, setBuySuccess] = useState(false);
   const [buyFailed, setBuyFailed] = useState(false);
 
-
   useEffect(() => {
     if (selectedCrypto) {
       // Fetch the current price of the selected cryptocurrency from CoinGecko
@@ -58,14 +57,13 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     setUsdAmount(numericValue);
   };
 
-
   const handleBuyClick = async () => {
     setIsLoading(true);
 
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/buy-crypto",
+        "https://coinvault-backend.vercel.app/v1/auth/buy-crypto",
         {
           coinSymbol: selectedCrypto.id,
           amountToBuy: parseFloat(usdAmount),
@@ -82,11 +80,10 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
 
       // Set buySuccess to true
       setBuySuccess(true);
-      
     } catch (error) {
       // Handle errors from the backend
       console.error("Error buying cryptocurrency:", error);
-      setBuyFailed(true)
+      setBuyFailed(true);
     } finally {
       // Reset the loading state
       setIsLoading(false);

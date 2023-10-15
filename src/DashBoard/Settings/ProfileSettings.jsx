@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { LongCard } from "../../Skeleton/Skeleton";
 import UpdateName from "./UpdateName";
 
@@ -12,7 +12,6 @@ const ProfileSettings = () => {
     setUpdateNameModal(true);
   };
 
-
   useEffect(() => {
     // Fetch user data from the backend using the JWT token
     const fetchUserData = async () => {
@@ -24,7 +23,7 @@ const ProfileSettings = () => {
         }
         // Make the API request to fetch user data
         const response = await axios.get(
-          "https://coinvault.onrender.com/v1/auth/user",
+          "https://coinvault-backend.vercel.app/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -105,6 +104,6 @@ const ProfileSettings = () => {
       </div>
     </section>
   );
-}
+};
 
-export default ProfileSettings
+export default ProfileSettings;

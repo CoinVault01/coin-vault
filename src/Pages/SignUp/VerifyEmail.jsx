@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
 
-
 const VerifyEmail = () => {
   const savedEmail = sessionStorage.getItem("email");
   const navigate = useNavigate();
@@ -50,7 +49,7 @@ const VerifyEmail = () => {
     try {
       setIsLoading(true); // Start loading
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/verify-email",
+        "https://coinvault-backend.vercel.app/v1/auth/verify-email",
         { verificationCode }
       );
       const data = response.data;
@@ -117,7 +116,7 @@ const VerifyEmail = () => {
     try {
       // Make the POST request
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/resend-verification-code",
+        "https://coinvault-backend.vercel.app/v1/auth/resend-verification-code",
         {
           email: savedEmail,
         }
