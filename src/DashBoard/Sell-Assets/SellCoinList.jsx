@@ -39,7 +39,7 @@ const SellCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
         }
 
         const response = await axios.get(
-          `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
+          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
         );
 
         setUserCryptoData(response.data);
@@ -152,7 +152,11 @@ const SellCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
                 }}
               >
                 <span className="flex items-center gap-[10px]">
-                  <img src={crypto.image} alt="" className="w-[35px] select-none" />
+                  <img
+                    src={crypto.image}
+                    alt=""
+                    className="w-[35px] select-none"
+                  />
                   <span className="block">
                     <p className="font-[600] text-[15px]">{crypto.name}</p>
                     <p className="text-[rgb(165,177,189)] text-[13px] font-[600] uppercase">

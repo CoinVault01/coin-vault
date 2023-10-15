@@ -33,7 +33,7 @@ const ResetPassword = () => {
 
       // Call the backend API to reset the password
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/reset-password",
+        "https://coinvault-backend.vercel.app/v1/auth/reset-password",
         {
           token,
           password,

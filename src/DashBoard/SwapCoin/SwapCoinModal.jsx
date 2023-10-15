@@ -13,21 +13,20 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   const [userCryptoData, setUserCryptoData] = useState([]);
   const [isMaxClicked, setIsMaxClicked] = useState(false);
   const [selectedCryptoData, setSelectedCryptoData] = useState(null);
-  const [listDropdown, setListDropdown] = useState(false)
+  const [listDropdown, setListDropdown] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [swapSuccess, setSwapSuccess] = useState(false);
   const [swapFailed, setSwapFailed] = useState(false);
 
-
-   const handleCryptoItemClick = (crypto) => {
-     setSelectedCryptoData(crypto);
-   };
+  const handleCryptoItemClick = (crypto) => {
+    setSelectedCryptoData(crypto);
+  };
 
   useEffect(() => {
     const fetchUserCryptoData = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
+          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
         );
         setUserCryptoData(response.data);
 
@@ -42,41 +41,37 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     fetchUserCryptoData();
   }, [userData]);
 
-   useEffect(() => {
-     // Make sure selectedCrypto, inputValue, and selectedCryptoData are valid
-     if (!selectedCrypto || !inputValue || !selectedCryptoData) {
-       setEquivalentCryptoValue("");
-       return;
-     }
+  useEffect(() => {
+    // Make sure selectedCrypto, inputValue, and selectedCryptoData are valid
+    if (!selectedCrypto || !inputValue || !selectedCryptoData) {
+      setEquivalentCryptoValue("");
+      return;
+    }
 
-     const fetchEquivalentCryptoValue = async () => {
-       try {
-         const response = await axios.get(
-           `https://api.coingecko.com/api/v3/simple/price?ids=${selectedCrypto.id},${selectedCryptoData.id}&vs_currencies=usd`
-         );
+    const fetchEquivalentCryptoValue = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.coingecko.com/api/v3/simple/price?ids=${selectedCrypto.id},${selectedCryptoData.id}&vs_currencies=usd`
+        );
 
-         // Get the prices in USD
-         const priceInSelectedCryptoUSD =
-           response.data[selectedCrypto.id]?.usd || 0;
-         const priceInSelectedCryptoDataUSD =
-           response.data[selectedCryptoData.id]?.usd || 0;
+        // Get the prices in USD
+        const priceInSelectedCryptoUSD =
+          response.data[selectedCrypto.id]?.usd || 0;
+        const priceInSelectedCryptoDataUSD =
+          response.data[selectedCryptoData.id]?.usd || 0;
 
-         // Calculate the equivalent value in the selected cryptocurrency
-         const equivalent =
-           (parseFloat(inputValue) * priceInSelectedCryptoUSD) /
-           priceInSelectedCryptoDataUSD;
-         setEquivalentCryptoValue(equivalent.toFixed(8)); // Adjust decimal places as needed
-       } catch (error) {
-         console.error(
-           "Error fetching equivalent crypto value:",
-           error.message
-         );
-       }
-     };
+        // Calculate the equivalent value in the selected cryptocurrency
+        const equivalent =
+          (parseFloat(inputValue) * priceInSelectedCryptoUSD) /
+          priceInSelectedCryptoDataUSD;
+        setEquivalentCryptoValue(equivalent.toFixed(8)); // Adjust decimal places as needed
+      } catch (error) {
+        console.error("Error fetching equivalent crypto value:", error.message);
+      }
+    };
 
-     fetchEquivalentCryptoValue();
-   }, [selectedCrypto, inputValue, selectedCryptoData]);
-
+    fetchEquivalentCryptoValue();
+  }, [selectedCrypto, inputValue, selectedCryptoData]);
 
   const handleInputChange = (event) => {
     // Ensure the input only accepts numbers
@@ -100,7 +95,7 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/swap-crypto",
+        "https://coinvault-backend.vercel.app/v1/auth/swap-crypto",
         {
           fromCoinSymbol: selectedCrypto.id,
           toCoinSymbol: selectedCryptoData.id,
@@ -116,12 +111,11 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
       // Handle the success response from the backend
       console.log("Cryptocurrency sold successfully:", response.data);
 
-      setSwapSuccess(true)
-
+      setSwapSuccess(true);
     } catch (error) {
       // Handle errors from the backend
       console.error("Error swaping cryptocurrency:", error);
-      setSwapFailed(true)
+      setSwapFailed(true);
     } finally {
       // Reset the loading state
       setIsLoading(false);

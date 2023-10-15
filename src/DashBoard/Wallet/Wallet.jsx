@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import WalletPortfolio from "./WalletPortfolio";
 import axios from "axios";
-import "./Wallet.css"
+import "./Wallet.css";
 import { RotatingLines } from "react-loader-spinner";
 import WalletCoinList from "./WalletCoinList";
 import TransferCoinModal from "./TransferCoinModal";
@@ -19,7 +19,7 @@ const Wallet = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "https://coinvault.onrender.com/v1/auth/user",
+          "https://coinvault-backend.vercel.app/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -40,7 +40,7 @@ const Wallet = () => {
     const fetchUserCryptoData = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
+          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
         );
         setUserCryptoData(response.data);
         console.log(response.data);
@@ -54,8 +54,6 @@ const Wallet = () => {
     fetchUserCryptoData();
   }, [userData]);
 
-  
-  
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] pb-[20px]">
       <div>

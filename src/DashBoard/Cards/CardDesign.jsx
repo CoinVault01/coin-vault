@@ -22,7 +22,7 @@ const CardDesign = ({ userData }) => {
       setSelectedCard(imageSrc);
 
       const response = await axios.put(
-        `https://coinvault.onrender.com/update-selected-card/${userData.userId}`,
+        `https://coinvault-backend.vercel.app/update-selected-card/${userData.userId}`,
         {
           selectedCard: imageSrc,
         }
@@ -44,7 +44,7 @@ const CardDesign = ({ userData }) => {
     async function fetchSelectedCard() {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/get-selected-card/${userData.userId}`
+          `https://coinvault-backend.vercel.app/get-selected-card/${userData.userId}`
         );
 
         if (response.status === 200) {
@@ -62,8 +62,6 @@ const CardDesign = ({ userData }) => {
 
     fetchSelectedCard();
   }, [userData]);
-
-  
 
   return (
     <section className="flex flex-col justify-center">
@@ -177,7 +175,6 @@ const CardDesign = ({ userData }) => {
         selectedCard={selectedCard}
         userData={userData}
       />
-      
     </section>
   );
 };

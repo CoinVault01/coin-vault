@@ -20,7 +20,7 @@ const Login = () => {
 
       try {
         const response = await axios.post(
-          "https://coinvault.onrender.com/v1/auth/login",
+          "https://coinvault-backend.vercel.app/v1/auth/login",
           {
             userName,
             password,

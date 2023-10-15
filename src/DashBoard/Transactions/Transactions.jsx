@@ -13,7 +13,7 @@ const Transactions = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "https://coinvault.onrender.com/v1/auth/user",
+          "https://coinvault-backend.vercel.app/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -30,7 +30,6 @@ const Transactions = () => {
 
     fetchUserData();
   }, []);
-
 
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">

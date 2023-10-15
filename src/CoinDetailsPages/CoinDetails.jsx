@@ -4,73 +4,71 @@ import { useParams } from "react-router-dom";
 import HistoryChart from "./HistoryChart";
 import DashBoardSideNav from "../DashBoard/DashBoardSideNav/DashBoardSideNav";
 import DashBoardTopHeader from "../DashBoard/DashBoardTopHeader/DashBoardTopHeader";
-import { SmallCard } from "../Skeleton/Skeleton"
+import { SmallCard } from "../Skeleton/Skeleton";
 import CurrencyConverter from "./CurrencyConverter";
 
 const CoinDetails = () => {
-     const { id } = useParams();
-     const [coinData, setCoinData] = useState(null);
-     const [userData, setUserData] = useState(null);
-     const [showNav, setShowNav] = useState(false);
-     const [activeText, setActiveText] = useState("Home");
-     const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const [coinData, setCoinData] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [showNav, setShowNav] = useState(false);
+  const [activeText, setActiveText] = useState("Home");
+  const [loading, setLoading] = useState(true);
 
-     useEffect(() => {
-       const fetchCoinData = async () => {
-         try {
-           const response = await axios.get(
-             `https://api.coingecko.com/api/v3/coins/${id}`
-           );
-           setCoinData(response.data);
-         } catch (error) {
-           console.error("Error fetching coin data:", error);
-         }
-       };
-
-       const fetchUserData = async () => {
-         try {
-           const token = sessionStorage.getItem("token");
-           if (!token) {
-             // Redirect to login if token not found
-             return;
-           }
-
-           // Make the API request to fetch user data
-           const response = await axios.get(
-             "https://coinvault.onrender.com/v1/auth/user",
-             {
-               headers: {
-                 Authorization: `Bearer ${token}`,
-               },
-             }
-           );
-
-           setUserData(response.data);
-           setLoading(false);
-         } catch (error) {
-           console.error("Error fetching user data:", error);
-           setLoading(false);
-         }
-       };
-
-       fetchCoinData();
-       fetchUserData(); // Move this here, inside the fetchCoinData useEffect
-     }, [id]);
-
-    // Function to toggle the showNav state
-    const toggleNav = () => {
-      setShowNav((prevShowNav) => !prevShowNav);
+  useEffect(() => {
+    const fetchCoinData = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${id}`
+        );
+        setCoinData(response.data);
+      } catch (error) {
+        console.error("Error fetching coin data:", error);
+      }
     };
 
-    const handleNavItemClicked = (text) => {
-      setActiveText(text);
+    const fetchUserData = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+          // Redirect to login if token not found
+          return;
+        }
+
+        // Make the API request to fetch user data
+        const response = await axios.get(
+          "https://coinvault-backend.vercel.app/v1/auth/user",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setUserData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      }
     };
 
-    const formattedPrice =
-      coinData?.market_data?.current_price?.usd?.toLocaleString();
+    fetchCoinData();
+    fetchUserData(); // Move this here, inside the fetchCoinData useEffect
+  }, [id]);
 
-      
-  
+  // Function to toggle the showNav state
+  const toggleNav = () => {
+    setShowNav((prevShowNav) => !prevShowNav);
+  };
+
+  const handleNavItemClicked = (text) => {
+    setActiveText(text);
+  };
+
+  const formattedPrice =
+    coinData?.market_data?.current_price?.usd?.toLocaleString();
+
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh] pb-[40px]">
       <div className="">
