@@ -49,7 +49,7 @@ const VerifyEmail = () => {
     try {
       setIsLoading(true); // Start loading
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/verify-email",
+        "https://coinvault.onrender.com/v1/auth/verify-email",
         { verificationCode }
       );
       const data = response.data;

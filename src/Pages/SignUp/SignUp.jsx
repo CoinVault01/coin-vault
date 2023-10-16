@@ -49,7 +49,7 @@ const SignUp = () => {
         setIsLoading(true);
 
         const response = await axios.post(
-          "https://coinvault-backend.vercel.app/v1/auth/signup",
+          "https://coinvault.onrender.com/v1/auth/signup",
           user,
           {
             withCredentials: true, // Send credentials (cookies) with the request
