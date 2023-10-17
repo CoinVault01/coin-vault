@@ -22,7 +22,7 @@ const ForgotPassword = () => {
       }
 
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/forgot-password",
+        "https://coinvault.onrender.com/v1/auth/forgot-password",
         { email }
       );
       if (response.status === 200) {
