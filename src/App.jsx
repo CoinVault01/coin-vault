@@ -17,6 +17,7 @@ import Wallet from "./DashBoard/Wallet/Wallet";
 import Transactions from "./DashBoard/Transactions/Transactions";
 import Settings from "./DashBoard/Settings/Settings";
 import ProtectedRoutes from "./protectedRoutes/ProtectedRoutes";
+import EmailReverification from "./Pages/SignUp/EmailReverification";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verifyemail" element={<VerifyEmail />} />
+          <Route path="/emailreverification" element={<EmailReverification/>} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
@@ -100,9 +102,10 @@ function App() {
           <Route
             path="/coin/:id"
             element={
-            <ProtectedRoutes>
-              <CoinDetails/>
-            </ProtectedRoutes>}
+              <ProtectedRoutes>
+                <CoinDetails />
+              </ProtectedRoutes>
+            }
           />
         </Routes>
       </BrowserRouter>

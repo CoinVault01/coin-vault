@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import PinInput from "react-pin-input";
 
@@ -7,6 +7,16 @@ const Pin = ({ handleChange, handleNext, handlePrevious, user }) => {
   const [pinValue, setPinValue] = useState("");
   const [confirmPinValue, setConfirmPinValue] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    if (pinValue === "" && confirmPinValue === "") {
+      setButtonDisabled(true);
+    } else if (pinValue !== confirmPinValue) {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
+  }, [pinValue, confirmPinValue]);
   
 
   return (
