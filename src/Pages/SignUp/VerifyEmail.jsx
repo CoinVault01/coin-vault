@@ -30,6 +30,7 @@ const VerifyEmail = () => {
       clearInterval(timer);
     };
   }, []);
+
   const startCountdown = () => {
     const startTime = Math.floor(Date.now() / 1000);
     sessionStorage.setItem("savedTime", startTime.toString());
@@ -45,6 +46,7 @@ const VerifyEmail = () => {
       });
     }, 1000);
   };
+
   const handleVerifyEmail = async () => {
     try {
       setIsLoading(true); // Start loading
@@ -111,6 +113,7 @@ const VerifyEmail = () => {
       setIsLoading(false); // Stop loading
     }
   };
+  
   const handleResendCode = async () => {
     setResend(true); // Set the resend flag to true
     try {
