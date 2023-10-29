@@ -119,7 +119,7 @@ const VerifyEmail = () => {
     try {
       // Make the POST request
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/resend-verification-code",
+        "https://coinvault.onrender.com/v1/auth/resend-verification-code",
         {
           email: savedEmail,
         }

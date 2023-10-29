@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [showVerifyEmail, setShowVerifyEmail] = useState(false); // State to show "Verify Email" section
 
   const handleLogin = useCallback(
     async (e) => {
@@ -47,16 +48,20 @@ const Login = () => {
           navigate("/wallet-home");
         }, 2000);
       } catch (error) {
-        toast.error(error.response.data.error, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        if (error.response.data.error === "Please verify your email address") {
+          setShowVerifyEmail(true);
+        } else {
+          toast.error(error.response.data.error, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
       } finally {
         setIsLoading(false);
       }
@@ -71,7 +76,17 @@ const Login = () => {
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
       <ToastContainer hideProgressBar autoClose={3000} />
-      <div className="w-[90%] max-w-[500px] mx-auto">
+      <div className="w-[90%] max-w-[500px] mx-auto pt-[10px]">
+        {showVerifyEmail && (
+          <div className="w-[80%] bg-[rgb(32,37,43)] mx-auto py-[10px] flex justify-center items-center">
+            <Link to="/emailreverification">
+              <p className="hover:underline hover:cursor-pointer">
+                Verify Email Address
+              </p>
+            </Link>
+          </div>
+        )}
+
         <div className="pt-[50px]">
           <img src={coinVault} alt="" className="inline-block w-[150px]" />
         </div>
