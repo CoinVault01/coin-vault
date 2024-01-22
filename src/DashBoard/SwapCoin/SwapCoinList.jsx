@@ -39,7 +39,7 @@ const SwapCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
         }
 
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
+          `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
         );
 
         setUserCryptoData(response.data);
