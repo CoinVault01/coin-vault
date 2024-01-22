@@ -103,7 +103,7 @@ const DashBoardTopHeader = ({
     const fetchNotificationHistory = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/notifications/${userData.userId}`
+          `https://coinvault.onrender.com/v1/auth/notifications/${userData.userId}`
         );
         setTransactionHistory(response.data);
         console.log(response.data);
@@ -125,7 +125,7 @@ const DashBoardTopHeader = ({
     // Send a PUT request to mark all notifications as read
     axios
       .put(
-        `https://coinvault-backend.vercel.app/v1/auth/notifications/mark-as-read/${userData.userId}`
+        `https://coinvault.onrender.com/v1/auth/notifications/mark-as-read/${userData.userId}`
       )
       .then(() => {
         // After marking as read, set unreadCount to 0

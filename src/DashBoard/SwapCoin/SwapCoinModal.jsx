@@ -26,7 +26,7 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     const fetchUserCryptoData = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
+          `https://coinvault.onrender.com/v1/auth/user-crypto-holdings/${userData.userId}`
         );
         setUserCryptoData(response.data);
 
@@ -95,7 +95,7 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/swap-crypto",
+        "https://coinvault.onrender.com/v1/auth/swap-crypto",
         {
           fromCoinSymbol: selectedCrypto.id,
           toCoinSymbol: selectedCryptoData.id,

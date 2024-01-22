@@ -18,7 +18,7 @@ const Cards = () => {
         }
 
         const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
+          "https://coinvault.onrender.com/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,
