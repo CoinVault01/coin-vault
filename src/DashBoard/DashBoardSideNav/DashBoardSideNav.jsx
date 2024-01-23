@@ -20,7 +20,7 @@ const DashBoardSideNav = ({ showNav, setActiveLinkText, setShowNav }) => {
       <aside
         className={`${
           showNav ? "" : "generalDevice:right-[-100%]"
-        } side-bar-container bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] overflow-y-auto w-[230px] fixed z-50 generalDevice:top-[70px] generalDevice:right-0 transition-all duration-[1s] ease-in-out`}
+        } side-bar-container bg-[rgb(36,39,58)] text-[white] h-[100%] min-h-[100%] w-[230px] fixed z-50 generalDevice:top-[70px] generalDevice:right-0 transition-all duration-[1s] ease-in-out overflow-y-hidden`}
       >
         <div>
           <img

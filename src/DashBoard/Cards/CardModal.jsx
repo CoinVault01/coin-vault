@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 import "./Cards.css";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const CardModal = ({
   showCardDetails,
   setShowCardDetails,
   selectedCard,
-  userData,
 }) => {
+  const {userData} = useUserCryptoData();
   return (
     <section
       className={`${

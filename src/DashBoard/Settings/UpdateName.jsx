@@ -3,8 +3,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const UpdateName = ({ updateNameModal, setUpdateNameModal, userData }) => {
+const UpdateName = ({ updateNameModal, setUpdateNameModal }) => {
+  const {userData} = useUserCryptoData();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoading, setIsLoading] = useState(false);

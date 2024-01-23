@@ -5,12 +5,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SwapFailedModal from "./SwapFailedModal";
 import SwapStatusModal from "./SwapStatusModal";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
+const SwapCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
+  const { userData, userCryptoData } = useUserCryptoData();
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [equivalentCryptoValue, setEquivalentCryptoValue] = useState("");
-  const [userCryptoData, setUserCryptoData] = useState([]);
   const [isMaxClicked, setIsMaxClicked] = useState(false);
   const [selectedCryptoData, setSelectedCryptoData] = useState(null);
   const [listDropdown, setListDropdown] = useState(false);
@@ -23,23 +24,11 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
   };
 
   useEffect(() => {
-    const fetchUserCryptoData = async () => {
-      try {
-        const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
-        );
-        setUserCryptoData(response.data);
-
-        // Set a random crypto data as the default
-        const randomIndex = Math.floor(Math.random() * response.data.length);
-        setSelectedCryptoData(response.data[randomIndex]);
-      } catch (error) {
-        console.error("Error fetching user crypto holdings:", error.message);
-      }
-    };
-
-    fetchUserCryptoData();
-  }, [userData]);
+    if (userCryptoData.length > 0) {
+      const randomIndex = Math.floor(Math.random() * userCryptoData.length);
+      setSelectedCryptoData(userCryptoData[randomIndex]);
+    }
+  }, [userCryptoData]);
 
   useEffect(() => {
     // Make sure selectedCrypto, inputValue, and selectedCryptoData are valid
@@ -107,9 +96,6 @@ const SwapCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
           },
         }
       );
-
-      // Handle the success response from the backend
-      console.log("Cryptocurrency sold successfully:", response.data);
 
       setSwapSuccess(true);
     } catch (error) {

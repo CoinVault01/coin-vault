@@ -10,10 +10,8 @@ import CurrencyConverter from "./CurrencyConverter";
 const CoinDetails = () => {
   const { id } = useParams();
   const [coinData, setCoinData] = useState(null);
-  const [userData, setUserData] = useState(null);
   const [showNav, setShowNav] = useState(false);
   const [activeText, setActiveText] = useState("Home");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCoinData = async () => {
@@ -27,34 +25,7 @@ const CoinDetails = () => {
       }
     };
 
-    const fetchUserData = async () => {
-      try {
-        const token = sessionStorage.getItem("token");
-        if (!token) {
-          // Redirect to login if token not found
-          return;
-        }
-
-        // Make the API request to fetch user data
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setUserData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setLoading(false);
-      }
-    };
-
     fetchCoinData();
-    fetchUserData(); // Move this here, inside the fetchCoinData useEffect
   }, [id]);
 
   // Function to toggle the showNav state
@@ -75,12 +46,10 @@ const CoinDetails = () => {
         <DashBoardTopHeader
           showNav={showNav}
           toggleNav={toggleNav}
-          userData={userData}
           activeText={activeText}
         />
         <DashBoardSideNav
           showNav={showNav}
-          userData={userData}
           onNavItemClicked={handleNavItemClicked}
         />
       </div>

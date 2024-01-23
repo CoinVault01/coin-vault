@@ -6,8 +6,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BuyStatusModal from "./BuyStatusModal";
 import BuyFailedModal from "./BuyFailedModal";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
+const BuyCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
+  const {userData} = useUserCryptoData()
   const [isLoading, setIsLoading] = useState(false);
   const [usdAmount, setUsdAmount] = useState("");
   const [cryptoEquivalent, setCryptoEquivalent] = useState("");
@@ -159,7 +161,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
               <span className="text-[rgb(165,177,189)]">
                 Available Balance:
               </span>{" "}
-              USD {userData.balance.toLocaleString()}
+              USD {userData.balance?.toLocaleString()}
             </p>
           </div>
         </div>

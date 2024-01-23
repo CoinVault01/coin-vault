@@ -5,13 +5,14 @@ import axios from "axios";
 import "../DashBoardTopHeader/DashBoardTopHeader.css";
 import Logout from "../../Pages/LogOut/Logout";
 import { RotatingLines } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const DashBoardTopHeader = ({
   showNav,
   toggleNav,
-  userData,
   activeLinkText,
 }) => {
+  const {userData} = useUserCryptoData();
   const assetRef = useRef(null);
   const [showAsset, setShowAsset] = useState(false);
   const [coins, setCoins] = useState([]);
@@ -67,7 +68,6 @@ const DashBoardTopHeader = ({
         }
       );
       setCoins(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching coins:", error);
     }
@@ -106,7 +106,6 @@ const DashBoardTopHeader = ({
           `https://coinvault-backend.vercel.app/v1/auth/notifications/${userData.userId}`
         );
         setTransactionHistory(response.data);
-        console.log(response.data);
 
         // Calculate the unread count
         const unread = response.data.filter(

@@ -2,46 +2,19 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { LongCard } from "../../Skeleton/Skeleton";
 import UpdateName from "./UpdateName";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const ProfileSettings = () => {
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // New state to track loading
+  const {userData, loading} = useUserCryptoData();
   const [updateNameModal, setUpdateNameModal] = useState(false);
 
   const handleUpdateNameModal = () => {
     setUpdateNameModal(true);
   };
 
-  useEffect(() => {
-    // Fetch user data from the backend using the JWT token
-    const fetchUserData = async () => {
-      try {
-        const token = sessionStorage.getItem("token");
-        if (!token) {
-          // Redirect to login if token not found
-          return;
-        }
-        // Make the API request to fetch user data
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUserData(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    fetchUserData();
-  }, []);
-
   return (
     <section>
-      {isLoading ? (
+      {loading ? (
         <div className="w-[90%] mx-auto my-[25px]">
           <LongCard />
         </div>
@@ -99,7 +72,6 @@ const ProfileSettings = () => {
         <UpdateName
           updateNameModal={updateNameModal}
           setUpdateNameModal={setUpdateNameModal}
-          userData={userData}
         />
       </div>
     </section>

@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { RotatingLines } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const TransactionModal = ({ userData }) => {
+const TransactionModal = () => {
+  const { userData } = useUserCryptoData();
   const [transactionHistory, setTransactionHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +16,6 @@ const TransactionModal = ({ userData }) => {
           `https://coinvault-backend.vercel.app/v1/auth/transaction-history/${userData.userId}`
         );
         setTransactionHistory(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log("Error fetching transaction history:", error.message);
       } finally {
