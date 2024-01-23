@@ -12,7 +12,7 @@ const TransactionModal = ({ userData }) => {
     const fetchTransactionHistory = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/v1/auth/transaction-history/${userData.userId}`
+          `https://coinvault-backend.vercel.app/v1/auth/transaction-history/${userData.userId}`
         );
         setTransactionHistory(response.data);
         console.log(response.data);

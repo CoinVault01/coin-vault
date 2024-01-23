@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import coinVault from "./ForgotPassword-Image/coin-bg.png";
 import "./ForgotPassword.css";
 import { Link } from "react-router-dom";
@@ -22,7 +22,7 @@ const ForgotPassword = () => {
       }
 
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/forgot-password",
+        "https://coinvault-backend.vercel.app/v1/auth/forgot-password",
         { email }
       );
       if (response.status === 200) {
@@ -68,7 +68,6 @@ const ForgotPassword = () => {
       setIsLoading(false); // Stop loading
     }
   };
-
 
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
@@ -148,6 +147,6 @@ const ForgotPassword = () => {
       </div>
     </section>
   );
-}
+};
 
-export default ForgotPassword
+export default ForgotPassword;

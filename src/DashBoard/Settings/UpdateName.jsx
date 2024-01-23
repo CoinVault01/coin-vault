@@ -28,7 +28,7 @@ const UpdateName = ({ updateNameModal, setUpdateNameModal, userData }) => {
 
     try {
       const response = await axios.put(
-        `https://coinvault.onrender.com/users/name-change/${userData.userId}`, // Update this with your API endpoint
+        `https://coinvault-backend.vercel.app/users/name-change/${userData.userId}`, // Update this with your API endpoint
         {
           firstName: firstName,
           lastName: lastName,

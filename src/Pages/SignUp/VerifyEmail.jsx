@@ -113,7 +113,7 @@ const VerifyEmail = () => {
       setIsLoading(false); // Stop loading
     }
   };
-  
+
   const handleResendCode = async () => {
     setResend(true); // Set the resend flag to true
     try {
