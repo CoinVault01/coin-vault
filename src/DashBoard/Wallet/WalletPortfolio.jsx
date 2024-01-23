@@ -9,8 +9,10 @@ import TransferPin from "./TransferPin";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LongCard } from "../../Skeleton/Skeleton";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const WalletPortfolio = ({ userData }) => {
+const WalletPortfolio = () => {
+  const {userData} = useUserCryptoData();
   const countryRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [countryDropDown, setCountryDropDown] = useState(false);

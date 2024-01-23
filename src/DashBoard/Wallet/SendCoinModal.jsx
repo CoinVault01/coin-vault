@@ -32,9 +32,6 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
         }
       );
 
-      // Handle the success response from the backend
-      console.log("Cryptocurrency sent successfully:", response.data);
-
       toast.success(`${selectedCryptoData.name} sent successfully`, {
         position: "top-right",
         autoClose: 2000,

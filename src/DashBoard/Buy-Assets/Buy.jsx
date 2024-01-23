@@ -4,48 +4,12 @@ import axios from "axios";
 import BuyCoinList from "./BuyCoinList";
 import { RotatingLines } from "react-loader-spinner";
 import BuyCoinModal from "./BuyCoinModal";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const Buy = () => {
-  const [userData, setUserData] = useState({});
-  const [loading, setIsLoading] = useState(true);
+  const {loading} = useUserCryptoData()
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Check if userData is already in the cache
-        const cachedUserData = JSON.parse(sessionStorage.getItem("userData"));
-
-        if (cachedUserData) {
-          setUserData(cachedUserData);
-          setIsLoading(false);
-          return;
-        }
-
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-          }
-        );
-
-        setUserData(response.data);
-
-        // Cache the fetched userData
-        sessionStorage.setItem("userData", JSON.stringify(response.data));
-
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
 
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
@@ -65,7 +29,6 @@ const Buy = () => {
           ) : (
             <div className="largeDevice:flex gap-[40px] largeDevice:px-[40px]">
               <BuyCoinList
-                userData={userData}
                 setSelectedCrypto={setSelectedCrypto}
                 setIsModalVisible={setIsModalVisible}
               />
@@ -73,7 +36,6 @@ const Buy = () => {
                 <BuyCoinModal
                   selectedCrypto={selectedCrypto}
                   setIsModalVisible={setIsModalVisible}
-                  userData={userData}
                 />
               )}
             </div>

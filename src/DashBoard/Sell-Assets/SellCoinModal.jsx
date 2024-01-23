@@ -6,8 +6,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SellStatusModal from "./SellStatusModal";
 import SellFailedModal from "./SellFailedModal";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
+const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
+  const { userData } = useUserCryptoData();
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [usdValue, setUsdValue] = useState("");
@@ -76,9 +78,6 @@ const SellCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
           },
         }
       );
-
-      // Handle the success response from the backend
-      console.log("Cryptocurrency sold successfully:", response.data);
 
       setSellSuccess(true);
     } catch (error) {

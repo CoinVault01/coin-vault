@@ -12,8 +12,10 @@ import fifthCard from "../Cards/CardImage/CoinVault-card-5.png";
 import CardModal from "./CardModal";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const CardDesign = ({ userData }) => {
+const CardDesign = () => {
+  const {userData} = useUserCryptoData();
   const [showCardDetails, setShowCardDetails] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 

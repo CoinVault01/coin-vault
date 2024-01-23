@@ -22,7 +22,6 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
             },
           }
         );
-        console.log("Response data:", response.data);
         setUserData(response.data);
       } catch (error) {
         console.error(error);

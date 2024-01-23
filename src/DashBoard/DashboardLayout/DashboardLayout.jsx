@@ -5,59 +5,9 @@ import DashBoardTopHeader from "../DashBoardTopHeader/DashBoardTopHeader";
 import { useLocation } from "react-router-dom";
 
 const DashboardLayout = () => {
-  const [userData, setUserData] = useState(null);
   const [showNav, setShowNav] = useState(false);
   const [activeLinkText, setActiveLinkText] = useState("");
   const location = useLocation();
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = sessionStorage.getItem("token");
-        if (!token) {
-          return;
-        }
-
-        // Check if userData is already in the cache
-        const cachedUserData = JSON.parse(sessionStorage.getItem("userData"));
-
-        if (cachedUserData) {
-          setUserData(cachedUserData);
-          return;
-        }
-
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        // Cache the fetched userData
-        sessionStorage.setItem("userData", JSON.stringify(response.data));
-
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-
-    // Clear userData from local storage on page refresh
-    const handleBeforeUnload = () => {
-      sessionStorage.removeItem("userData");
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      // Remove the event listener when the component is unmounted
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
 
   // Function to toggle the showNav state
   const toggleNav = () => {
@@ -103,7 +53,6 @@ const DashboardLayout = () => {
       <DashBoardTopHeader
         showNav={showNav}
         toggleNav={toggleNav}
-        userData={userData}
         activeLinkText={activeLinkText}
         setActiveLinkText={setActiveLinkText}
       />

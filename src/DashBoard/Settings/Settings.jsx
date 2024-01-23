@@ -3,50 +3,13 @@ import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import DefaultImage from "../Settings/SettingsImage/default.png";
 import ProfileSettings from "./ProfileSettings";
 import SecuritySettings from "./SecuritySettings";
-import axios from "axios";
 import UploadProfilePicture from "./UploadProfilePicture";
 import { ThreeCircles } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const Settings = () => {
-  const [userData, setUserData] = useState({});
+  const {userData, loading} = useUserCryptoData()
   const [imageModal, setImageModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // New state to track loading
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Check if userData is already in the cache
-        const cachedUserData = JSON.parse(sessionStorage.getItem("userData"));
-
-        if (cachedUserData) {
-          setUserData(cachedUserData);
-          setIsLoading(false);
-          return;
-        }
-
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-          }
-        );
-
-        setUserData(response.data);
-
-        // Cache the fetched userData
-        sessionStorage.setItem("userData", JSON.stringify(response.data));
-
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
 
   const handleModalToggle = () => {
     setImageModal(true);
@@ -58,7 +21,7 @@ const Settings = () => {
         <DashboardLayout />
 
         <div className="pt-[100px] largeDevice:ml-[230px] pb-[20px]">
-          {isLoading ? (
+          {loading ? (
             <div className="flex items-center justify-center max-w-[500px] mx-auto">
               <ThreeCircles
                 height="50"

@@ -39,7 +39,6 @@ const HomeComponent = () => {
           }
         );
         setUserData(response.data);
-        console.log(response.data);
         setBrowserLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -127,7 +126,7 @@ const HomeComponent = () => {
             </h1>
 
             <p className="text-[rgb(167,177,188)] font-[poppins] generalDevice:mb-[40px] mb-[80px]">
-              Checkout out what's trending on the NEWS
+              Checkout what's trending on the NEWS
             </p>
           </div>
         )}

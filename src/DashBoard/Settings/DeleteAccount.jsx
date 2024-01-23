@@ -5,34 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThreeCircles } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const DeleteAccount = ({ deleteModal, setDeleteModal }) => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({});
+  const { userData } = useUserCryptoData();
   const [inputValue, setInputValue] = useState("");
   const [isValidInput, setIsValidInput] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    // Fetch user data here using an API endpoint
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-          }
-        );
-        setUserData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
 
   useEffect(() => {
     if (userData.userName) {
@@ -53,9 +33,6 @@ const DeleteAccount = ({ deleteModal, setDeleteModal }) => {
             },
           }
         );
-
-        // Display success message or perform any necessary actions
-        console.log(response.data.message);
 
         setIsDeleting(false);
         setDeleteModal(false);

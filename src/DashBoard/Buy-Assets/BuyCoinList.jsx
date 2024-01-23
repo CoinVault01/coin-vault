@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import "../Buy-Assets/Buy.css";
 import { RotatingLines } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
-const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
+const BuyCoinList = ({ setSelectedCrypto, setIsModalVisible }) => {
+  const {userCryptoData, loading} = useUserCryptoData()
   const [showGlowingBorder, setShowGlowingBorder] = useState(false);
-  const [userCryptoData, setUserCryptoData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCoins, setFilteredCoins] = useState([]);
   const divRef = useRef(null);
@@ -23,51 +22,6 @@ const BuyCoinList = ({ userData, setSelectedCrypto, setIsModalVisible }) => {
       ? numberWithCommas + "." + decimalPart
       : numberWithCommas;
   }
-
-  useEffect(() => {
-    const fetchUserCryptoData = async () => {
-      try {
-        // Check if userCryptoData is already in the cache
-        const cachedUserCryptoData = JSON.parse(
-          sessionStorage.getItem("userCryptoData")
-        );
-
-        if (cachedUserCryptoData) {
-          setUserCryptoData(cachedUserCryptoData);
-          setLoading(false);
-          return;
-        }
-
-        const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
-        );
-
-        setUserCryptoData(response.data);
-
-        // Cache the fetched userCryptoData
-        sessionStorage.setItem("userCryptoData", JSON.stringify(response.data));
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user crypto holdings:", error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchUserCryptoData();
-
-    // Clear userData from local storage on page refresh
-    const handleBeforeUnload = () => {
-      sessionStorage.removeItem("userCryptoData");
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      // Remove the event listener when the component is unmounted
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [userData]);
 
   useEffect(() => {
     if (searchQuery.trim() === "") {

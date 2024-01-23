@@ -3,33 +3,10 @@ import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import TransactionModal from "./TransactionModal";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const Transactions = () => {
-  const [userData, setUserData] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Fetch user data here using an API endpoint
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-          }
-        );
-        setUserData(response.data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+  const {loading} = useUserCryptoData();
 
   return (
     <section className="bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
@@ -51,7 +28,7 @@ const Transactions = () => {
               </div>
             ) : (
               <div className="w-[100%]">
-                <TransactionModal userData={userData} />
+                <TransactionModal />
               </div>
             )}
           </div>

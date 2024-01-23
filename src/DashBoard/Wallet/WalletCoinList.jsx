@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const WalletCoinList = ({
-  userCryptoData,
   setSelectedCryptoData,
   setIsModalVisible,
 }) => {
+  const {userCryptoData} = useUserCryptoData();
   const [sortBy, setSortBy] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState("Alphabet");
   const [sortedData, setSortedData] = useState([]);
