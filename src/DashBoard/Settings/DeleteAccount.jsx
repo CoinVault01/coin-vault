@@ -18,7 +18,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal }) => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "https://coinvault.onrender.com/v1/auth/user",
+          "https://coinvault-backend.vercel.app/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,

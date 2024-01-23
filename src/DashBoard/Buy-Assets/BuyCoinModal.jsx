@@ -63,7 +63,7 @@ const BuyCoinModal = ({ selectedCrypto, userData, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/buy-crypto",
+        "https://coinvault-backend.vercel.app/v1/auth/buy-crypto",
         {
           coinSymbol: selectedCrypto.id,
           amountToBuy: parseFloat(usdAmount),

@@ -45,15 +45,16 @@ const ResetPassword = () => {
 
       // Display success message from the backend
       toast.success(response.data.message, {
-          // Toast success message
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",});
+        // Toast success message
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
 
       // Navigate to the login page after successful password reset
       setTimeout(() => {

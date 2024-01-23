@@ -35,7 +35,7 @@ const WalletPortfolio = ({ userData }) => {
     async function fetchSelectedCard() {
       try {
         const response = await axios.get(
-          `https://coinvault.onrender.com/get-selected-card/${userData.userId}`
+          `https://coinvault-backend.vercel.app/get-selected-card/${userData.userId}`
         );
 
         if (response.status === 200) {
@@ -163,7 +163,7 @@ const WalletPortfolio = ({ userData }) => {
       const newBalance = userData.balance - numericAmount; // Calculate the new balance as a number
 
       const response = await axios.post(
-        "https://coinvault.onrender.com/transfer-funds",
+        "https://coinvault-backend.vercel.app/transfer-funds",
         {
           receiverAccountNumber,
           amount: numericAmount, // Send the amount as a number

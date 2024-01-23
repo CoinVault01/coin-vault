@@ -15,7 +15,7 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "https://coinvault.onrender.com/v1/auth/user",
+          "https://coinvault-backend.vercel.app/v1/auth/user",
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -59,7 +59,7 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://coinvault.onrender.com/upload-profile-image",
+        "https://coinvault-backend.vercel.app/upload-profile-image",
         formData
       );
       setUserData((prevUserData) => ({
@@ -102,7 +102,7 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
     try {
       setIsLoading(true);
       const response = await axios.delete(
-        `https://coinvault.onrender.com/delete-profile-image/${userId}`,
+        `https://coinvault-backend.vercel.app/delete-profile-image/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}`,

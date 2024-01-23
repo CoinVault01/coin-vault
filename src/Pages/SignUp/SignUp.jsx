@@ -142,7 +142,6 @@ const SignUp = () => {
     isLoading,
   ]);
 
-
   return (
     <section className="formAnim bg-[rgb(28,33,39)] text-[white] min-h-[100vh]">
       <ToastContainer hideProgressBar autoClose={3000} />

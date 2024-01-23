@@ -19,7 +19,7 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/transfer-crypto",
+        "https://coinvault-backend.vercel.app/v1/auth/transfer-crypto",
         {
           receiverCryptoCoinAddress: receiverAddress,
           cryptoAmountToSend: parseFloat(amountToSend),
