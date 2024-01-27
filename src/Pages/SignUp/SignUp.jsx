@@ -41,55 +41,51 @@ const SignUp = () => {
     [user]
   );
 
-  const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      setIsLoading(true);
 
-      try {
-        setIsLoading(true);
+      const response = await axios.post(
+        "https://coinvault.onrender.com/v1/auth/signup",
+        user,
+        {
+          withCredentials: true, // Send credentials (cookies) with the request
+        }
+      );
 
-        const response = await axios.post(
-          "https://coinvault.onrender.com/v1/auth/signup",
-          user,
-          {
-            withCredentials: true, // Send credentials (cookies) with the request
-          }
-        );
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
 
-        toast.success(response.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+      sessionStorage.setItem("email", user.email);
+      sessionStorage.setItem("token", response.data.token);
 
-        sessionStorage.setItem("email", user.email);
-        sessionStorage.setItem("token", response.data.token);
-
-        setTimeout(() => {
-          navigate("/verifyemail");
-        }, 3000);
-      } catch (error) {
-        toast.error(error.response.data.error, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [user, navigate]
-  );
+      setTimeout(() => {
+        navigate("/verifyemail");
+      }, 3000);
+    } catch (error) {
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const renderComponent = useCallback(() => {
     switch (step) {
