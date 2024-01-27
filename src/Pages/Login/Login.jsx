@@ -14,26 +14,43 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(false); // State to show "Verify Email" section
 
-  const handleLogin = useCallback(
-    async (e) => {
-      e.preventDefault();
-      setIsLoading(true);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
 
-      try {
-        const response = await axios.post(
-          "https://coinvault-backend.vercel.app/v1/auth/login",
-          {
-            userName,
-            password,
-          },
-          {
-            withCredentials: true, // Send credentials (cookies) with the request
-          }
-        );
-        const { token } = response.data;
-        sessionStorage.setItem("token", token);
+    try {
+      const response = await axios.post(
+        "https://coinvault-backend.vercel.app/v1/auth/login",
+        {
+          userName,
+          password,
+        },
+        {
+          withCredentials: true, // Send credentials (cookies) with the request
+        }
+      );
+      const { token } = response.data;
+      sessionStorage.setItem("token", token);
 
-        toast.success("Login successful!", {
+      toast.success("Login successful!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      setTimeout(() => {
+        navigate("/wallet-home");
+      }, 2000);
+    } catch (error) {
+      if (error.response.data.error === "Please verify your email address") {
+        setShowVerifyEmail(true);
+      } else {
+        toast.error(error.response.data.error, {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -43,31 +60,11 @@ const Login = () => {
           progress: undefined,
           theme: "dark",
         });
-
-        setTimeout(() => {
-          navigate("/wallet-home");
-        }, 2000);
-      } catch (error) {
-        if (error.response.data.error === "Please verify your email address") {
-          setShowVerifyEmail(true);
-        } else {
-          toast.error(error.response.data.error, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-      } finally {
-        setIsLoading(false);
       }
-    },
-    [userName, password, navigate]
-  );
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
