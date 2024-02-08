@@ -13,6 +13,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal }) => {
   const [inputValue, setInputValue] = useState("");
   const [isValidInput, setIsValidInput] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   useEffect(() => {
     if (userData.userName) {
@@ -26,7 +27,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal }) => {
         setIsDeleting(true);
 
         const response = await axios.delete(
-          `https://coinvault-backend.vercel.app/delete-account/${userData.userId}`,
+          `${baseUrl}/delete-account/${userData.userId}`,
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("token")}`,

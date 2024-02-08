@@ -32,12 +32,13 @@ const WalletPortfolio = () => {
     currency: "USD",
     flag: usd, // Replace with the actual URL for the USD flag
   });
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   useEffect(() => {
     async function fetchSelectedCard() {
       try {
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/get-selected-card/${userData.userId}`
+          `${baseUrl}/get-selected-card/${userData.userId}`
         );
 
         if (response.status === 200) {

@@ -16,6 +16,7 @@ const BuyCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
   const [cryptoPrice, setCryptoPrice] = useState(null);
   const [buySuccess, setBuySuccess] = useState(false);
   const [buyFailed, setBuyFailed] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   useEffect(() => {
     if (selectedCrypto) {
@@ -65,7 +66,7 @@ const BuyCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/buy-crypto",
+        `${baseUrl}/v1/auth/buy-crypto`,
         {
           coinSymbol: selectedCrypto.id,
           amountToBuy: parseFloat(usdAmount),

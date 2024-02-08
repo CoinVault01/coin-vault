@@ -12,7 +12,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showVerifyEmail, setShowVerifyEmail] = useState(false); // State to show "Verify Email" section
+  const [showVerifyEmail, setShowVerifyEmail] = useState(false); 
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/login",
+        `${baseUrl}/v1/auth/login`,
         {
           userName,
           password,

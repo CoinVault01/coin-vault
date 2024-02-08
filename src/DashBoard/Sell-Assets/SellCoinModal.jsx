@@ -16,6 +16,7 @@ const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
   const [isMaxClicked, setIsMaxClicked] = useState(false);
   const [sellSuccess, setSellSuccess] = useState(false);
   const [sellFailed, setSellFailed] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   // Function to format a number with commas
   const formatNumberWithCommas = (number) => {
@@ -67,7 +68,7 @@ const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/sell-crypto",
+        `${baseUrl}/v1/auth/sell-crypto`,
         {
           coinSymbol: selectedCrypto.id,
           amountToSell: parseFloat(inputValue),

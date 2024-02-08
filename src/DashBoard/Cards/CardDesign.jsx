@@ -18,6 +18,7 @@ const CardDesign = () => {
   const {userData} = useUserCryptoData();
   const [showCardDetails, setShowCardDetails] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   const handleImageClick = async (imageSrc) => {
     try {
@@ -41,12 +42,13 @@ const CardDesign = () => {
 
     setShowCardDetails(false);
   };
+  
 
   useEffect(() => {
     async function fetchSelectedCard() {
       try {
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/get-selected-card/${userData.userId}`
+          `${baseUrl}/get-selected-card/${userData.userId}`
         );
 
         if (response.status === 200) {

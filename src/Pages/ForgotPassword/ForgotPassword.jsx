@@ -10,6 +10,7 @@ import { ThreeCircles } from "react-loader-spinner";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,10 +22,9 @@ const ForgotPassword = () => {
         return;
       }
 
-      const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/forgot-password",
-        { email }
-      );
+      const response = await axios.post(`${baseUrl}/v1/auth/forgot-password`, {
+        email,
+      });
       if (response.status === 200) {
         toast.success("Reset password link sent successfully", {
           // Toast success message

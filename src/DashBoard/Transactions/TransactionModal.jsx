@@ -8,12 +8,13 @@ const TransactionModal = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   useEffect(() => {
     const fetchTransactionHistory = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/transaction-history/${userData.userId}`
+          `${baseUrl}/v1/auth/transaction-history/${userData.userId}`
         );
         setTransactionHistory(response.data);
       } catch (error) {

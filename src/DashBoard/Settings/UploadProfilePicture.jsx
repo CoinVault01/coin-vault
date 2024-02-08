@@ -10,18 +10,16 @@ const UploadProfilePicture = ({ userId, imageModal, setImageModal }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await axios.get(`${baseUrl}/v1/auth/user`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
         setUserData(response.data);
       } catch (error) {
         console.error(error);

@@ -15,6 +15,7 @@ const VerifyEmail = () => {
   const [resend, setResend] = useState(false);
   const [countdown, setCountdown] = useState(120); // Countdown timer in seconds
   let timer = null;
+  const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
   useEffect(() => {
     const countdownTimer = sessionStorage.getItem("countdownTimer");
     const savedTime = parseInt(sessionStorage.getItem("savedTime"), 10);
@@ -50,10 +51,9 @@ const VerifyEmail = () => {
   const handleVerifyEmail = async () => {
     try {
       setIsLoading(true); // Start loading
-      const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/verify-email",
-        { verificationCode }
-      );
+      const response = await axios.post(`${baseUrl}/v1/auth/verify-email`, {
+        verificationCode,
+      });
       const data = response.data;
       if (response.status === 200) {
         // Clear the data from local storage

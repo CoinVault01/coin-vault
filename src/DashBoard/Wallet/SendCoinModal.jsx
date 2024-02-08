@@ -12,6 +12,7 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
   const [amountToSend, setAmountToSend] = useState("");
   const [qrScannerVisible, setQrScannerVisible] = useState(false);
   const [isMaxClicked, setIsMaxClicked] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   const handleSendCoin = async () => {
     setIsLoading(true);
@@ -19,7 +20,7 @@ const SendCoinModal = ({ selectedCryptoData, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/transfer-crypto",
+        `${baseUrl}/v1/auth/transfer-crypto`,
         {
           receiverCryptoCoinAddress: receiverAddress,
           cryptoAmountToSend: parseFloat(amountToSend),
