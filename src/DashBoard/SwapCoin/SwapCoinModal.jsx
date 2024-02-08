@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ThreeCircles } from "react-loader-spinner";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SwapFailedModal from "./SwapFailedModal";
 import SwapStatusModal from "./SwapStatusModal";
@@ -18,6 +17,7 @@ const SwapCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
   const [searchInput, setSearchInput] = useState("");
   const [swapSuccess, setSwapSuccess] = useState(false);
   const [swapFailed, setSwapFailed] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   const handleCryptoItemClick = (crypto) => {
     setSelectedCryptoData(crypto);
@@ -84,7 +84,7 @@ const SwapCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
     try {
       // Send a POST request to the backend to buy cryptocurrency
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/swap-crypto",
+        `${baseUrl}/v1/auth/swap-crypto`,
         {
           fromCoinSymbol: selectedCrypto.id,
           toCoinSymbol: selectedCryptoData.id,

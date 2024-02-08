@@ -11,6 +11,7 @@ const EmailReverification = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
   useEffect(() => {
     // Load email value from sessionStorage when the component mounts
@@ -26,7 +27,7 @@ const EmailReverification = () => {
       setIsLoading(true);
       // Make the POST request
       const response = await axios.post(
-        "https://coinvault-backend.vercel.app/v1/auth/resend-verification-code",
+        `${baseUrl}/v1/auth/resend-verification-code`,
         {
           email,
         }

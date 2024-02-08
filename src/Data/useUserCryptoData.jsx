@@ -5,6 +5,7 @@ const useUserCryptoData = () => {
   const [userData, setUserData] = useState([]);
   const [userCryptoData, setUserCryptoData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   useEffect(() => {
     // Function to clear sessionStorage on browser refresh
@@ -32,14 +33,11 @@ const useUserCryptoData = () => {
           return;
         }
 
-        const response = await axios.get(
-          "https://coinvault-backend.vercel.app/v1/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await axios.get(`${baseUrl}/v1/auth/user`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
         setUserData(response.data);
 
         // Cache the fetched userData
@@ -70,7 +68,7 @@ const useUserCryptoData = () => {
         }
 
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/user-crypto-holdings/${userData.userId}`
+          `${baseUrl}/v1/auth/user-crypto-holdings/${userData.userId}`
         );
 
         setUserCryptoData(response.data);

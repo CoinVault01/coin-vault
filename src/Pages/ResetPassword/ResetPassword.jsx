@@ -17,6 +17,7 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -32,14 +33,11 @@ const ResetPassword = () => {
       setIsLoading(true);
 
       // Call the backend API to reset the password
-      const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/reset-password",
-        {
-          token,
-          password,
-          confirmPassword,
-        }
-      );
+      const response = await axios.post(`${baseUrl}/v1/auth/reset-password`, {
+        token,
+        password,
+        confirmPassword,
+      });
 
       setIsLoading(false);
 

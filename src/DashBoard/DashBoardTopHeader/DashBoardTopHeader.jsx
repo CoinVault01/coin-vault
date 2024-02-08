@@ -24,6 +24,7 @@ const DashBoardTopHeader = ({
   const [unreadCount, setUnreadCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   const handleLogout = () => {
     setCloseLogout(false);
@@ -103,7 +104,7 @@ const DashBoardTopHeader = ({
     const fetchNotificationHistory = async () => {
       try {
         const response = await axios.get(
-          `https://coinvault-backend.vercel.app/v1/auth/notifications/${userData.userId}`
+          `${baseUrl}/v1/auth/notifications/${userData.userId}`
         );
         setTransactionHistory(response.data);
 
@@ -123,9 +124,7 @@ const DashBoardTopHeader = ({
   const handleClickNotification = () => {
     // Send a PUT request to mark all notifications as read
     axios
-      .put(
-        `https://coinvault-backend.vercel.app/v1/auth/notifications/mark-as-read/${userData.userId}`
-      )
+      .put(`${baseUrl}/v1/auth/notifications/mark-as-read/${userData.userId}`)
       .then(() => {
         // After marking as read, set unreadCount to 0
         setUnreadCount(0);

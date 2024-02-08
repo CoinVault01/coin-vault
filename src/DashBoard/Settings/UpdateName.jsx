@@ -10,6 +10,7 @@ const UpdateName = ({ updateNameModal, setUpdateNameModal }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const baseUrl = import.meta.env.VITE_REACT_APP_Vercel_BASE_URL;
 
   const handleUpdateName = async () => {
     if (!firstName || !lastName) {
@@ -30,7 +31,7 @@ const UpdateName = ({ updateNameModal, setUpdateNameModal }) => {
 
     try {
       const response = await axios.put(
-        `https://coinvault-backend.vercel.app/users/name-change/${userData.userId}`, // Update this with your API endpoint
+        `${baseUrl}/users/name-change/${userData.userId}`, // Update this with your API endpoint
         {
           firstName: firstName,
           lastName: lastName,

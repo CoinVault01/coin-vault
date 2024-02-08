@@ -22,6 +22,7 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+  const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
   const handleNext = () => {
     setStep(step + 1);
@@ -46,13 +47,9 @@ const SignUp = () => {
     try {
       setIsLoading(true);
 
-      const response = await axios.post(
-        "https://coinvault.onrender.com/v1/auth/signup",
-        user,
-        {
-          withCredentials: true, // Send credentials (cookies) with the request
-        }
-      );
+      const response = await axios.post(`${baseUrl}/v1/auth/signup`, user, {
+        withCredentials: true, // Send credentials (cookies) with the request
+      });
 
       toast.success(response.data.message, {
         position: "top-right",
