@@ -9,7 +9,7 @@ import BuyFailedModal from "./BuyFailedModal";
 import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const BuyCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
-  const {userData} = useUserCryptoData()
+  const { userData, userCryptoData, fetchUserCryptoData, fetchUserData } = useUserCryptoData();
   const [isLoading, setIsLoading] = useState(false);
   const [usdAmount, setUsdAmount] = useState("");
   const [cryptoEquivalent, setCryptoEquivalent] = useState("");
@@ -62,6 +62,8 @@ const BuyCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
 
   const handleBuyClick = async () => {
     setIsLoading(true);
+    sessionStorage.removeItem("userCryptoData");
+    sessionStorage.removeItem("userData");
 
     try {
       // Send a POST request to the backend to buy cryptocurrency
@@ -81,6 +83,12 @@ const BuyCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
       // Handle the success response from the backend
       console.log("Cryptocurrency purchased successfully:", response.data);
 
+      fetchUserData();
+      fetchUserCryptoData();
+
+      // Update cached data
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      sessionStorage.setItem("userCryptoData", JSON.stringify(userCryptoData));
       // Set buySuccess to true
       setBuySuccess(true);
     } catch (error) {

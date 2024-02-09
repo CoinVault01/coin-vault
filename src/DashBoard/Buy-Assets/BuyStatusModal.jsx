@@ -18,7 +18,6 @@ const BuyStatusModal = ({
     setCryptoEquivalent("");
     setUsdAmount("");
     setCloseModal(true);
-    window.location.reload();
   };
 
   const handlePrint = useReactToPrint({

@@ -1,3 +1,5 @@
+// useUserCryptoData.js
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -21,74 +23,74 @@ const useUserCryptoData = () => {
     };
   }, []); // This effect runs only once during component mount
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Check if userData is already in the cache
-        const cachedUserData = JSON.parse(sessionStorage.getItem("userData"));
+  const fetchUserData = async () => {
+    try {
+      // Check if userData is already in the cache
+      const cachedUserData = JSON.parse(sessionStorage.getItem("userData"));
 
-        if (cachedUserData) {
-          setUserData(cachedUserData);
-          setLoading(false);
-          return;
-        }
-
-        const response = await axios.get(`${baseUrl}/v1/auth/user`, {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        });
-        setUserData(response.data);
-
-        // Cache the fetched userData
-        sessionStorage.setItem("userData", JSON.stringify(response.data));
-
+      if (cachedUserData) {
+        setUserData(cachedUserData);
         setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
+        return;
       }
-    };
 
+      const response = await axios.get(`${baseUrl}/v1/auth/user`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+      setUserData(response.data);
+
+      // Cache the fetched userData
+      sessionStorage.setItem("userData", JSON.stringify(response.data));
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  const fetchUserCryptoData = async () => {
+    try {
+      // Check if userCryptoData is already in the cache
+      const cachedUserCryptoData = JSON.parse(
+        sessionStorage.getItem("userCryptoData")
+      );
+
+      if (cachedUserCryptoData) {
+        setUserCryptoData(cachedUserCryptoData);
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.get(
+        `${baseUrl}/v1/auth/user-crypto-holdings/${userData.userId}`
+      );
+
+      setUserCryptoData(response.data);
+
+      // Cache the fetched userCryptoData
+      sessionStorage.setItem("userCryptoData", JSON.stringify(response.data));
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching user crypto holdings:", error.message);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchUserData();
   }, []);
 
   useEffect(() => {
-    const fetchUserCryptoData = async () => {
-      try {
-        // Check if userCryptoData is already in the cache
-        const cachedUserCryptoData = JSON.parse(
-          sessionStorage.getItem("userCryptoData")
-        );
-
-        if (cachedUserCryptoData) {
-          setUserCryptoData(cachedUserCryptoData);
-          setLoading(false);
-          return;
-        }
-
-        const response = await axios.get(
-          `${baseUrl}/v1/auth/user-crypto-holdings/${userData.userId}`
-        );
-
-        setUserCryptoData(response.data);
-
-        // Cache the fetched userCryptoData
-        sessionStorage.setItem("userCryptoData", JSON.stringify(response.data));
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user crypto holdings:", error.message);
-        setLoading(false);
-      }
-    };
-
     if (userData.userId) {
       fetchUserCryptoData();
     }
   }, [userData]);
 
-  return { userData, userCryptoData, loading };
+  return { userData, userCryptoData, loading, fetchUserCryptoData, fetchUserData };
 };
 
 export default useUserCryptoData;
