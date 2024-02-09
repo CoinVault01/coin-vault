@@ -9,7 +9,7 @@ import SellFailedModal from "./SellFailedModal";
 import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
-  const { userData } = useUserCryptoData();
+  const { userData, fetchUserCryptoData, fetchUserData } = useUserCryptoData();
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [usdValue, setUsdValue] = useState("");
@@ -79,6 +79,9 @@ const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
           },
         }
       );
+
+      fetchUserData();
+      fetchUserCryptoData();
 
       setSellSuccess(true);
     } catch (error) {

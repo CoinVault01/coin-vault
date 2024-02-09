@@ -40,6 +40,7 @@ const BuyCoinList = ({ setSelectedCrypto, setIsModalVisible }) => {
 
   const displayCoins = searchQuery ? filteredCoins : userCryptoData;
 
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (divRef.current && !divRef.current.contains(e.target)) {
