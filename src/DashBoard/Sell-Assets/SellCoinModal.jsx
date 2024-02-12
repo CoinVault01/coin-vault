@@ -9,7 +9,7 @@ import SellFailedModal from "./SellFailedModal";
 import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
-  const { userData, fetchUserCryptoData, fetchUserData } = useUserCryptoData();
+  const { userData, userCryptoData, fetchUserCryptoData, fetchUserData } = useUserCryptoData();
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [usdValue, setUsdValue] = useState("");
@@ -64,6 +64,9 @@ const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
 
   const handleSellClick = async () => {
     setIsLoading(true);
+    sessionStorage.removeItem("userCryptoData");
+    sessionStorage.removeItem("userData");
+
 
     try {
       // Send a POST request to the backend to buy cryptocurrency
@@ -82,6 +85,10 @@ const SellCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
 
       fetchUserData();
       fetchUserCryptoData();
+
+      // Update cached data
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      sessionStorage.setItem("userCryptoData", JSON.stringify(userCryptoData));
 
       setSellSuccess(true);
     } catch (error) {
