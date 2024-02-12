@@ -18,7 +18,6 @@ const SellStatusModal = ({
     setInputValue("");
     setUsdValue("");
     setCloseModal(true);
-    window.location.reload();
   };
 
   const handlePrint = useReactToPrint({
