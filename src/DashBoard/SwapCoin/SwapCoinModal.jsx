@@ -7,7 +7,8 @@ import SwapStatusModal from "./SwapStatusModal";
 import useUserCryptoData from "../../Data/useUserCryptoData";
 
 const SwapCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
-  const { userData, userCryptoData } = useUserCryptoData();
+  const { userData, userCryptoData, fetchUserCryptoData, fetchUserData } =
+    useUserCryptoData();
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [equivalentCryptoValue, setEquivalentCryptoValue] = useState("");
@@ -80,6 +81,9 @@ const SwapCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
 
   const handleSwapClick = async () => {
     setIsLoading(true);
+    sessionStorage.removeItem("userCryptoData");
+    sessionStorage.removeItem("userData");
+
 
     try {
       // Send a POST request to the backend to buy cryptocurrency
@@ -96,6 +100,13 @@ const SwapCoinModal = ({ selectedCrypto, setIsModalVisible }) => {
           },
         }
       );
+
+      fetchUserData();
+      fetchUserCryptoData();
+
+      // Update cached data
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      sessionStorage.setItem("userCryptoData", JSON.stringify(userCryptoData));
 
       setSwapSuccess(true);
     } catch (error) {

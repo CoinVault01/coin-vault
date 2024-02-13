@@ -20,7 +20,6 @@ const SwapStatusModal = ({
       setInputValue("");
       setEquivalentCryptoValue("");
       setCloseModal(true);
-      window.location.reload();
     };
 
     const handlePrint = useReactToPrint({
